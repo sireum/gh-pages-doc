@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Typed Parameters and Return Values Slang methods have zero or more parameters that must be given explicit types. Slang also requires return types to be explicitly declared (this is a restriction of Scala &amp;ndash; Scala allows method return types to be omitted and automatically inferred):
+def abs(n: Z): Z = { // method is declared with typed parameters and a return type var result: Z = 0 if (n &amp;gt;= 0) { result = n } else { result = -n } return result // return statement is required for methods returning a value } assert(abs(4) == 4) // checking simple correctness properties assert(abs(-10) == 10) def less(n1: Z, n2: Z): B = { return n1 &amp;lt; n2 // return argument can be an expression } Return Statements / Expressions Slang requires an explicit return statement/expression for every method that returns a value (this is a restriction of Scala, which allows the return keyword to be omitted (e." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/methods-functions/method-declaration-basics/" />
+
+
+    <title>
+        
+            Method Declaration Basics :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Method Declaration Basics">
+<meta itemprop="description" content="Typed Parameters and Return Values Slang methods have zero or more parameters that must be given explicit types. Slang also requires return types to be explicitly declared (this is a restriction of Scala &ndash; Scala allows method return types to be omitted and automatically inferred):
+def abs(n: Z): Z = { // method is declared with typed parameters and a return type var result: Z = 0 if (n &gt;= 0) { result = n } else { result = -n } return result // return statement is required for methods returning a value } assert(abs(4) == 4) // checking simple correctness properties assert(abs(-10) == 10) def less(n1: Z, n2: Z): B = { return n1 &lt; n2 // return argument can be an expression } Return Statements / Expressions Slang requires an explicit return statement/expression for every method that returns a value (this is a restriction of Scala, which allows the return keyword to be omitted (e."><meta itemprop="datePublished" content="2022-07-09T21:58:37-05:00" />
+<meta itemprop="dateModified" content="2022-07-09T21:58:37-05:00" />
+<meta itemprop="wordCount" content="357"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Method Declaration Basics"/>
+<meta name="twitter:description" content="Typed Parameters and Return Values Slang methods have zero or more parameters that must be given explicit types. Slang also requires return types to be explicitly declared (this is a restriction of Scala &ndash; Scala allows method return types to be omitted and automatically inferred):
+def abs(n: Z): Z = { // method is declared with typed parameters and a return type var result: Z = 0 if (n &gt;= 0) { result = n } else { result = -n } return result // return statement is required for methods returning a value } assert(abs(4) == 4) // checking simple correctness properties assert(abs(-10) == 10) def less(n1: Z, n2: Z): B = { return n1 &lt; n2 // return argument can be an expression } Return Statements / Expressions Slang requires an explicit return statement/expression for every method that returns a value (this is a restriction of Scala, which allows the return keyword to be omitted (e."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-09 21:58:37 -0500 CDT" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/methods-functions/method-declaration-basics/">Method Declaration Basics</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h2 id="typed-parameters-and-return-values">Typed Parameters and Return Values</h2>
+<p>Slang methods have zero or more parameters that must be given explicit types.  Slang also requires
+return types to be explicitly declared (this is a restriction of Scala &ndash; Scala
+allows <a href="https://docs.scala-lang.org/tour/type-inference.html%3E">method return types to be omitted and automatically inferred</a>):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">abs</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>  <span class="c1">// method is declared with typed parameters and a return type
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">var</span> <span class="n">result</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">result</span> <span class="k">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">result</span> <span class="k">=</span> <span class="o">-</span><span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span>  <span class="c1">// return statement is required for methods returning a value
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="n">abs</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="o">==</span> <span class="mi">4</span><span class="o">)</span>     <span class="c1">// checking simple correctness properties
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">abs</span><span class="o">(-</span><span class="mi">10</span><span class="o">)</span> <span class="o">==</span> <span class="mi">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">less</span><span class="o">(</span><span class="n">n1</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">n2</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">n1</span> <span class="o">&lt;</span> <span class="n">n2</span>  <span class="c1">// return argument can be an expression
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span></code></pre></div><h2 id="return-statements--expressions"><code>Return</code> Statements / Expressions</h2>
+<p>Slang requires an explicit <code>return</code> statement/expression for every method that returns a
+value (this is a restriction of Scala, which allows the <code>return</code>
+keyword to be omitted (e.g., in Scala, the <code>less</code> method body can simply be <code>n1 &lt; n2</code>).</p>
+<p>Multiple <code>returns</code> within a method body are allowed, as illustrated below.  While this
+sometimes allows to be more concise (and even more readable), it may
+make verification activities more difficult:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">absMultiReturn</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">n</span>  <span class="c1">// multiple returns are allowed, but may make analysis and proofs more complicated
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="o">-</span><span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><p>Methods can have no parameters, and they don&rsquo;t have to return a value.
+When methods don&rsquo;t return a value, <code>Unit</code> is used as the
+return type and the <code>return</code> statement can be omitted:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">printHelloWorld</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span> <span class="c1">// return type is always required, Unit means it does not return a value
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello World&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// return               // return not required when not returning a value
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">printHelloWorld</span><span class="o">()</span> <span class="c1">// method call with zero parameters
+</span></span></span></code></pre></div><!-- notice warning  ShortCode -->
+<p><strong>ToDo: To John:</strong>
+Address the following</p>
+<ul>
+<li>Pure annotations</li>
+<li>Rules for aliasing</li>
+<li>Pass by value vs pass by reference</li>
+<li>In previous section on assignment, addressing copying semantics and value-based equality</li>
+<li>can formal parameters be assigned to in method body (there contents can be modified, but can the identifier itself be assigned to</li>
+</ul>
+<!-- notice end   ShortCode -->
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/methods-functions/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Methods Functions</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+  </div>
+  <div style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

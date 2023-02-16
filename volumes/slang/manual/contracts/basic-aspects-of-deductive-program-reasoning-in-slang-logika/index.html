@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Uses symbolic execution and SMT solvers to accumulate knowledge about Slang program behaviors and to automatically show that programs conform to specifications included in the program. fooo bar bax
+Intuition of Logika&amp;rsquo;s Verification Process To effectively use Logika verification, it&amp;rsquo;s beneficial to understand how Logika accumulates knowledge about a program&amp;rsquo;s behavior, and how and when it leverages SMT solvers to make deductions. Compared to other program verifiers, Logika is very good about displaying this information in a developer-friendly manner." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/contracts/basic-aspects-of-deductive-program-reasoning-in-slang-logika/" />
+
+
+    <title>
+        
+            Basic Aspects of Deductive Program Reasoning in Slang/Logika :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Basic Aspects of Deductive Program Reasoning in Slang/Logika">
+<meta itemprop="description" content="Uses symbolic execution and SMT solvers to accumulate knowledge about Slang program behaviors and to automatically show that programs conform to specifications included in the program. fooo bar bax
+Intuition of Logika&rsquo;s Verification Process To effectively use Logika verification, it&rsquo;s beneficial to understand how Logika accumulates knowledge about a program&rsquo;s behavior, and how and when it leverages SMT solvers to make deductions. Compared to other program verifiers, Logika is very good about displaying this information in a developer-friendly manner."><meta itemprop="datePublished" content="2022-07-28T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-07-28T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1617"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Basic Aspects of Deductive Program Reasoning in Slang/Logika"/>
+<meta name="twitter:description" content="Uses symbolic execution and SMT solvers to accumulate knowledge about Slang program behaviors and to automatically show that programs conform to specifications included in the program. fooo bar bax
+Intuition of Logika&rsquo;s Verification Process To effectively use Logika verification, it&rsquo;s beneficial to understand how Logika accumulates knowledge about a program&rsquo;s behavior, and how and when it leverages SMT solvers to make deductions. Compared to other program verifiers, Logika is very good about displaying this information in a developer-friendly manner."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-28 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/contracts/basic-aspects-of-deductive-program-reasoning-in-slang-logika/">Basic Aspects of Deductive Program Reasoning in Slang/Logika</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>Uses symbolic execution and SMT solvers to accumulate knowledge about Slang program behaviors and to automatically show that programs conform to specifications included in the program. fooo bar bax</p>
+<h2 id="intuition-of-logikas-verification-process">Intuition of Logika&rsquo;s Verification Process</h2>
+<p>To effectively use Logika verification, it&rsquo;s beneficial to understand how Logika accumulates knowledge about a program&rsquo;s behavior, and how and when it leverages SMT solvers to make deductions.   Compared to other program verifiers, Logika is very good about displaying this information in a developer-friendly manner.   Before we describe the Logika display, we&rsquo;ll first present some intuition about how symbolic execution-based program analysis works.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">   <span class="k">:</span><span class="kt">linenos:</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="c1">//   The special comments above recognized by the Sireum IVE
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="c1">//   indicate that this Scala script .sc file is a Slang script file
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="c1">//   that will be checked by Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="k">import</span> <span class="nn">org.sireum._</span> <span class="c1">// imports Slang standard library
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="k">val</span> <span class="n">x</span> <span class="k">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">random</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="k">var</span> <span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">   <span class="n">y</span> <span class="k">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span> <span class="o">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></div><p>Consider how we might accomulate knowledge about the code in the listing above as we build a mental model of the code&rsquo;s execution (the <em>before</em> and <em>after</em> aspects correspond to the notions of <em>pre-state</em> and <em>post-state</em> which we will discuss in greater detail later).</p>
+<ul>
+<li><em>before</em> the statement <code>val x = Z.random</code> we have no knowledge about code&rsquo;s behavior or what variables it will use to compute; <em>after</em> the statement we know that the variable <code>x</code> will be involved in the computation.  Based on our understanding of what the <code>random</code> function does, we don&rsquo;t have any information about <code>x</code>&rsquo;s value.  Logika will actually introduce a marker which is presented to the developer using the label &ldquo;random&rdquo; that indicates that Logika doesn&rsquo;t have any information about the specific value at that point &ndash; the value could be any member of the set of values associated with the type <code>Z</code>.  We might represent this as follows::</li>
+</ul>
+<pre tabindex="0"><code>   x == &lt;a random value from Z&gt;
+</code></pre><ul>
+<li><em>before</em> the statement <code>var y = x + 1</code> we have the same knowledge as the <em>after</em> case above; <em>after</em> the statement, we know that there is a new variable <code>y</code>.  We don&rsquo;t know the specific value that <code>y</code> holds, but based on the structure of the assignment statement, we know that it has some <em>relationship</em> to <code>x</code>.  In particular, we know that <code>y</code> has a value that is one greater than whatever the value of <code>x</code> is.  We might represent the information accumulated so far as follows::</li>
+</ul>
+<pre tabindex="0"><code>   x == &lt;a random value from Z&gt;
+   y == x + 1
+</code></pre><ul>
+<li><em>before</em> the statement <code>y = y + 2</code> we have the same knowledge as the <em>after</em> case above; <em>after</em> the statement, we know that there is a new <em>version</em> of <code>y</code>.   We don&rsquo;t know the specific value that the new version holds, but we know it&rsquo;s related to the <em>old version</em>.   In particular, the new version of <code>y</code> is two greater than the old version.  And, we still know that the old version of <code>y</code> is one greater than whatever the value of <code>x</code> is.  And, we still know that <code>x</code> has an random value from the type <code>Z</code>.   This discussion indicates that to reason properly about a program, we need to distinguish between the value of the <em>current version</em> of a <code>var</code> and any previous versions.  We will see below that Logika uses a notation based on line and column numbers to keep track of the older versions of a <code>var</code>.  With this strategy, we might represent the information accumulated so far as follows::</li>
+</ul>
+<pre tabindex="0"><code>   x == &lt;a random value from Z&gt;
+   y&lt;version defined at line 10, column 6&gt; == x + 1
+   y == y&lt;version defined at line 10, column 6&gt; + 2
+</code></pre><p>When we come to the statement <code>assert(y &gt; x)</code>, we need to be concerned not just about accumulating knowledge about the computation, but about determining whether or not the assertion holds &ndash; we have a <em>verification obligation</em>.  Intuitively, we consider the facts that we have about the current value of <code>y</code> and <code>x</code> (i.e., the constraints about the possible values of <code>y</code> and <code>x</code> at this point), and try to infer if the property <code>y &gt; x</code> can hold based on those facts.   That is, do the facts that we know about variables in the assertion (<code>x</code> and <code>y</code>) entail (imply) that the assertion expression <code>y &gt; x</code> is true.   This type of logical sentence / question is historically written in the following notation::</p>
+<pre tabindex="0"><code>   x == &lt;a random value from Z&gt;,
+   y&lt;version defined at line 10, column 6&gt; == x + 1,
+   y == y&lt;version defined at line 10, column 6&gt; + 2,
+
+    |-     
+
+   y &gt; x
+</code></pre><p>where the <code>|-</code> is read &ldquo;entails&rdquo; or &ldquo;implies&rdquo;.  The entire logical sentence above is historically referred to as a <em>sequent</em>.  The logical statements to the left/above the <code>|-</code> are called the <em>antecedent</em> (technically, the antecedent is the conjunction of these statements, i.e., there is an implicit logical &ldquo;and&rdquo;/conjunction between each statement).  The statement to the right/below the <code>|-</code> is called the <em>consequent</em>.   A primary aspect of Logika&rsquo;s automated reasoning involves using SMT solvers to determine whether or not such sequents hold.  The sequent &ldquo;holds&rdquo; or &ldquo;is true&rdquo; or &ldquo;is valid&rdquo; if the consequent is true when all the statements in the antecedent are true.</p>
+<p>Behind the scenes, Logika also keeps track of other knowledge about variables such as their types (which limits their possible values) as well as whether they are <code>var</code>&rsquo;s or <code>val</code>&rsquo;s.  Knowing that a variable is a <code>val</code> can be useful because even when a bunch of complex computation happens in somewhere in the program, we know the values associated with <code>val</code>&rsquo;s don&rsquo;t change.   Therefore, any knowledge that Logika had about the <code>val</code>&rsquo;s before the computation is still valid after the computation.</p>
+<h2 id="logikas-display-of-verification-information">Logika&rsquo;s Display of Verification Information</h2>
+<p>Logika helps users understand how it is working by showing two types of markers that can be &ldquo;drilled down into&rdquo; for more information: (1) a &ldquo;light bulb&rdquo; marker indicates the knowledge that Logika knows about variables at a particular program point, and (2) a &ldquo;lightning bolt&rdquo; marker indicates that Logika is &ldquo;summoning&rdquo; the underlying SMT framework to prove a sequent, e.g., representing a verification obligation.</p>
+<!--.. _logic-hints-a: -->
+<p><img src="https://doc.sireum.org/figures/slang/ref/logika-logic-hints-01.png" alt="logika-logic-hints-01"></p>
+<p><strong>Logic Hints (a)</strong></p>
+<p>When the user clicks on the light bulb at line 11, Figure :ref:<code>logic-hints-a</code> illustrates that Logika opens a right-hand pane to display the knowledge that it has accumulated <em>before</em> the statement at line 11 is executed (review the bullets in the &ldquo;reasoning process&rdquo; above to see the correspondence between what we informally described and the knowledge that Logika has maintained in its automated deduction process).   Note that <code>Z.random@[8,11]#1</code> is Logika&rsquo;s way of indicating a &ldquo;unknown value picked from the type domain Z at line 8 column 11&rdquo; **Robby: what is the &ldquo;#1&rdquo;?.</p>
+<!--.. _logic-hints-b:-->
+<p><img src="https://doc.sireum.org/figures/slang/ref/logika-logic-hints-02.png" alt="logika-logic-hints-02"></p>
+<p><strong>Logic Hints (b)</strong></p>
+<p>When the user clicks on the light bulb at line 13, Figure :ref:<code>logic-hints-b</code>, Logika indicates the knowledge it has accumulated <em>before</em> the assertion at line 13 is executed.  We can see that Logika distinguishes the current value of <code>y</code> from the previous value using the marker <code>y@10#6</code>, i.e., the value of the version of <code>y</code> at line 10 column 6.</p>
+<!--.. _summonings-a:-->
+<p><img src="https://doc.sireum.org/figures/slang/ref/logika-summonings-01.png" alt="logika-summonings-01"></p>
+<p><strong>Logika Summonings (a)</strong></p>
+<p>Logika&rsquo;s lightning bolt at line 13 indicates there is a <em>verification obligation</em> to prove that the assertion <code>y &gt; x</code> holds and that it is &ldquo;summoning&rdquo; the SMT framework to attempt the proof.   As shown in Figure :ref:<code>summonings-a</code>, clicking on the lightning bolt displays several types of information in right-hand pane.  First, Logika shows a sequent representing the verification task associated with the selected lightning bolt.  All such sequents have antecedents that contain knowledge that Logika has accumulated to that point, and a consequent corresponding to some boolean expression that needs to be proved true to support verification of a specification (explicit or implicit) or to determine the program path along which verification will continue.  In this case, the consequent corresponds to the explicit assertion specification <code>y &gt; x</code>.   Typical Logika users will want to be able to read these sequents to understand if Logika&rsquo;s accumulated knowledge and verification goal corresponds to their intuition.  For example, looking at a sequent might reveal that Logika has not accumulated some fact that is necessary to prove the goal, and the user may need to introduce some additional assumptions or method pre-conditions, etc. to make the verification succeed.</p>
+<!--.. _summonings-b:-->
+<p><img src="https://doc.sireum.org/figures/slang/ref/logika-summonings-02.png" alt="logika-summoning-02"></p>
+<p><strong>Logika Summonings (b)</strong></p>
+<p>Scrolling down in the right-hand-side window shows the encoding of the sequent in terms of the standardized <a href="http://smtlib.cs.uiowa.edu/index.shtml">SMTLib</a> input language for SMT solvers.   The typical Logika user will not need to understand this information, but advanced users may find it useful for understanding Logika&rsquo;s verification process. The encoding includes Logika&rsquo;s SMTLib representation for Slang types and other information.  At the bottom of the window, Figure :ref:<code>summonings-b</code> shows the encoding of the sequent antecedent clauses and consequent being sent to the SMT solver.</p>
+<h2 id="fundamental-logika-verification-concepts">Fundamental Logika Verification Concepts</h2>
+<p>Symbolic Values
+,,,,,,,,,,,,,,,</p>
+<p>Symbolic Execution, like many other forms of program analysis and verification, tries to determine how a program will behave without actually performing a <em>concrete execution</em> of the program (e.g., running the program on concrete values).</p>
+<!-- notice note ShortCode -->
+<p>**JH: show method with concrete arguments (a test case), consider MAX(x,y) example</p>
+<p>**JH: show symbolic values related to random (connect to the random values above)</p>
+<p>**JH: show symbolic values related to function parameters</p>
+<p>**JH: introduce an example with two logic variables and assertions that indicate that Logika can neither prove them equal nor unequal.</p>
+<!-- notice end ShortCode -->
+<p>Symbolic Execution Summarizes Many Concrete Executions
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,</p>
+<!-- notice note ShortCode -->
+<p>**JH: show method with concrete arguments (a test case)</p>
+<p>**JH: show method with no arguments (symbolic arguments)</p>
+<!-- notice end ShortCode -->
+<p>Pre- and Post-States
+,,,,,,,,,,,,,,,,,,,,</p>
+<!-- notice note ShortCode -->
+<p><strong>JH: Introduce pre-state, post-state</strong></p>
+<!-- notice end ShortCode -->
+<p>Schematic View of Symbolic Execution Steps
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,</p>
+<!-- notice note ShortCode -->
+<p>**JH: Introduce concept of verification obligation and verification
+knowledge (and hint at verification condition)</p>
+<!-- notice end ShortCode -->
+<p>Dealing with non-Termination
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/contracts/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Contracts</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/contracts/overview/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Overview
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/contracts/assertions-and-basic-property-constraint-expressions/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Assertions and Basic Property/Constraint Expressions
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

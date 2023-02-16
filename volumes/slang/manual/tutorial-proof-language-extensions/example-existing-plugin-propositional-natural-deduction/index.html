@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="PropNatDedPlugin File Below is the entire plugin and, it will be broken into sections and explained. The plugin file can be found at this location within your Kekinian installation ().
+// #Sireum /* Copyright (c) 2017-2022, Robby, Kansas State University All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/example-existing-plugin-propositional-natural-deduction/" />
+
+
+    <title>
+        
+            Example Existing Plugin: Propostional Natural Deduction :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Example Existing Plugin: Propostional Natural Deduction">
+<meta itemprop="description" content="PropNatDedPlugin File Below is the entire plugin and, it will be broken into sections and explained. The plugin file can be found at this location within your Kekinian installation ().
+// #Sireum /* Copyright (c) 2017-2022, Robby, Kansas State University All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.">
+
+<meta itemprop="wordCount" content="4148"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Example Existing Plugin: Propostional Natural Deduction"/>
+<meta name="twitter:description" content="PropNatDedPlugin File Below is the entire plugin and, it will be broken into sections and explained. The plugin file can be found at this location within your Kekinian installation ().
+// #Sireum /* Copyright (c) 2017-2022, Robby, Kansas State University All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer."/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/example-existing-plugin-propositional-natural-deduction/">Example Existing Plugin: Propostional Natural Deduction</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h2 id="propnatdedplugin-file">PropNatDedPlugin File</h2>
+<p>Below is the entire plugin and, it will be broken into sections and explained. The plugin file can be found at this location within your Kekinian installation ().</p>
+<pre tabindex="0"><code>// #Sireum
+/*
+ Copyright (c) 2017-2022, Robby, Kansas State University
+ All rights reserved.
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ 1. Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#34;AS IS&#34; AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package org.sireum.logika.plugin
+
+import org.sireum._
+import org.sireum.lang.{ast =&gt; AST}
+import org.sireum.logika.{Logika, Smt2, State, StepProofContext}
+import org.sireum.logika.Logika.Reporter
+
+@datatype class PropNatDedPlugin extends Plugin {
+
+  val name: String = &#34;PropNatDedPlugin&#34;
+
+  val justificationIds: HashSet[String] = HashSet ++ ISZ[String](&#34;OrE&#34;, &#34;ImplyI&#34;, &#34;NegI&#34;, &#34;BottomE&#34;, &#34;PbC&#34;)
+
+  val justificationName: ISZ[String] = ISZ(&#34;org&#34;, &#34;sireum&#34;, &#34;justification&#34;, &#34;natded&#34;, &#34;prop&#34;)
+
+  val bottom: AST.Exp = AST.Exp.LitB(F, AST.Attr(None()))
+
+  @pure override def canHandle(logika: Logika, just: AST.ProofAst.Step.Justification): B = {
+    just match {
+      case just: AST.ProofAst.Step.Justification.Apply =&gt;
+        just.invokeIdent.attr.resOpt.get match {
+          case res: AST.ResolvedInfo.Method =&gt; return justificationIds.contains(res.id) &amp;&amp; res.owner == justificationName
+          case _ =&gt; return F
+        }
+      case _ =&gt; return F
+    }
+  }
+
+  override def handle(logika: Logika,
+                      smt2: Smt2,
+                      cache: Smt2.Cache,
+                      log: B,
+                      logDirOpt: Option[String],
+                      spcMap: HashSMap[AST.ProofAst.StepId, StepProofContext],
+                      state: State,
+                      step: AST.ProofAst.Step.Regular,
+                      reporter: Reporter): Plugin.Result = {
+    @pure def isBuiltIn(exp: AST.Exp.Binary, kind: AST.ResolvedInfo.BuiltIn.Kind.Type): B = {
+      exp.attr.resOpt.get match {
+        case res: AST.ResolvedInfo.BuiltIn if res.kind == kind =&gt; return T
+        case _ =&gt; return F
+      }
+    }
+    @pure def isUBuiltIn(exp: AST.Exp, kind: AST.ResolvedInfo.BuiltIn.Kind.Type): B = {
+      exp match {
+        case exp: AST.Exp.Unary =&gt;
+          exp.attr.resOpt.get match {
+            case res: AST.ResolvedInfo.BuiltIn if res.kind == kind =&gt; return T
+            case _ =&gt;
+          }        case _ =&gt;
+      }
+      return F
+    }
+    @pure def isBottom(exp: AST.Exp): B = {
+      if (exp == bottom) {
+        return T
+      }
+      val res: AST.ResolvedInfo = exp match {
+        case exp: AST.Exp.Ident =&gt; exp.attr.resOpt.get
+        case exp: AST.Exp.Select =&gt; exp.attr.resOpt.get
+        case _ =&gt; return F
+      }
+      res match {
+        case res: AST.ResolvedInfo.Var =&gt; return res.id === &#34;F&#34; &amp;&amp; res.owner == AST.Typed.sireumName
+        case _ =&gt;return F
+      }
+    }
+    val just = step.just.asInstanceOf[AST.ProofAst.Step.Justification.Apply]
+    val res = just.invokeIdent.attr.resOpt.get.asInstanceOf[AST.ResolvedInfo.Method]
+    @strictpure def emptyResult: Plugin.Result = Plugin.Result(F, state.nextFresh, state.claims)
+    val argsOpt = AST.Util.toStepIds(just.args, Logika.kind, reporter)
+    if (argsOpt.isEmpty) {
+      return emptyResult
+    }
+    val args = argsOpt.get
+    res.id match {
+      case string&#34;OrE&#34; =&gt;
+        val ISZ(orClaimNo, leftSubProofNo, rightSubProofNo) = args
+        val orClaim: AST.Exp.Binary = spcMap.get(orClaimNo) match {
+          case Some(StepProofContext.Regular(_, exp: AST.Exp.Binary, _)) if isBuiltIn(exp, AST.ResolvedInfo.BuiltIn.Kind.BinaryOr) =&gt; exp
+          case _ =&gt;
+            reporter.error(orClaimNo.posOpt, Logika.kind, s&#34;Expecting a proof step with a disjunction binary expression claim&#34;)
+            return emptyResult
+        }
+        val leftSubProof: HashSet[AST.Exp] = spcMap.get(leftSubProofNo) match {
+          case Some(sp@StepProofContext.SubProof(_, exp, _)) if exp == AST.Util.normalizeExp(orClaim.left) =&gt; HashSet ++ sp.claims
+          case _ =&gt;
+            reporter.error(leftSubProofNo.posOpt, Logika.kind, s&#34;Expecting a sub-proof step assuming the left-operand of $orClaimNo&#39;s claim&#34;)
+            return emptyResult
+        }
+        val rightSubProof: HashSet[AST.Exp] = spcMap.get(rightSubProofNo) match {
+          case Some(sp@StepProofContext.SubProof(_, exp, _)) if exp == AST.Util.normalizeExp(orClaim.right) =&gt; HashSet ++ sp.claims
+          case _ =&gt;
+            reporter.error(rightSubProofNo.posOpt, Logika.kind, s&#34;Expecting a sub-proof step assuming the right-operand of $orClaimNo&#39;s claim&#34;)
+            return emptyResult
+        }
+        val stepClaim = step.claimNorm
+        val ok = leftSubProof.contains(stepClaim) &amp;&amp; rightSubProof.contains(stepClaim)
+        if (!ok) {
+          stepClaim match {
+            case stepClaim: AST.Exp.Binary if isBuiltIn(stepClaim, AST.ResolvedInfo.BuiltIn.Kind.BinaryOr) &amp;&amp; leftSubProof.contains(AST.Util.normalizeExp(stepClaim.left)) &amp;&amp; rightSubProof.contains(AST.Util.normalizeExp(stepClaim.right)) =&gt;
+            case _ =&gt;
+              reporter.error(step.id.posOpt, Logika.kind, s&#34;Could not infer the stated claim from both sub-proofs $leftSubProofNo and $rightSubProofNo using ${just.invokeIdent.id.value}&#34;)
+              return emptyResult
+          }
+        }
+      case string&#34;ImplyI&#34; =&gt;
+        val claim: AST.Exp.Binary = step.claim match {
+          case stepClaim: AST.Exp.Binary if isBuiltIn(stepClaim, AST.ResolvedInfo.BuiltIn.Kind.BinaryImply) =&gt; stepClaim
+          case _ =&gt;
+            reporter.error(step.claim.posOpt, Logika.kind, s&#34;Expecting an implication&#34;)
+            return emptyResult
+        }
+        val ISZ(subProofNo) = args
+        val subProof: HashSet[AST.Exp] = spcMap.get(subProofNo) match {
+          case Some(sp: StepProofContext.SubProof) if sp.assumption == AST.Util.normalizeExp(claim.left) =&gt; HashSet ++ sp.claims + sp.assumption
+          case _ =&gt;
+            reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Expecting a sub-proof step assuming the antecedent of step ${step.id}&#39;s claim&#34;)
+            return emptyResult
+        }
+        if (!subProof.contains(AST.Util.normalizeExp(claim.right))) {
+          reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Could not find the consequent of step ${step.id}&#39;s claim in sub-proof $subProofNo&#34;)
+          return emptyResult
+        }
+      case string&#34;NegI&#34; =&gt;
+        val claim: AST.Exp.Unary = step.claim match {
+          case stepClaim: AST.Exp.Unary if isUBuiltIn(stepClaim, AST.ResolvedInfo.BuiltIn.Kind.UnaryNot) =&gt; stepClaim
+          case _ =&gt;
+            reporter.error(step.claim.posOpt, Logika.kind, s&#34;Expecting an implication&#34;)
+            return emptyResult
+        }
+        val ISZ(subProofNo) = args
+        val subProof: ISZ[AST.Exp] = spcMap.get(subProofNo) match {
+          case Some(sp: StepProofContext.SubProof) if sp.assumption == AST.Util.normalizeExp(claim.exp) =&gt; sp.claims
+          case _ =&gt;
+            reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Expecting a sub-proof step assuming the operand of step ${step.id}&#39;s claim&#34;)
+            return emptyResult
+        }
+        if (!ops.ISZOps(subProof).exists(isBottom _)) {
+          reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Could not find F in sub-proof $subProofNo&#34;)
+          return emptyResult
+        }
+      case string&#34;BottomE&#34; =&gt;
+        val ISZ(bottomNo) = args
+        spcMap.get(bottomNo) match {
+          case Some(sp: StepProofContext.Regular) if isBottom(sp.exp) =&gt;
+          case _ =&gt;
+            reporter.error(bottomNo.posOpt, Logika.kind, s&#34;Expecting F as step $bottomNo&#39;s claim&#34;)
+            return emptyResult
+        }
+      case string&#34;PbC&#34; =&gt;
+        val ISZ(subProofNo) = args
+        val subProof: ISZ[AST.Exp] = spcMap.get(subProofNo) match {
+          case Some(sp: StepProofContext.SubProof) if isUBuiltIn(sp.assumption, AST.ResolvedInfo.BuiltIn.Kind.UnaryNot) =&gt; sp.claims
+          case _ =&gt;
+            reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Expecting a sub-proof step assuming the negation of step ${step.id}&#39;s claim&#34;)
+            return emptyResult
+        }
+        if (!ops.ISZOps(subProof).exists(isBottom _)) {
+          reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Could not find F in sub-proof $subProofNo&#34;)
+          return emptyResult
+        }
+    }
+    val (status, nextFresh, claims, claim) = logika.evalRegularStepClaim(smt2, cache, state, step.claim, step.id.posOpt, reporter)
+    if (status) {
+      val desc = st&#34;${res.id} (of ${(res.owner, &#34;.&#34;)})&#34;.render
+      reporter.inform(step.claim.posOpt.get, Reporter.Info.Kind.Verified,
+        st&#34;&#34;&#34;Accepted by using the $desc
+            |proof tactic implemented in the $name&#34;&#34;&#34;.render)
+    }
+    return Plugin.Result(status, nextFresh, claims :+ claim)
+  }
+}
+</code></pre><h2 id="packaging-and-imports">Packaging and Imports</h2>
+<p>PropNatDedPlugin.sc code for imports and plugins:</p>
+<pre tabindex="0"><code>// #Sireum
+/*
+ Copyright (c) 2017-2022, Robby, Kansas State University
+ All rights reserved.
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ 1. Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#34;AS IS&#34; AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package org.sireum.logika.plugin
+
+import org.sireum._
+import org.sireum.lang.{ast =&gt; AST}
+import org.sireum.logika.{Logika, Smt2, State, StepProofContext}
+import org.sireum.logika.Logika.Reporter
+</code></pre><p>The first line of any plugin must include:</p>
+<pre tabindex="0"><code>// #Sireum
+</code></pre><p>This is because the plugins utilize Sireum, and this is a requirement of Sireum.</p>
+<h3 id="package">Package</h3>
+<p>It is good practice for all plugins within Logika to be under the package below. The PropNatDedPlugin follows this rule.</p>
+<pre tabindex="0"><code>package org.sireum.logika.plugin
+</code></pre><h3 id="imports">Imports</h3>
+<p>The PropNatDedPlugin retains all of the <a href="#basic-requirements">default plugins</a> required of a plugin with no additional imports.</p>
+<h2 id="definition-and-class-values">Definition and Class Values</h2>
+<h3 id="definition">Definition</h3>
+<p>The definition of the PropNatDedPlugin is as follows:</p>
+<pre tabindex="0"><code>@datatype class PropNatDedPlugin extends Plugin {
+
+}
+</code></pre><p>Plugins must extend the Plugin type. The name of the plugin reflecting the string utilized in the default plugin list. It is good practice that they match the name of the file itself.</p>
+<h3 id="class-level-variables">Class-Level Variables</h3>
+<p>The ClaimOfPlugin contains four class-level variables that are used in evalution that are also a part of any plugin:</p>
+<pre tabindex="0"><code>  val name: String = &#34;PropNatDedPlugin&#34;
+
+  val justificationIds: HashSet[String] = HashSet ++ ISZ[String](&#34;OrE&#34;, &#34;ImplyI&#34;, &#34;NegI&#34;, &#34;BottomE&#34;, &#34;PbC&#34;)
+
+  val justificationName: ISZ[String] = ISZ(&#34;org&#34;, &#34;sireum&#34;, &#34;justification&#34;, &#34;natded&#34;, &#34;prop&#34;)
+
+  val bottom: AST.Exp = AST.Exp.LitB(F, AST.Attr(None()))
+</code></pre><p>The name string reflects the name of the plugin itself. It is used to communicate within the plugin itself and the systems outside the file.</p>
+<p>The justificationIds value is a HashSet of Strings that contains the keywords or justifications that are used in the proof step (&ldquo;OrE&rdquo;, &ldquo;ImplyI&rdquo;, &ldquo;NegI&rdquo;, &ldquo;BottomE&rdquo;, &ldquo;PbC&rdquo;)</p>
+<p>The justificationName value provides the path from which the justification symbols handled by this plugin are located.</p>
+<p>The bottom value is a representation for the bottom symbology.</p>
+<h2 id="canhandle-method">canHandle Method</h2>
+<p>The can handle the method of a plugin, and therefore the PropNatDedPlugin works to determine whether or not the plugin is able to handle the step provided. This a required method of any plugin, but in the PropNatDedPlugin&rsquo;s implementation of the method, it utilizes a methodology to determine its ability to solve the step using the following structured approach:</p>
+<pre tabindex="0"><code> @pure override def canHandle(logika: Logika, just: AST.ProofAst.Step.Justification): B = {
+    just match {
+      case just: AST.ProofAst.Step.Justification.Apply =&gt;
+        just.invokeIdent.attr.resOpt.get match {
+          case res: AST.ResolvedInfo.Method =&gt; return justificationIds.contains(res.id) &amp;&amp; res.owner == justificationName
+          case _ =&gt; return F
+        }
+      case _ =&gt; return F
+    }
+  }
+</code></pre><p>The canHandle method takes in logika and the justification that the method is seeing if it can handle.</p>
+<p>The method then goes into a match block in order to branch into two pathways:</p>
+<ol>
+<li>
+<p>If the justification is of the type Apply&hellip; then the method evaluates a sub-match block:</p>
+<ol>
+<li>If the resulting operation of the justification is of the type method, return the boolean evaluation of (justificationIds.contains(res.id) &amp;&amp; res.owner == justificationName). This expression only evaulates to true when the justification&rsquo;s id is in the listed justifications of the justificationIds values, and the location of the this justification matches the justificationName value defined at the class level.</li>
+<li>If the justification is not of the type method, the program will instead just return false.</li>
+</ol>
+</li>
+<li>
+<p>Otherwise, the justification is not of the type Apply, and it returns false, that it can not handle the step&rsquo;s justification provided.</p>
+</li>
+</ol>
+<p>Simply, this method will only return true if:</p>
+<ol>
+<li>The justification is of the type Apply</li>
+<li>The resulting operation of the justification is of the type method.</li>
+<li>The resulting operation of the justification has an Id that matches on of the Ids listed in the class value.</li>
+<li>The resulting operation of the justification has is of the path matching the justificationName class level value.</li>
+</ol>
+<p>In any other case, it returns false. The reason that this is not a singluar statement chekcing for all of these conditions is that some conditions are predicated on the justification or resulting operation of the justification being of the required type.</p>
+<h2 id="handle-method">Handle Method</h2>
+<p>The handle method of the PropNatDedPlugin class, or any plugin, is called after its canHandle method returns true. The Logika.scala file’s method once again is the moderator for these calls, however, when determining how we construct a given plugin’s handle method, we can keep in mind that whatever information on the nature of the step and its justification that can be gleaned from the canHandle method is applicable.</p>
+<h3 id="definition-1">Definition</h3>
+<pre tabindex="0"><code>override def handle(logika: Logika, smt2: Smt2, cache: Smt2.Cache, log: B, logDirOpt: Option[String], spcMap: HashSMap[AST.ProofAst.StepId, StepProofContext], state: State, step: AST.ProofAst.Step.Regular, reporter: Reporter): Plugin.Result = {
+</code></pre><p>Since there is a default implementation of the handle method that is provided by the Plugin trait itself, a plugin must use the override keyword. The rest of the definition is a mirror of the Plugin trait’s implementation (src/main/scala/org/sireum/logika/plugin/Plugin.scala). The types and names of the parameters are self explanatory, however, anytime that an option type is presented, it is used to allow for an Option.none() value which can function as a null value of the given type.</p>
+<h3 id="implementation-pure-and-strictpure-methods">Implementation: pure and strictpure Methods</h3>
+<p>Unlikely the previously described claimOfPlugin, this plugin has to handle multiple different keywords that provide different and destinct functionality. This example is meant to demonstrate that use.</p>
+<p>This method has three pure methods, isBuiltIn, isUBuiltIn, and isBottom.</p>
+<p>This method also contains one strictpure method, emptyResult.</p>
+<h4 id="isbuiltin-method">isBuiltin Method</h4>
+<p>The isBuiltIn method returns a boolean value that determines if the resulting operation of the expression is BuiltIn and the kind value of that resulting operation is equal to the kind value provided to the method. (TODO)</p>
+<pre tabindex="0"><code>@pure def isBuiltIn(exp: AST.Exp.Binary, kind: AST.ResolvedInfo.BuiltIn.Kind.Type): B = {
+      exp.attr.resOpt.get match {
+        case res: AST.ResolvedInfo.BuiltIn if res.kind == kind =&gt; return T
+        case _ =&gt; return F
+      }
+    }
+</code></pre><h4 id="isbuiltin-method-1">isBuiltin Method</h4>
+<p>The isUBuiltIn method returns a boolean value that returns true if the expresion is of the Unary type and the resulting operation of that Unary type is of the BuiltIn type, and the resulting operation must have a kind value matching the kind value passed into the method. Any other situation returns false.</p>
+<pre tabindex="0"><code>    @pure def isUBuiltIn(exp: AST.Exp, kind: AST.ResolvedInfo.BuiltIn.Kind.Type): B = {
+      exp match {
+        case exp: AST.Exp.Unary =&gt;
+          exp.attr.resOpt.get match {
+            case res: AST.ResolvedInfo.BuiltIn if res.kind == kind =&gt; return T
+            case _ =&gt;
+          }        case _ =&gt;
+      }
+</code></pre><h4 id="isbottom-method">isBottom Method</h4>
+<p>The isBottom method returns a boolean value that evaluates to true if the expression delivered is equalivalent to the bottom expression. Any other expression returns false.</p>
+<pre tabindex="0"><code>@pure def isBottom(exp: AST.Exp): B = {
+      if (exp == bottom) {
+        return T
+      }
+      val res: AST.ResolvedInfo = exp match {
+        case exp: AST.Exp.Ident =&gt; exp.attr.resOpt.get
+        case exp: AST.Exp.Select =&gt; exp.attr.resOpt.get
+        case _ =&gt; return F
+      }
+      res match {
+        case res: AST.ResolvedInfo.Var =&gt; return res.id === &#34;F&#34; &amp;&amp; res.owner == AST.Typed.sireumName
+        case _ =&gt;return F
+      }
+    }
+</code></pre><h4 id="emptyresult-method">emptyResult Method</h4>
+<p>The strictpure method returns an empty result when an empty argument option is present in the justification being analyzed.</p>
+<h3 id="implementation-primary">Implementation: Primary</h3>
+<pre tabindex="0"><code>override def handle(logika: Logika,
+                      smt2: Smt2,
+                      cache: Smt2.Cache,
+                      log: B,
+                      logDirOpt: Option[String],
+                      spcMap: HashSMap[AST.ProofAst.StepId, StepProofContext],
+                      state: State,
+                      step: AST.ProofAst.Step.Regular,
+                      reporter: Reporter): Plugin.Result = {
+    @pure def isBuiltIn(exp: AST.Exp.Binary, kind: AST.ResolvedInfo.BuiltIn.Kind.Type): B = {
+      //Ommited for clarity.
+    }
+    @pure def isUBuiltIn(exp: AST.Exp, kind: AST.ResolvedInfo.BuiltIn.Kind.Type): B = {
+      //Ommited for clarity.
+    }
+    @pure def isBottom(exp: AST.Exp): B = {
+      //Ommited for clarity.
+    }
+    val just = step.just.asInstanceOf[AST.ProofAst.Step.Justification.Apply]
+    val res = just.invokeIdent.attr.resOpt.get.asInstanceOf[AST.ResolvedInfo.Method]
+    @strictpure def emptyResult: Plugin.Result = Plugin.Result(F, state.nextFresh, state.claims)
+    val argsOpt = AST.Util.toStepIds(just.args, Logika.kind, reporter)
+    if (argsOpt.isEmpty) {
+      return emptyResult
+    }
+    val args = argsOpt.get
+    res.id match {
+      //Deals with special cases, omitted for clarity.
+    }
+    val (status, nextFresh, claims, claim) = logika.evalRegularStepClaim(smt2, cache, state, step.claim, step.id.posOpt, reporter)
+    if (status) {
+      val desc = st&#34;${res.id} (of ${(res.owner, &#34;.&#34;)})&#34;.render
+      reporter.inform(step.claim.posOpt.get, Reporter.Info.Kind.Verified,
+        st&#34;&#34;&#34;Accepted by using the $desc
+            |proof tactic implemented in the $name&#34;&#34;&#34;.render)
+    }
+    return Plugin.Result(status, nextFresh, claims :+ claim)
+  }
+</code></pre><p>The method begins by placing the justification of the step parameter into a value &ldquo;just&rdquo; as an instance of Apply. Then, a value named &ldquo;res&rdquo; is created that is the resulting operation of the &ldquo;just&rdquo; value as an instance of the Method type. Finally, the value &ldquo;argsOpt&rdquo; is created that is the argument options of the &ldquo;just&rdquo; value. These three values are used to simplify the readablity of evaluation. Then, the &ldquo;res&rdquo; value&rsquo;s id is evaluated in a match statement that looks to see if it&rsquo;s Id is equal to any of the following special cases: &ldquo;OrE, ImplyI, NegI, BottomE, PbC&rdquo;. The special cases are all justifications that utilize subproofs with different requirements, so it is evaluated in a distinct manner. Regardless of whether or not a justification is one with a special case, it then makes a call to logika&rsquo;s evaulate regular step claim method, and then checks the status informing the reporter that it is accepted if the status is true. Then a Plugin.Result is returned.</p>
+<h4 id="ore-or-elimination">OrE (Or Elimination)</h4>
+<pre tabindex="0"><code>case string&#34;OrE&#34; =&gt;
+        val ISZ(orClaimNo, leftSubProofNo, rightSubProofNo) = args
+        val orClaim: AST.Exp.Binary = spcMap.get(orClaimNo) match {
+          case Some(StepProofContext.Regular(_, exp: AST.Exp.Binary, _)) if isBuiltIn(exp, AST.ResolvedInfo.BuiltIn.Kind.BinaryOr) =&gt; exp
+          case _ =&gt;
+            reporter.error(orClaimNo.posOpt, Logika.kind, s&#34;Expecting a proof step with a disjunction binary expression claim&#34;)
+            return emptyResult
+        }
+        val leftSubProof: HashSet[AST.Exp] = spcMap.get(leftSubProofNo) match {
+          case Some(sp@StepProofContext.SubProof(_, exp, _)) if exp == AST.Util.normalizeExp(orClaim.left) =&gt; HashSet ++ sp.claims
+          case _ =&gt;
+            reporter.error(leftSubProofNo.posOpt, Logika.kind, s&#34;Expecting a sub-proof step assuming the left-operand of $orClaimNo&#39;s claim&#34;)
+            return emptyResult
+        }
+        val rightSubProof: HashSet[AST.Exp] = spcMap.get(rightSubProofNo) match {
+          case Some(sp@StepProofContext.SubProof(_, exp, _)) if exp == AST.Util.normalizeExp(orClaim.right) =&gt; HashSet ++ sp.claims
+          case _ =&gt;
+            reporter.error(rightSubProofNo.posOpt, Logika.kind, s&#34;Expecting a sub-proof step assuming the right-operand of $orClaimNo&#39;s claim&#34;)
+            return emptyResult
+        }
+        val stepClaim = step.claimNorm
+        val ok = leftSubProof.contains(stepClaim) &amp;&amp; rightSubProof.contains(stepClaim)
+        if (!ok) {
+          stepClaim match {
+            case stepClaim: AST.Exp.Binary if isBuiltIn(stepClaim, AST.ResolvedInfo.BuiltIn.Kind.BinaryOr) &amp;&amp; leftSubProof.contains(AST.Util.normalizeExp(stepClaim.left)) &amp;&amp; rightSubProof.contains(AST.Util.normalizeExp(stepClaim.right)) =&gt;
+            case _ =&gt;
+              reporter.error(step.id.posOpt, Logika.kind, s&#34;Could not infer the stated claim from both sub-proofs $leftSubProofNo and $rightSubProofNo using ${just.invokeIdent.id.value}&#34;)
+              return emptyResult
+          }
+        }
+</code></pre><p>The OrE case begins with populating the relavant values, &ldquo;orClaimNo, leftSubProofNo, and rightSubProofNo&rdquo;. If you recall, this is mimicing the structure of a OrE justification&hellip; OrE 1 2 5 (OrE orClaimNo leftSubProofNo rightSubProofNo). This case then looks at the map of claims that we know, and pulls the one indexed at orClaimNo (The Or statement&rsquo;s number). If the option returned is an appropriate binary expression of a claim:</p>
+<pre tabindex="0"><code>          case Some(StepProofContext.Regular(_, exp: AST.Exp.Binary, _)) if isBuiltIn(exp, AST.ResolvedInfo.BuiltIn.Kind.BinaryOr) =&gt; exp
+</code></pre><p>Then it goes on to evaluate the left subProof. It does a match to the map of claims at the leftSubProofNo this time.</p>
+<p>It makes sure that its assumptive step is equal to the left side of the Or claim.</p>
+<p>Consider the following line:</p>
+<pre tabindex="0"><code>          case Some(sp@StepProofContext.SubProof(_, exp, _)) if exp == AST.Util.normalizeExp(orClaim.left) =&gt; HashSet ++ sp.claims
+</code></pre><p>The section AST.Util.normalizeExp(orClaim.left) looks at the larger Or claim and provides the left side.</p>
+<p>For instance, if&hellip;</p>
+<ul>
+<li>exp == p, and orClaim == p | q,</li>
+</ul>
+<p>Then,</p>
+<ul>
+<li>AST.Util.normalizeExp(orClaim.left) would provide us with p.</li>
+</ul>
+<p>and</p>
+<ul>
+<li>exp == AST.Util.normalizeExp(orClaim.left)</li>
+</ul>
+<p>If it does not meet the above case for the left subproof, it returns an empty result using the emptyResult strictpure.</p>
+<p>The right side subproof is then evaluated to the same effect as the left using the same strategy.</p>
+<p>Finally, the OrE case then looks evaluates the subproofs looking for the conclusion in the claim step.</p>
+<pre tabindex="0"><code>val stepClaim = step.claimNorm
+        val ok = leftSubProof.contains(stepClaim) &amp;&amp; rightSubProof.contains(stepClaim)
+        if (!ok) {
+          stepClaim match {
+            case stepClaim: AST.Exp.Binary if isBuiltIn(stepClaim, AST.ResolvedInfo.BuiltIn.Kind.BinaryOr) &amp;&amp; leftSubProof.contains(AST.Util.normalizeExp(stepClaim.left)) &amp;&amp; rightSubProof.contains(AST.Util.normalizeExp(stepClaim.right)) =&gt;
+            case _ =&gt;
+              reporter.error(step.id.posOpt, Logika.kind, s&#34;Could not infer the stated claim from both sub-proofs $leftSubProofNo and $rightSubProofNo using ${just.invokeIdent.id.value}&#34;)
+              return emptyResult
+          }
+</code></pre><p>If they do not match, it will throw an error and return the emptyResult strictpure method&rsquo;s return value.</p>
+<h4 id="implyi-implies-introduction">ImplyI (Implies Introduction)</h4>
+<pre tabindex="0"><code>case string&#34;ImplyI&#34; =&gt;
+        val claim: AST.Exp.Binary = step.claim match {
+          case stepClaim: AST.Exp.Binary if isBuiltIn(stepClaim, AST.ResolvedInfo.BuiltIn.Kind.BinaryImply) =&gt; stepClaim
+          case _ =&gt;
+            reporter.error(step.claim.posOpt, Logika.kind, s&#34;Expecting an implication&#34;)
+            return emptyResult
+        }
+        val ISZ(subProofNo) = args
+        val subProof: HashSet[AST.Exp] = spcMap.get(subProofNo) match {
+          case Some(sp: StepProofContext.SubProof) if sp.assumption == AST.Util.normalizeExp(claim.left) =&gt; HashSet ++ sp.claims + sp.assumption
+          case _ =&gt;
+            reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Expecting a sub-proof step assuming the antecedent of step ${step.id}&#39;s claim&#34;)
+            return emptyResult
+        }
+        if (!subProof.contains(AST.Util.normalizeExp(claim.right))) {
+          reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Could not find the consequent of step ${step.id}&#39;s claim in sub-proof $subProofNo&#34;)
+          return emptyResult
+        }
+</code></pre><p>The ImplyI case begins by opening a match statement that looks at the step&rsquo;s claim. If the step&rsquo;s claim is a binary expresssion (AST.Exp.Binary), and if the step&rsquo;s claim if it is built in accordance with the imply form (isBuiltin(stepClaim, AST.ResolvedInfo.BuiltIn.Kind.BinaryImply)) then the &ldquo;claim&rdquo; value is populated with step.claim&rsquo;s value. If the step&rsquo;s claim does not meet those conditions, then an error is reported, and the <a href="#emptyresult-method">emptyResult</a> is returned.</p>
+<p>Then, the arguments of the claim are put into the value &ldquo;subProofNo&rdquo;.</p>
+<p>A match statement is then opened that evaluates the map of known claim&rsquo;s at the subProofNo. If the get call is some SubProof context and that context begins with an assumption that is equal to the left hand side of the claim (sp.assumption == AST.Util.normalizeExp(claim.left)) then the &ldquo;subProof&rdquo; value is set to a HashSet with the subproof&rsquo;s map&rsquo;s claims and assumptions. If it does not meet those requirements, an error is reported to the reporter, and then the emptyResult is returned.</p>
+<p>Finally, the ImplyI case checks to see if the &ldquo;subProof&rdquo; value does not contain the right side of the &ldquo;claim&rdquo; value. If it does not contain the right side, the reporter is given an error and an emptyResult is returned.</p>
+<h4 id="negi-negation-introduction">NegI (Negation Introduction)</h4>
+<pre tabindex="0"><code>case string&#34;NegI&#34; =&gt;
+        val claim: AST.Exp.Unary = step.claim match {
+          case stepClaim: AST.Exp.Unary if isUBuiltIn(stepClaim, AST.ResolvedInfo.BuiltIn.Kind.UnaryNot) =&gt; stepClaim
+          case _ =&gt;
+            reporter.error(step.claim.posOpt, Logika.kind, s&#34;Expecting an implication&#34;)
+            return emptyResult
+        }
+        val ISZ(subProofNo) = args
+        val subProof: ISZ[AST.Exp] = spcMap.get(subProofNo) match {
+          case Some(sp: StepProofContext.SubProof) if sp.assumption == AST.Util.normalizeExp(claim.exp) =&gt; sp.claims
+          case _ =&gt;
+            reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Expecting a sub-proof step assuming the operand of step ${step.id}&#39;s claim&#34;)
+            return emptyResult
+        }
+        if (!ops.ISZOps(subProof).exists(isBottom _)) {
+          reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Could not find F in sub-proof $subProofNo&#34;)
+          return emptyResult
+        }
+</code></pre><p>The NegI case begins by opening a match statement that looks at the step&rsquo;s claim. If the step&rsquo;s claim is of the type Unary (Unary is used with any of the negation tatics), and the step&rsquo;s claim is of the format for a Unary Not, then the &ldquo;claim&rdquo; value is set to the step&rsquo;s claim. If these requirements are not met, it the reporter is given an error, and the emptyResult is returned.</p>
+<p>Next, the case will populate a value, &ldquo;subProofNo&rdquo; with the appropriate arguement.</p>
+<p>Then, the NegI case opens a match case considering the step proof context from map of claims value at the sub proof&rsquo;s step id (val subProof: ISZ[AST.Exp] = spcMap.get(subProofNo) match {}). If this sub proof context is of the type SubProof and the assumption of this context is claim&rsquo;s expression, then the value subProof is populated with subproof&rsquo;s claims. If these requirements are not met, then the reporter is given an error and the <a href="#emptyresult-method">emptyResult</a> is returned.</p>
+<p>Finally, the NegI case checks if there does not exist a bottom operator (or equvilant) in the subproof, if there is not one, it will send an error to the reporter and return the <a href="#emptyresult-method">emptyResult</a>.</p>
+<h4 id="bottome-bottom-elimination">BottomE (Bottom Elimination)</h4>
+<pre tabindex="0"><code>case string&#34;BottomE&#34; =&gt;
+        val ISZ(bottomNo) = args
+        spcMap.get(bottomNo) match {
+          case Some(sp: StepProofContext.Regular) if isBottom(sp.exp) =&gt;
+          case _ =&gt;
+            reporter.error(bottomNo.posOpt, Logika.kind, s&#34;Expecting F as step $bottomNo&#39;s claim&#34;)
+            return emptyResult
+        }
+</code></pre><p>The BottomE case begins by storing the argument stepId into a value called &ldquo;bottomNo&rdquo;.</p>
+<p>Then the case opens a match statement that considers the step proof context found at the bottomNo index of the claims map. If the context is of the Regular type (regular meaning a standard proof line, not an assumption or subproof or other) and the context&rsquo;s expression is a bottom expression, then the match statement terminates. If the context does not meet these requirements, the reporter is sent an error and the <a href="#emptyresult-method">emptyResult</a> is returned.</p>
+<h4 id="pbc-proof-by-contradiction">PbC (Proof By Contradiction)</h4>
+<pre tabindex="0"><code>case string&#34;PbC&#34; =&gt;
+        val ISZ(subProofNo) = args
+        val subProof: ISZ[AST.Exp] = spcMap.get(subProofNo) match {
+          case Some(sp: StepProofContext.SubProof) if isUBuiltIn(sp.assumption, AST.ResolvedInfo.BuiltIn.Kind.UnaryNot) =&gt; sp.claims
+          case _ =&gt;
+            reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Expecting a sub-proof step assuming the negation of step ${step.id}&#39;s claim&#34;)
+            return emptyResult
+        }
+        if (!ops.ISZOps(subProof).exists(isBottom _)) {
+          reporter.error(subProofNo.posOpt, Logika.kind, s&#34;Could not find F in sub-proof $subProofNo&#34;)
+          return emptyResult
+        }
+</code></pre><p>The PbC case begins by storing the argument of the step into the value &ldquo;subProofNo&rdquo;.</p>
+<p>Then the PbC case opens a match statement that considers the step proof context found at the subProofNo index of the claims map. If the context is of the SubProof type, and the assumption is built in unary in the form of Not, then the value &ldquo;subProof&rdquo; is populated with the context&rsquo;s claims. Otherwise, the reporter is given an error and the <a href="#emptyresult-method">emptyResult</a> is returned.</p>
+<h4 id="post-match-statement-and-regular-step-evaluation">Post Match Statement and Regular Step Evaluation</h4>
+<p>After any of the noted cases above are considered, then the handle method continues into another section of code that finished the evaluation of the step. If the claim being evaluated is not one of the types above then the handle method should have never been called in the first place. The PropNatDedPlugin only handles the justifications in that have a case within the match statement, any other propositional logic justification are handled by the Inception plugin. This plugin only handles propositional logic rules that use subproofs in their evaluation, or have to consider a bottom operator:</p>
+<pre tabindex="0"><code>val (status, nextFresh, claims, claim) = logika.evalRegularStepClaim(smt2, cache, state, step.claim, step.id.posOpt, reporter)
+    if (status) {
+      val desc = st&#34;${res.id} (of ${(res.owner, &#34;.&#34;)})&#34;.render
+      reporter.inform(step.claim.posOpt.get, Reporter.Info.Kind.Verified,
+        st&#34;&#34;&#34;Accepted by using the $desc
+            |proof tactic implemented in the $name&#34;&#34;&#34;.render)
+    }
+    return Plugin.Result(status, nextFresh, claims :+ claim)
+</code></pre><p>This section of the method begins by instantiating the &ldquo;status&rdquo;, &ldquo;nextFresh&rdquo;, &ldquo;claims&rdquo;, and &ldquo;claim&rdquo; values by calling the method  logika.evalRegularStepClaim(&hellip;). This method evaluates and takes the now updated values and determines if logika succeeds or fails to prove the step. If it does prove it, it will return true for the &ldquo;status&rdquo; value. The nextFresh is value is TODO. The claim and prior claims are passed on a successful evaluation as the updated map of known claims.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Plugins</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/example-existing-plugin-claimofplugin/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Example Existing Plugin: ClaimOfPlugin
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

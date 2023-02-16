@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="We&amp;rsquo;ll use tuples to illustrate the concepts of pattern matching in detail; other types of structures will be covered more concisely.
+Pattern-based Variable Declaration Recall from JH: Chapter XX, FIX REFERENCE that tuple elements can be accessed using explicit projection operations. Below is an example of a situation where we need to declare a val binding for each element of a tuple.
+val t1: (Z, B, String) = (0, F, &amp;#34;&amp;#34;) // immutable tuple (mutability automatically detected) val z1 = t1." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/pattern-matching/pattern-matching-for-tuples/" />
+
+
+    <title>
+        
+            Pattern Matching for Tuples :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Pattern Matching for Tuples">
+<meta itemprop="description" content="We&rsquo;ll use tuples to illustrate the concepts of pattern matching in detail; other types of structures will be covered more concisely.
+Pattern-based Variable Declaration Recall from JH: Chapter XX, FIX REFERENCE that tuple elements can be accessed using explicit projection operations. Below is an example of a situation where we need to declare a val binding for each element of a tuple.
+val t1: (Z, B, String) = (0, F, &#34;&#34;) // immutable tuple (mutability automatically detected) val z1 = t1."><meta itemprop="datePublished" content="2022-07-27T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-07-27T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2320"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Pattern Matching for Tuples"/>
+<meta name="twitter:description" content="We&rsquo;ll use tuples to illustrate the concepts of pattern matching in detail; other types of structures will be covered more concisely.
+Pattern-based Variable Declaration Recall from JH: Chapter XX, FIX REFERENCE that tuple elements can be accessed using explicit projection operations. Below is an example of a situation where we need to declare a val binding for each element of a tuple.
+val t1: (Z, B, String) = (0, F, &#34;&#34;) // immutable tuple (mutability automatically detected) val z1 = t1."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-27 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/pattern-matching/pattern-matching-for-tuples/">Pattern Matching for Tuples</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>We&rsquo;ll use tuples to illustrate the concepts of pattern matching in detail; other types of structures will be covered more concisely.</p>
+<h2 id="pattern-based-variable-declaration">Pattern-based Variable Declaration</h2>
+<p>Recall from <strong>JH: Chapter XX, FIX REFERENCE</strong>  that tuple elements can be accessed using explicit projection operations.  Below is an example of a situation where we need to declare a <code>val</code> binding for each element of a tuple.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">t1</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span> <span class="kt">B</span><span class="o">,</span> <span class="nc">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">F</span><span class="o">,</span> <span class="s">&#34;&#34;</span><span class="o">)</span>     <span class="c1">// immutable tuple (mutability automatically detected)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">z1</span> <span class="k">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">_1</span>                          <span class="c1">// using projection operations to access tuple elements
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="n">b1</span> <span class="k">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">_2</span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">s1</span> <span class="k">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">_3</span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="n">z1</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">b1</span> <span class="o">==</span> <span class="n">F</span> <span class="o">&amp;&amp;</span> <span class="n">s1</span> <span class="o">==</span> <span class="s">&#34;&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>The same effect can be achieved much more compactly using pattern matching, as illustrated below.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// Pattern matching in declarations -- declaring multiple val/vars at once
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="o">(</span><span class="n">z2</span><span class="o">,</span><span class="n">b2</span><span class="o">,</span><span class="n">s2</span><span class="o">)</span> <span class="k">=</span> <span class="n">t1</span>                     <span class="c1">// using pattern matching to access tuple elements
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                          <span class="c1">// implicitly creates val declarations for z2, b2, s2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">z2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">b2</span> <span class="o">==</span> <span class="n">F</span> <span class="o">&amp;&amp;</span> <span class="n">s2</span> <span class="o">==</span> <span class="s">&#34;&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>In addition to being more compact, the pattern matching style of accessing is often easier to comprehend at a glance because the structure of the accessing code (the pattern) matches the developer&rsquo;s conceptualization of the structure of the data being decomposed.</p>
+<p>In situations where names for certain elements are not needed or the structure of those elements is irrelevant (e.g., subsequent code doesn&rsquo;t use those elements), the wildcard character <code>_</code> can be used.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Wildcards -- ignore certain elements
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span><span class="n">b3</span><span class="o">,</span><span class="k">_</span><span class="o">)</span> <span class="k">=</span> <span class="n">t1</span>                       <span class="c1">// use underscore (wildcard) when elements don&#39;t need to be named
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">b3</span> <span class="o">==</span> <span class="n">F</span><span class="o">)</span>
+</span></span></code></pre></div><p>Patterns can be nested.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Nested patterns
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">t2</span> <span class="k">=</span> <span class="o">(</span><span class="n">t1</span><span class="o">,</span> <span class="o">(</span><span class="s">&#34;a&#34;</span><span class="o">,</span> <span class="n">F</span><span class="o">),</span> <span class="mi">1</span><span class="o">)</span>              <span class="c1">// nested tuples
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">t2</span><span class="o">.</span><span class="n">_1</span><span class="o">.</span><span class="n">_2</span> <span class="o">==</span> <span class="n">F</span><span class="o">)</span>                   <span class="c1">// using project operations to access nested tuple elements
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="o">((</span><span class="n">z3</span><span class="o">,</span><span class="k">_</span><span class="o">,</span><span class="k">_</span><span class="o">),(</span><span class="n">s4</span><span class="o">,</span><span class="n">b4</span><span class="o">),</span><span class="k">_</span><span class="o">)</span> <span class="k">=</span> <span class="n">t2</span>           <span class="c1">// using pattern matching to access nested tuple elements
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">z3</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">s4</span> <span class="o">==</span> <span class="s">&#34;a&#34;</span> <span class="o">&amp;&amp;</span> <span class="n">b4</span> <span class="o">==</span> <span class="n">F</span><span class="o">)</span>
+</span></span></code></pre></div><p>Patterns can also be used in <code>var</code> declarations.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Pattern matching in var declarations
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="k">_</span><span class="o">,</span> <span class="n">z4</span><span class="o">)</span> <span class="k">=</span> <span class="n">t2</span>                     <span class="c1">// pattern matching can also be used in var declarations (not just val)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">z4</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+</span></span></code></pre></div><h2 id="pattern-matching-cases">Pattern-matching Cases</h2>
+<p>Slang includes Scala&rsquo;s case-based pattern matching control structure, illustrated below.   The expression before the <code>match</code> keyword is evaluated and its value is compared against the patterns appearing in the <code>case</code> clauses.  When a match occurs, identifiers in the matching pattern are bound to the corresponding elements in the structure, and the corresponding statement/expression/block following the <code>=&gt;</code> is evaluated (the result of the evaluation becomes the resulting value of the entire <code>match</code> construct).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Match / case -- functional style
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@pure</span> <span class="k">def</span> <span class="n">matchPair</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">))</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p</span> <span class="k">match</span> <span class="o">{</span>                             <span class="c1">// pattern match on pair p
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="n">pz2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">pz2</span><span class="o">)</span>    <span class="c1">// case where first element has value 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="n">pz2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">pz2</span><span class="o">)</span>    <span class="c1">// case where first element has value 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">None</span><span class="o">()</span>             <span class="c1">// wildcard (matches entire tuple) is used to express &#34;else&#34; case
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><p>This example shows the literals (e.g., <code>0</code> and <code>1</code>) can be mixed in with identifiers and wildcards to form a pattern.</p>
+<p>The code to evaluate upon a match can also be a single command or a block.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Match / case -- imperative style
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@pure</span> <span class="k">def</span> <span class="n">matchPairCMD</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">))</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">ans</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p</span> <span class="k">match</span> <span class="o">{</span>                    <span class="c1">// pattern match on pair p
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="n">pz2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>          <span class="c1">// case where first element has value 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">ans</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">pz2</span><span class="o">)</span>          <span class="c1">//   ...block to execute upon match
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="n">pz2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>          <span class="c1">// case where first element has value 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">ans</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">pz2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// case _ =&gt;   ..default case is captured by initial value
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ans</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><p>With pattern matching, one should think about potential problems associated with both non-disjoint (i.e., overlapping) cases and non-exhaustive cases.
+Regarding non-disjointness, Slang (and Scala) allows there to be more than one pattern that matches (i.e., the patterns can be &ldquo;overlapping&rdquo;).  Since the cases are evaluated in order, there is no non-determinism &ndash; the first pattern to match in the case sequence determines the evaluation.   The possibility for overlapping is somewhat obvious when one considers that the wildcard <em>always</em> matches (so it would overlap with any other matching pattern).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Pattern matching -- non-disjoint cases
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@pure</span> <span class="k">def</span> <span class="n">matchPairOVERLAPPING1</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">))</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>   <span class="c1">// illustrating overlapping cases
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">p</span> <span class="k">match</span> <span class="o">{</span>                             <span class="c1">// pattern match on pair p
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="n">pz2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">pz2</span><span class="o">)</span>    <span class="c1">// case where first element has value 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="o">(</span><span class="n">pz1</span><span class="o">,</span><span class="n">pz2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">pz2</span><span class="o">)</span>  <span class="c1">// ..overlaps..  covers all other cases
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><p>Non-disjoint cases may sometimes impact readability/understandability.   When taking a purist approach, one might desire the cases to be read &ldquo;mathematically&rdquo; where there is a single result returned determined solely based on the case condition (i.e., as in a mathematical proof).   When overlapping cases are used, this property is violated: multiple cases apply, and there appears to be more than one possible return value.    However, the case conditions themselves are often less complex if one acquiesces to rely on the case ordering.</p>
+<p>In extreme situations, non-disjoint cases can lead to dead code, as in the example below.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Pattern matching -- non-disjoint cases with dead code
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@pure</span> <span class="k">def</span> <span class="n">matchPairOVERLAPPING2</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">))</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>   <span class="c1">// illustrating overlapping cases - problematic
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">p</span> <span class="k">match</span> <span class="o">{</span>                             <span class="c1">// pattern match on pair p
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="n">pz2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">pz2</span><span class="o">)</span>    <span class="c1">// case where first element has value 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="o">(</span><span class="n">pz1</span><span class="o">,</span><span class="n">pz2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">pz2</span><span class="o">)</span>  <span class="c1">// all other cases
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="nc">None</span><span class="o">()</span>                    <span class="c1">// all other cases -- redundant (dead code)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//   and potentially problematic for understandability...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//  ...read mathematically/non-sequentially, the method returns
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//     two different values for the same input
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><p>Non-exhaustive cases are more problematic &ndash; the match expression can possibility be executed in situations where no case applies, and thus the intended behavior of the code is unclear.   Therefore, almost all languages that support pattern matching generate a run-time exception when executing a match expression results in no applicable case.  This is illustrated in the example below.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// match / case -- non-exhaustive cases and run-time exception
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@pure</span> <span class="k">def</span> <span class="n">matchPairNONEXHAUSTIVE</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">))</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>   <span class="c1">// non-exhaustive pattern matching may lead to run-time exception
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">p</span> <span class="k">match</span> <span class="o">{</span>                             <span class="c1">// pattern match on pair p
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="n">pz2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">pz2</span><span class="o">)</span>    <span class="c1">// case where first element has value 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">case</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="n">pz2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">pz2</span><span class="o">)</span>    <span class="c1">// case where first element has value 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>                                     <span class="c1">// ...if control reaches this point, exception is raised
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// matchPairNONEXHAUSTIVE((2,1))        // ERROR: this call leads to a &#34;MatchError&#34; exception
+</span></span></span></code></pre></div><p>The exception thrown for the call above looks something this::</p>
+<p>Exception::
+[&hellip;]
+scala.MatchError: (2,1) (of class scala.Tuple2)
+at Main$$anon$1.matchPairBADSTYLE(chapter-06.sc:47)
+[&hellip;]</p>
+<p>Use of patterns in val/var declarations can have similar problems: if the pattern used in the declaration cannot be matched with the value of the given initializing expression, a MatchError exception is raised.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Patterns in declarations -- no match and run-time exception
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// recall: val t1: (Z, B, String) = (0, F, &#34;&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="n">b5</span><span class="o">,</span><span class="n">s5</span><span class="o">)</span> <span class="k">=</span> <span class="n">t1</span>                      <span class="c1">// Literals can also be used in pattern-based
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                          <span class="c1">//    val declarations, but this is bad style due to the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                          <span class="c1">//    possibility of a non-match and a run-time exception.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                          <span class="c1">//  For good style, pattern matching in val defs should always succeed.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                          <span class="c1">//    e.g., use variables and wildcards only.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// val (1,b6,s6) = t1                   // ERROR: non-match on first element leads to run-time exception
+</span></span></span></code></pre></div><p>Because there is a general desire to avoid unanticipated run-time exceptions, Logika generates a verification condition requiring &ldquo;exhaustiveness&rdquo; of the cases in matching contexts (i.e., it must be verified that there will always be a match).</p>
+<!-- notice note ShortCode -->
+<p><strong>JH: To Robby, are other features of Scala pattern matching supported such as pattern guards and matching on types only?</strong></p>
+<!-- notice end ShortCode -->
+<h2 id="pattern-binders">Pattern Binders</h2>
+<p>Slang supports Scala&rsquo;s <em>pattern binders</em> (see <a href="https://www.scala-lang.org/files/archive/spec/2.13/08-pattern-matching.html#pattern-binders">Scala reference manual</a>).  A pattern binder <code>x @ p</code> allows one to introduce a value identifier <code>x</code> that binds to the entire structure that matches a pattern <code>p</code> (not just elements of the matching structure).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="c1">// Pattern binders -- id @ pattern
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="nd">@pure</span> <span class="k">def</span> <span class="n">matchPairPatternBinder</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">))</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">p</span> <span class="k">match</span> <span class="o">{</span>                                <span class="c1">// pattern match on pair or pairs p
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="n">t1</span> <span class="k">@</span> <span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="k">_</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="n">t1</span>           <span class="c1">// case where first element is 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="c1">//   t1 will name the entire pair
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="n">t2</span> <span class="k">@</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="n">t2</span>          <span class="c1">// case where second element is 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="c1">//   t2 will name the entire pair
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span>                 <span class="c1">// wildcard (matches entire tuple) is used to express &#34;else&#34; case
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">matchPairPatternBinder</span><span class="o">((</span><span class="mi">9</span><span class="o">,</span><span class="mi">2</span><span class="o">))</span> <span class="o">==</span> <span class="o">(</span><span class="mi">9</span><span class="o">,</span><span class="mi">2</span><span class="o">))</span>
+</span></span></code></pre></div><p>The above example is not completely convincing in terms of motivation: in the match-case above, one could get the same effect by omitting the pattern binding and just returning <code>p</code> in both the first and second cases.</p>
+<p>Using pattern binding nested inside of a larger pattern (as in the example below) better illustrates the utility of the concept.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="c1">// Pattern binders in nested patterns -- a better motivation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="nd">@pure</span> <span class="k">def</span> <span class="n">matchPairPatternBinder</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">((</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">),(</span><span class="n">Z</span><span class="o">,</span><span class="n">Z</span><span class="o">)))</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">p</span> <span class="k">match</span> <span class="o">{</span>                                <span class="c1">// pattern match on pair or pairs p
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="o">(</span><span class="n">t1</span> <span class="k">@</span> <span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="k">_</span><span class="o">),</span> <span class="k">_</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="n">t1</span>      <span class="c1">// case where first element has a first element of 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                                <span class="c1">//   t1 will name the entire first element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">t2</span> <span class="k">@</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="mi">2</span><span class="o">))</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="n">t2</span>     <span class="c1">// case where second element has a second element of 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                                <span class="c1">//   t2 will name the entire second element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span>                 <span class="c1">// wildcard (matches entire tuple) is used to express &#34;else&#34; case
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">matchPairPatternBinder</span><span class="o">((</span><span class="mi">7</span><span class="o">,</span><span class="mi">9</span><span class="o">),(</span><span class="mi">12</span><span class="o">,</span><span class="mi">2</span><span class="o">))</span> <span class="o">==</span> <span class="o">(</span><span class="mi">12</span><span class="o">,</span><span class="mi">2</span><span class="o">))</span>
+</span></span></code></pre></div><p>Pattern binders can also be used in variable declarations.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="c1">// Pattern binders in variable declarations
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="c1">// recall val t1: (Z, B, String) = (0, F, &#34;&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="c1">//        val t2 = (t1, (&#34;a&#34;, F), 1)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="k">val</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span><span class="n">innerp</span> <span class="k">@</span> <span class="o">(</span><span class="n">innerpe1</span><span class="o">,</span><span class="k">_</span><span class="o">),</span> <span class="k">_</span><span class="o">)</span> <span class="k">=</span> <span class="n">t2</span>     <span class="c1">// using pattern binder declares innerp to name the inner pair
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                             <span class="c1">//   as well as innerpe1 to name the first element of the pair
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="n">assert</span><span class="o">(</span><span class="n">innerp</span> <span class="o">==</span> <span class="o">(</span><span class="s">&#34;a&#34;</span><span class="o">,</span> <span class="n">F</span><span class="o">))</span>
+</span></span></code></pre></div><h2 id="pattern-guards">Pattern Guards</h2>
+<p>Slang supports Scala&rsquo;s notion of <em>pattern guard</em> (see <a href="https://docs.scala-lang.org/tour/pattern-matching.html">Tour of Scala</a> and <a href="https://www.scala-lang.org/files/archive/spec/2.13/08-pattern-matching.html#pattern-matching-expressions">Scala reference manual</a>).
+Pattern guards are boolean conditions that are added after the pattern to make the cases more specific.  Though it is not illustrated in the example below, the expression in the condition can reference any variable in scope &ndash; not just the variables introduced in the pattern.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="c1">// Pattern guards
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="nd">@pure</span> <span class="k">def</span> <span class="n">matchPairPatternGuard</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">))</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">p</span> <span class="k">match</span> <span class="o">{</span>                                  <span class="c1">// pattern match on pair p
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="o">(</span><span class="n">m</span><span class="o">,</span><span class="n">n</span><span class="o">)</span> <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="n">n</span>  <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">m</span><span class="o">)</span>   <span class="c1">// pattern is guarded by extra condition m &gt; n
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="o">(</span><span class="n">m</span><span class="o">,</span><span class="n">n</span><span class="o">)</span> <span class="k">if</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span>   <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">n</span><span class="o">)</span>  <span class="c1">// pattern is guarded by extra condition m &lt; n
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">None</span><span class="o">()</span>                  <span class="c1">// &#34;otherwise&#34; case
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">matchPairPatternGuard</span><span class="o">((</span><span class="mi">9</span><span class="o">,</span><span class="mi">7</span><span class="o">))</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">9</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">matchPairPatternGuard</span><span class="o">((</span><span class="mi">6</span><span class="o">,</span><span class="mi">8</span><span class="o">))</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">8</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">matchPairPatternGuard</span><span class="o">((</span><span class="mi">5</span><span class="o">,</span><span class="mi">5</span><span class="o">))</span> <span class="o">==</span> <span class="nc">None</span><span class="o">())</span>
+</span></span></code></pre></div><h2 id="pattern-alternatives">Pattern Alternatives</h2>
+<p>Slang supports Scala&rsquo;s notion of <em>pattern alternate</em>, which allows one to specify more than one pattern in a single case (see <a href="https://www.scala-lang.org/files/archive/spec/2.13/08-pattern-matching.html#pattern-matching-expressions">Scala reference manual</a>).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="c1">// Pattern alternatives
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="nd">@pure</span> <span class="k">def</span> <span class="n">matchPairPatternAlternatives</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">Z</span><span class="o">))</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">p</span> <span class="k">match</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">         <span class="k">case</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">)</span> <span class="o">|</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span> <span class="o">|</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span> <span class="o">|</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">1</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>   <span class="c1">// state alternatives using &#34;|&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="c1">// case (2,n) | (m,2) =&gt;  Some(2)                      // ERROR: cannot use pattern variables with alternative
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="o">(</span><span class="n">m</span><span class="o">,</span><span class="n">n</span><span class="o">)</span> <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span>   <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>     <span class="c1">//  ...so achieve the desired logic above using guards
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="k">_</span><span class="o">)</span> <span class="o">|</span> <span class="o">(</span><span class="k">_</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>                   <span class="c1">// wildcards are allowed in alternatives
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">None</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">matchPairPatternAlternatives</span><span class="o">((</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">))</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">matchPairPatternAlternatives</span><span class="o">((</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">))</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">matchPairPatternAlternatives</span><span class="o">((</span><span class="mi">2</span><span class="o">,</span><span class="mi">4</span><span class="o">))</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">2</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">matchPairPatternAlternatives</span><span class="o">((</span><span class="mi">3</span><span class="o">,</span><span class="mi">9</span><span class="o">))</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">3</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">matchPairPatternAlternatives</span><span class="o">((</span><span class="mi">7</span><span class="o">,</span><span class="mi">1</span><span class="o">))</span> <span class="o">==</span> <span class="nc">None</span><span class="o">())</span>
+</span></span></code></pre></div><p>The example above illustrates that pattern alternatives may not bind variables other than wildcards (allowing variable binding would lead to a variable having an undefined value when the alternative does not match).   Pattern alternatives are most often using when matching on literals of basic types
+(see Scala <a href="https://alvinalexander.com/scala/how-match-multiple-conditions-one-case-statement-scala">examples</a>).</p>
+<h2 id="pattern-matching-on-mutable-structures">Pattern Matching on Mutable Structures</h2>
+<p>A key difference between Slang and Scala pattern matching is that, when matching mutable structures on patterns that bind variables, Slang makes an implicit copy to avoid aliasing (this follows the philosophy and examples in the discussion of assignment and mutable structures in Chapter XXX).</p>
+<p>The following code illustrates this with two methods that appear to similar functionality but produces different effects on the parameter due to implicit copying when pattern matching.</p>
+<p>In the first method <code>matchPairMutable</code>, the identifier binding in the pattern used to match the mutable element of the pair parameter induces an implicit copy &ndash; so the subsequent update to the mutable sequence bound to the variable produces no externally observable effect outside of the method (the update only applies to the implict copy of the mutable sequence &ndash; which does not flow outside of the method).</p>
+<p>In the second method <code>pairMutableSideEffect</code>, instead of pattern matching, the projection operation <code>._2</code> is used to access/update the second element of the pair parameter.  Since no new variable binding is involved, no implicit copy is necessary to avoid aliasing.  Therefore, the update to the parameter is visible outside of the method.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="c1">// Pattern matching on mutable structures produces a copy
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="k">def</span> <span class="n">matchPairMutable</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">MSZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]))</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">     <span class="n">p</span> <span class="k">match</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">case</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="n">mszz</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">mszz</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="k">=</span> <span class="mi">2</span>      <span class="c1">// implicit copy of mut. seq. param due to pattern binding to mszz
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span>                         <span class="c1">// do nothing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>     <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>  <span class="c1">// method produces no externally visible side effects due to implicit copy of sequence
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="k">def</span> <span class="n">pairMutableSideEffect</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span><span class="kt">MSZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]))</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">     <span class="n">p</span><span class="o">.</span><span class="n">_2</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="k">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>  <span class="c1">// method produces externally visible side effects on the mut. seq. in p
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="k">val</span> <span class="n">p1</span> <span class="k">:</span> <span class="o">(</span><span class="kt">Z</span><span class="o">,</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">])</span> <span class="k">=</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="nc">MSZ</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>    <span class="c1">// mutable tuble (at least one mutable element)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="n">matchPairMutable</span><span class="o">(</span><span class="n">p1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">p1</span> <span class="o">==</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="nc">MSZ</span><span class="o">(</span><span class="mi">1</span><span class="o">)))</span>     <span class="c1">// assert that method call HAS NOT updated value of parameter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                 <span class="c1">//   ...due to implicit copy in pattern matching
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="n">pairMutableSideEffect</span><span class="o">(</span><span class="n">p1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assert</span><span class="o">(</span><span class="n">p1</span> <span class="o">==</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="nc">MSZ</span><span class="o">(</span><span class="mi">2</span><span class="o">)))</span>     <span class="c1">// assert that method call HAS updated parameter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                 <span class="c1">//   ...due to direct manipulation/update of mutable structure
+</span></span></span></code></pre></div><h2 id="scala-connection">Scala Connection</h2>
+<p>Tuples are among the easiest structures to support in pattern matching.  For this reason, and since Slang uses Scala tuples directly, Slang supports all of Scala&rsquo;s features for tuple pattern matching.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/pattern-matching/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Pattern Matching</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/pattern-matching/overview/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Overview
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/pattern-matching/pattern-matching-for-basic-types/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Pattern Matching for Basic Types
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

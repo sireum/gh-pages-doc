@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Section Topics Getting Started Creating the Plugin File Initial Structure of Plugin File Template Plugin File Implementing Basic Functionality Adding and Recognizing Needed Justification Symbols to Kekinian Testing Plugin Functionality Getting Started Plugins that you write are not verified by Logika itself. Be careful what your plugin does and does not validate as it can not be checked.
+Return to Topics
+Premilinaries Important Folders Basic Requirements (JH: Create a section that lists the pre-conditions and background info on how to set up for the plugin development process)" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/how-to-create-a-plugin/" />
+
+
+    <title>
+        
+            How to Create a Plugin :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="How to Create a Plugin">
+<meta itemprop="description" content="Section Topics Getting Started Creating the Plugin File Initial Structure of Plugin File Template Plugin File Implementing Basic Functionality Adding and Recognizing Needed Justification Symbols to Kekinian Testing Plugin Functionality Getting Started Plugins that you write are not verified by Logika itself. Be careful what your plugin does and does not validate as it can not be checked.
+Return to Topics
+Premilinaries Important Folders Basic Requirements (JH: Create a section that lists the pre-conditions and background info on how to set up for the plugin development process)">
+
+<meta itemprop="wordCount" content="3526"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="How to Create a Plugin"/>
+<meta name="twitter:description" content="Section Topics Getting Started Creating the Plugin File Initial Structure of Plugin File Template Plugin File Implementing Basic Functionality Adding and Recognizing Needed Justification Symbols to Kekinian Testing Plugin Functionality Getting Started Plugins that you write are not verified by Logika itself. Be careful what your plugin does and does not validate as it can not be checked.
+Return to Topics
+Premilinaries Important Folders Basic Requirements (JH: Create a section that lists the pre-conditions and background info on how to set up for the plugin development process)"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/how-to-create-a-plugin/">How to Create a Plugin</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <hr>
+<h2 id="section-topics">Section Topics</h2>
+<hr>
+<ol>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#creating-the-plugin-file">Creating the Plugin File</a></li>
+<li><a href="#initial-structure-of-plugin-file">Initial Structure of Plugin File</a></li>
+<li><a href="#template-plugin-file">Template Plugin File</a></li>
+<li><a href="#implementing-basic-functionality">Implementing Basic Functionality</a></li>
+<li><a href="#adding-and-recognizing-needed-justification-symbols-to-kekinian">Adding and Recognizing Needed Justification Symbols to Kekinian</a></li>
+<li><a href="#testing-plugin-functionality">Testing Plugin Functionality</a></li>
+</ol>
+<hr>
+<h2 id="getting-started"><strong>Getting Started</strong></h2>
+<hr>
+<!-- notice warning ShortCode -->
+<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
+<!-- notice end ShortCode -->
+<p><a href="#section-topics">Return to Topics</a></p>
+<ol>
+<li><a href="#premilinaries">Premilinaries</a></li>
+<li><a href="#important-folders">Important Folders</a></li>
+<li><a href="#basic-requirements">Basic Requirements</a></li>
+</ol>
+<!-- notice todo   ShortCode -->
+<p>(JH: Create a section that lists the pre-conditions and background info on how to set up for the plugin development process)</p>
+<ul>
+<li>
+<p><strong>RESOLVED?</strong>: list assumptions/pre-conditions about developer&rsquo;s environment - source version of kekinian installed, etc.,</p>
+</li>
+<li>
+<p><strong>RESOLVED:</strong> phrase things in terms of SIREUM_HOME (instead of &ldquo;kekinian&rdquo;) because that is the environment variable used in other Sireum documentation and development activities</p>
+</li>
+<li>
+<p><strong>RESOLVED</strong> identify important folders (like the plugin folder)</p>
+</li>
+</ul>
+<!-- notice end ShortCode -->
+<h3 id="premilinaries">Premilinaries</h3>
+<ol>
+<li>
+<p>Sireum and the Kekinian codebase is installed including having run <a href="#basic-requirements">the initial setup</a> along with being at on its newest version.</p>
+</li>
+<li>
+<p>The enviroment variable <code>$SIREUM_HOME$</code> is set to your Kekinian installation.</p>
+</li>
+</ol>
+<p>This tutorial uses &ldquo;kekinian folder&rdquo; to refer to the location where kekinian is installed (i.e., the path given for the environment variable $SIREUM_HOME$ during the Sireum installation.  When the tutorial provides a screen shot or path, the SIREUM_HOME folder should be understood to be the root.</p>
+<ol start="3">
+<li>
+<p>A working installation of Sireum&rsquo;s custom version of the Intellij IVE.</p>
+</li>
+<li>
+<p>Make sure that you have $SIREUM_HOME$ open within Sireum Intellij (Kekinian folder). This can be accopmlished through <code>File --&gt; Open</code> and then finding the directory of your codebase.</p>
+</li>
+</ol>
+<p>The source code for Logika is found in the <code>logika</code> folder within this SIREUM_HOME folder, and the source code for Logika plugins is held within the <code>logika</code> subfolder structure.</p>
+<h3 id="important-folders">Important Folders</h3>
+<p>Your folder at SIREUM_HOME (the Kekinian folder) is the root for all of the following:</p>
+<p><strong>Plugins Folder</strong>: <code>$SIREUM_HOME$/logika/shared/src/main/scala/org/sireum/logika/plugin</code></p>
+<p><img src="https://doc.sireum.org/figures/slang/ref/logika-plugin-plugins-location.png" alt="Plugins-Folder-Image"></p>
+<p><strong>Logika Folder</strong> (Contains Logika.scala which has the list of plugins that are in use): <code>$SIREUM_HOME$/logika/shared/src/main/scala/org/sireum/logika</code></p>
+<p><img src="https://doc.sireum.org/figures/slang/ref/logika-plugin-logika-location.png" alt="LogikaFolderImage"></p>
+<p><strong>Sireum CLI Object Folder</strong>: <code>$SIREUM_HOME$/cli/jvm/src/main/scala/org/sireum</code></p>
+<p><img src="https://doc.sireum.org/figures/slang/ref/logika-plugin-testing-cli-logika-location.png" alt="CliLogikaFolderImage"></p>
+<p><strong>Sireum Build.cmd Folder</strong>: <code>$SIREUM_HOME$/bin</code></p>
+<h3 id="basic-requirements">Basic Requirements</h3>
+<p>Once the plugin file is created, listed below are the basic requirements for a plugin file. The requirements should also be met once the above sections are complete. If the file has the aspects mentioned in the <a href="#step-summary-1">step summary</a> and the plugin is <a href="#having-logika-use-the-plugin">listed within the default plugin list</a>, then you can rebuild your SIREUM_HOME installation (In your terminal, use the command:</p>
+<p>MacOS / Linux:</p>
+<pre tabindex="0"><code>${SIREUM_HOME}/bin/build.cmd setup
+</code></pre><p>Windows:</p>
+<pre tabindex="0"><code>${SIREUM_HOME}\bin\build.cmd setup
+</code></pre><!-- notice note ShortCode -->
+<p>If this is not your first time running build, you are not required to include the argument <code>setup</code>.</p>
+<!-- notice end ShortCode -->
+<p>From there, you are able to utilize a proper plugin.</p>
+<hr>
+<h2 id="creating-the-plugin-file"><strong>Creating the Plugin File</strong></h2>
+<hr>
+<p><a href="#section-topics">Return to Topics</a></p>
+<!-- notice warning ShortCode -->
+<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
+<!-- notice end ShortCode -->
+<!-- notice todo   ShortCode -->
+<p><strong>RESOLVED</strong> (JH: relocate some of this text as appropriate to the Set Up / Preliminaries section above)</p>
+<!-- notice end ShortCode --> 
+<p>While a developer can adapt where their plugin source is located within the SIREUM_HOME codebase, it is best practice to put plugin sources in the standard plugin location (<code>/kekinian/logika/shared/src/main/scala/org.sireum.logika/plugin</code>).  The default plugins for Logika can be found in the <code>plugin</code> folder and may be studied as examples of how to code plugins. More important folders are listed <a href="#important-folders">below</a></p>
+<p><img src="https://doc.sireum.org/figures/slang/ref/logika-plugin-plugins-location.png" alt="Plugins-Folder-Image"></p>
+<p>To hold the source for a new plugin, create a scala file (<code>&lt;pluginName&gt;.sc</code>) in the plugin folder (/kekinian/logika/shared/src/main/scala/org.sireum.logika/plugin) (or copy an existing plugin file to adapt).   The file name should be distinct from those of other plugins.</p>
+<h3 id="step-summary">Step Summary</h3>
+<ol>
+<li>
+<p>Locate the plugin folder (/kekinian/logika/shared/src/main/scala/org.sireum.logika/plugin)</p>
+</li>
+<li>
+<p>Create a scala file with the appropriate name in the folder. The extension should be (file_name.scala)</p>
+</li>
+</ol>
+<!-- notice todo   ShortCode -->
+<p><strong>RESOLVED</strong> (JH: If the file has the extension <code>.sc</code>, I suggest we refer to it as a &ldquo;Scala script file&rdquo;.  Looking at the code base, it looks like the extension is actually <code>.scala</code></p>
+<!-- notice end ShortCode -->
+<hr>
+<h2 id="initial-structure-of-plugin-file"><strong>Initial Structure of Plugin File</strong></h2>
+<hr>
+<p><a href="#section-topics">Return to Topics</a></p>
+<!-- notice warning ShortCode -->
+<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
+<!-- notice end ShortCode -->
+<ul>
+<li><a href="#first-line">First Line</a></li>
+<li><a href="#packaging">Packaging</a></li>
+<li><a href="#imports">Imports</a></li>
+<li><a href="#plugin-definition">Plugin Definition</a></li>
+<li><a href="#step-summary-1">Step Summary</a></li>
+</ul>
+<p>Now that the plugin file is created, add the necessary content to make the file compatible with Logika&rsquo;s expected structure for a plugin, as described below.</p>
+<h3 id="first-line">First Line</h3>
+<p>The first line of the plugin file must be:</p>
+<pre tabindex="0"><code> //# Sireum
+</code></pre><p>This indicates that the source code of the file is within the Slang subset of Scala, and causes the Sireum IVE and compiler infrastructure to use the Slang extensions to the Scala compiler.</p>
+<h3 id="packaging">Packaging</h3>
+<p>The package name should be given as:</p>
+<pre tabindex="0"><code>package org.sireum.logika.plugin
+</code></pre><h3 id="imports">Imports</h3>
+<p>The imports for the file are given after the package name, as follows:</p>
+<pre tabindex="0"><code>import org.sireum._   // must be listed first among the imports
+import org.sireum.lang.{ast =&gt; AST}
+import org.sireum.logika.{Logika, Smt2, State, StepProofContext}
+import org.sireum.logika.Logika.Reporter
+</code></pre><p>The <code>import org.sireum._</code> must be listed first for the Slang compiler to work correctly (an error is reported if this import is not given first).</p>
+<p>The other imports come from those used in the plugin class that <a href="#plugin-definition">all plugins must extend in their definition</a>.  A summary of the purpose of each is given below.</p>
+<p>The <code>org.sireum.lang.{ast =&gt; AST}</code> import includes data types and methods for representing the abstract syntax of Slang &ndash; in particular, the syntax of boolean expressions, logical operators, identifiers, and proof language commands used by Slang contracts and Logika proofs.</p>
+<!-- notice todo   ShortCode -->
+<p><strong>RESOLVED</strong> Give a short description/intuition of why Logika, Smt2, etc. are needed.)</p>
+<!-- notice end ShortCode -->
+<p>The <code>org.sireum.logika.{Logika, Smt2, State, StepProofContext}</code> import brings in four seperate elements: the <code>Logika</code>, <code>Smt2</code>, <code>State</code>, and <code>StepProofContext</code> frameworks.</p>
+<ol>
+<li>
+<p>the <code>Logika</code> element evaluates and organizes the claims inherrent to a program or proof. This is where the defaultPlugin value originates from.</p>
+</li>
+<li>
+<p>The <code>Smt2</code> makes statements that are able to be fed to the smt2 solver.</p>
+</li>
+<li>
+<p>The <code>State</code> element provides the framework and conversion of the code into a workable state of the program during proofs.</p>
+</li>
+<li>
+<p>The <code>StepProofContext</code> import is for the structuring the typed proof lines into elements that can be made sense of to other sections of the evaluation, such as these plugins.</p>
+</li>
+</ol>
+<p>The <code>org.sireum.logika.Logika.Reporter</code> imports a reporter class that is specific to the Logika framework. It is important to keep in mind when using the report for plugin development that when the reporter is assigned to a global or local variable from a reporter that is passed in, the created reporter will be a copy, and it will not update with the original reporter, instead, they will function separately. If the original referenced reporter is to be updated, it will have to be done manually.</p>
+<h3 id="plugin-definition">Plugin Definition</h3>
+<p>The follow datatype, value, and method declarations define the structure and content of the plugin.</p>
+<p>Plugin definitions are phrased as Slang datatypes that extend <code>Plugin</code>.</p>
+<pre tabindex="0"><code>@datatype class &lt;pluginName&gt; extends Plugin {
+  ...
+}
+</code></pre><!-- notice todo   ShortCode -->
+<p><strong>RESOLVED</strong> What is the relationship between the name of the data type, the string in the field <code>name</code> below and the file name?  Just alignment by convention? Or do any of the names have to match exactly for a needed binding?</p>
+<!-- notice end ShortCode -->
+<p>The following fields must be defined within the <code>datatype</code> body:</p>
+<p><strong>Values:</strong></p>
+<p>The name (string) of the plugin used as an identifier, e.g., in the default plugin list. It is good practice for this string to match the plugin file name. It is not required that the name matches the name of the class, however, it is otherwise not evident what the name refers to.</p>
+<pre tabindex="0"><code>@pure def name: String = &lt;plugin Name&gt; 
+</code></pre><h3 id="canhandle-method">canHandle Method</h3>
+<pre tabindex="0"><code>@pure def canHandle(logika: Logika, just: AST.ProofAst.Step.Justification): B
+</code></pre><p>The canHandle method is meant to look at the step&rsquo;s justification and determine if the corresponding plugin is able to handle the form that the justification is in. Usually, this means the method determines if the justification&rsquo;s text matches one of the <code>ids</code> that this plugin can handle and then ensuring that the justification comes from the correct place in the heirarchy. More information on <a href="#implementing-canhandle-method">implementing the canHandle method</a> is detailed in a later section.</p>
+<h3 id="handle-method">handle Method</h3>
+<pre tabindex="0"><code>def handle(logika: Logika, smt2: Smt2, cache: Smt2.Cache, log: B, logDirOpt: Option[String], spcMap: HashMap[AST.ProofAst.StepId, StepProofContext], state: State, step: AST.ProofAst.Step.Regular, reporter: Reporter): Plugin.Result
+</code></pre><p>The handle method considers the details of the justification and its arguments along with the spcMap of previous steps in order to determine if the step is correct, and if it is, what it proves to the proof&rsquo;s known claims. More information on <a href="#implementing-handle-method">implementing the handle method</a> is detailed in a later section.</p>
+<!-- notice todo   ShortCode -->
+<p><strong>RESOLVED</strong> Describe the purpose of each of the methods above.</p>
+<!-- notice end ShortCode -->
+<h3 id="step-summary-1">Step Summary</h3>
+<ol>
+<li>
+<p>Have the <a href="#first-line">first line</a> of the plugin be: // #Sireum</p>
+</li>
+<li>
+<p>The [package] of the file should be:</p>
+</li>
+</ol>
+<pre tabindex="0"><code>package org.sireum.logika.plugin 
+</code></pre><ol start="3">
+<li>The imports of the plugin should include:</li>
+</ol>
+<pre tabindex="0"><code>import org.sireum._
+import org.sireum.lang.{ast =&gt; AST}
+import org.sireum.logika.{Logika, Smt2, State, StepProofContext}
+import org.sireum.logika.Logika.Reporter
+</code></pre><ol start="4">
+<li>The definition of the plugin should be given as a Slang data type that extends the <code>Plugin</code> class:</li>
+</ol>
+<pre tabindex="0"><code>@datatype class Plugin_Name extends Plugin { ... }
+</code></pre><hr>
+<h2 id="template-plugin-file"><strong>Template Plugin File</strong></h2>
+<hr>
+<p><a href="#section-topics">Return to Topics</a></p>
+<!-- notice warning ShortCode -->
+<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
+<!-- notice end ShortCode -->
+<p>The following Slang code can be used as a template for creating a Logika plugin.  The template is presented for a plugin named <code>MyPlugin</code>.  Replace occurrences of &ldquo;MyPlugin&rdquo; with a name for your plugin the identifies its function with the Logika proof language.</p>
+<p>[MyPlugin.scala]</p>
+<pre tabindex="0"><code>// #Sireum  // indicates the file is in the Slang subset of Scala
+
+//The package statement follows the other plugins.
+package org.sireum.logika.plugin
+
+//The four imports utilized by the base Plugin structure, which all plugins extend.
+import org.sireum._
+import org.sireum.lang.{ast =&gt; AST}
+import org.sireum.logika.{Logika, Smt2, State, StepProofContext}
+import org.sireum.logika.Logika.Reporter
+
+// Slang datatype extending Plugin that provides the definition of the plugin.
+//   The convention is that the name of the datatype matches the file name.
+@datatype class MyPlugin extends Plugin {
+
+  // Specify the name of the plugin.
+  //   The convention is that the name of the datatype matches the file name.
+  val name: String = &#34;MyPlugin&#34;
+
+  // canHandle overrides a method from the Plugin datatype. 
+  // Must return a Boolean denoting if a step can be handled by this plugin.
+  @pure override def canHandle(logika: Logika, just: AST.ProofAst.Step.Justification): B = {
+    return false
+  }
+
+  // handle overrides a method from the Plugin datatype. 
+  // Must return a Plugin.Result indicating whether or not the application of the rule 
+  // on the supplied argument holds.  If the rule holds, data structures associated with
+  // the proof context are updated.
+    def handle(logika: Logika,
+             smt2: Smt2,
+             cache: Smt2.Cache,
+             log: B,
+             logDirOpt: Option[String],
+             spcMap: HashSMap[AST.ProofAst.StepId, StepProofContext],
+             state: State,
+             step: AST.ProofAst.Step.Regular,
+             reporter: Reporter): Plugin.Result = {
+    return Plugin.Result(F,0,null)
+  }
+}
+</code></pre><!-- notice note ShortCode -->
+<p>Information on implementing the <a href="#implementing-canhandle-method">canHandle</a> and <a href="#implementing-handle-method">handle</a> can be found in the later sections over <a href="#implementing-basic-functionality">implementing the plugin methods</a>. This section is intended to provide the bare minimum of extending the plugin object as a framework and baseline.</p>
+<!-- notice end ShortCode -->
+<!-- notice todo   ShortCode -->
+<p><strong>RESOLVED</strong> May want to give some more specific comments related to how to code <code>canHandle</code> and what the specific fields in the argument to <code>handle</code> mean.</p>
+<p><strong>Gage</strong>: This is done done in the implementing <a href="#implementing-canhandle-method">canHandle</a> and <a href="#implementing-handle-method">handle</a>. This section is intended to provide the bare minimum of extending the plugin object.</p>
+<!-- notice end ShortCode -->
+<p>The important elements of the example are:</p>
+<ul>
+<li><a href="#packaging">The Package</a></li>
+<li><a href="#imports">The Imports</a></li>
+<li><a href="#plugin-definition">The Class Definition</a></li>
+<li><a href="#canhandle-method">The canHandle Method</a></li>
+<li><a href="#handle-method">The handle Method</a></li>
+</ul>
+<hr>
+<h2 id="implementing-basic-functionality"><strong>Implementing Basic Functionality</strong></h2>
+<hr>
+<!-- notice warning ShortCode -->
+<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
+<!-- notice end ShortCode -->
+<p><a href="#section-topics">Return to Topics</a></p>
+<ul>
+<li><a href="#implementing-canhandle-method">Implementing canHandle Method</a>
+<ul>
+<li><a href="#justification-name-and-justification-ids">Justification Name and Justification Ids</a></li>
+<li><a href="#method-implementation">Method Implementation</a></li>
+</ul>
+</li>
+<li><a href="#implementing-handle-method">Implementing Handle Method</a></li>
+</ul>
+<p>Since the structure of how to create a plugin is reviewed in its <a href="#basic-requirements">basic requirements</a>, this section will be going over the methods themselves beyond basic requirements.</p>
+<h3 id="implementing-canhandle-method">Implementing canHandle Method</h3>
+<h4 id="justification-name-and-justification-ids">Justification Name and Justification Ids</h4>
+<p>The first thing to consider is the creation of two values:</p>
+<p>Justification Name:</p>
+<pre tabindex="0"><code>//Example from the Natural Deduction Predicate Logic Plugin (PredNatDedPlugin)
+  val justificationName: ISZ[String] = ISZ(&#34;org&#34;, &#34;sireum&#34;, &#34;justification&#34;, &#34;natded&#34;, &#34;pred&#34;)
+</code></pre><p>The justificationName value holds the path from the source root of the justification file (org/sireum/justification.scala) whose path file from the kekinian folder at SIREUM_HOME is (/runtime/library/shared/src/main/scala/org/sireum/justification.scala) and then the two nested objects inside the justification file &ldquo;natded&rdquo; and then &ldquo;pred&rdquo;. Inside this object is the justifications that are considered by the plugin. Your plugin should include a similar list of strings that correspond the relavant path.</p>
+<p>Justification Ids:</p>
+<pre tabindex="0"><code>//Example from the Natural Deduction Predicate Logic Plugin (PredNatDedPlugin)
+val justificationIds: HashSet[String] = HashSet ++ ISZ[String](&#34;AllI&#34;, &#34;ExistsE&#34;)
+</code></pre><p>Like the justification names this is a list, however, the list is of Hashsets of Strings. This is to make canHandle&rsquo;s comparing to the current step&rsquo;s arguments easier.</p>
+<p>It should contain a hashset in conjunction with a list of strings that contain every justification that this specific plugin is meant to handle.</p>
+<h4 id="method-implementation">Method Implementation</h4>
+<p>The canHandle method is often handled in the following way for plugins that seek to provide implementation for a specific keyword or justification. For example, the PropNatDedPlugin and PredNatDedPlugins fall into this category, as they are a plugin that seeks to verifiy the validity of propositional or predicate logic rules that require a subproof. If a developer is implementing a plugin with this mentality, then the following process will suffice.</p>
+<p>Assuming the <a href="#justification-name-and-justification-ids">justification names and Ids</a> are implemented, then the following will filter based on their contents:</p>
+<pre tabindex="0"><code>    just match {
+      case just: AST.ProofAst.Step.Justification.Apply =&gt;
+        just.invokeIdent.attr.resOpt.get match {
+          case res: AST.ResolvedInfo.Method =&gt; return justificationIds.contains(res.id) &amp;&amp; res.owner == justificationName
+          case _ =&gt; return F
+        }
+      case _ =&gt; return F
+    }
+</code></pre><p>As shown in the code, the justification of the step is viewed, and must be of the type &ldquo;Apply&rdquo;, and the resolved information of the step must have a method (the justification written in the step) that matches one of the listed Ids for the plugin, and that justification must come from the correct directory (one that matches the elements of the justificationName value).</p>
+<p>The plugins that by default do not operate under this method are the AutoPlugin, the InceptionPlugin, and the LiftPlugin.</p>
+<p>The Auto Plugin handles the Premise steps, and the Premise justification is considered a &ldquo;Ref&rdquo; type, not an &ldquo;Apply&rdquo; type of justification. Also the Auto plugin handles the Auto symbol which is of the apply type, but contains no witnesses in its justification, and the structure of its canHandle method reflects this.</p>
+<p>Essentially, the canHandle method needs to be ensuring that the justification type, the symbol used for the justification and the owner of that justification is of the expected type. At the canHandle level, our goal is determine if the justification has the specific identifiers that the plugin is looking for.</p>
+<h3 id="implementing-handle-method">Implementing handle Method</h3>
+<p>While the implementation of the handle method is highly dependent on the plugin&rsquo;s usage, there is a common pattern that can be loosely followed where applicable.</p>
+<p>If your plugin is similar to any of the default plugins&rsquo; use cases, investigating those plugins&rsquo; handle methods may also be of use:</p>
+<p>PropNatDedPlugin / PredNatDedPlugin - Handling proof rules that function off of the use of a subproof, using proposition and predicate logic processes respectively.</p>
+<p>AutoPlugin - If you are considering making a plugin that works with premises directly or considers Logika&rsquo;s auto methodology.</p>
+<p>ClaimOfPlugin - If you are needing to use facts.</p>
+<p>LiftPlugin - If the plugin is needing to lift the contracts of lemmas.</p>
+<p>InceptionPlugin - Handling of nested and non-subproof logical rules.</p>
+<p>Smt2Plugin - Elaborates logika&rsquo;s interaction with smt2.</p>
+<p>A general strategy that can contextualize your approach includes the following:</p>
+<ol>
+<li>Store aspects of the step provided into values to make calls in later steps shorter.
+If you are utilizing a step that you know from your filtering in the canHandle method,
+the justification, resolved info, and argment of the step can be stored as:</li>
+</ol>
+<pre tabindex="0"><code>val just = step.just.asInstanceOf[AST.ProofAst.Step.Justification.Apply]
+
+val res = just.invokeIdent.attr.resOpt.get.asInstanceOf[AST.ResolvedInfo.Method]
+
+val argsOpt = AST.Util.toStepIds(just.args, Logika.kind, reporter)
+</code></pre><ol start="2">
+<li>Define an empty result for easy error reporting.</li>
+</ol>
+<pre tabindex="0"><code>@strictpure def emptyResult: Plugin.Result = Plugin.Result(F, state.nextFresh, ISZ())
+</code></pre><hr>
+<h2 id="adding-and-recognizing-needed-justification-symbols-to-kekinian"><strong>Adding and Recognizing Needed Justification Symbols to Kekinian</strong></h2>
+<hr>
+<p><a href="#section-topics">Return to Topics</a></p>
+<!-- notice warning ShortCode -->
+<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
+<!-- notice end ShortCode -->
+<h3 id="adding-justifications-to-appropriate-location-within-kekinian">Adding Justifications to Appropriate Location Within Kekinian</h3>
+<p>the justifications that are meant to be handled by your plugin needs to be contained within the justification object at (<code>$SIREUM_HOME$/runtime/library/shared/src/main/scala/org/sireum/justification.scala</code>). The object can be structured like the following:</p>
+<p><img src="https://doc.sireum.org/figures/slang/ref/logika-plugin-logika-location.png" alt="LogikaFolderImage"></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">  <span class="k">object</span> <span class="nc">plugincategory</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@just</span> <span class="k">def</span> <span class="n">myJustification</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">$</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@just</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span> <span class="k">def</span> <span class="n">myJustWithArgs</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">StepId</span><span class="o">,</span> <span class="n">q</span><span class="k">:</span> <span class="kt">StepId</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">$</span>  
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><p>You will notice that there are other justifications already in this file, and already within with the justification object, or an object that is a child of the justification object.</p>
+<p>Make sure that each of your justifications are within. If they contain arguments in their justification, it will be written as the second item above, and if they do not require agruments, they will resemble the first item.</p>
+<h3 id="rebuilding-sireum_home-with-plugin-and-justification-symbols-now-recognized">Rebuilding SIREUM_HOME With Plugin and Justification Symbols Now Recognized</h3>
+<p>Once the plugin file is created, listed below are the basic requirements for a plugin file. The requirements should also be met once the above sections are complete. If the file has the aspects mentioned in the <a href="#step-summary-1">step summary</a> and the plugin is <a href="#having-logika-use-the-plugin">listed within the default plugin list</a>, then you can rebuild your SIREUM_HOME installation (In your terminal, use the command:</p>
+<p>MacOS / Linux:</p>
+<pre tabindex="0"><code>${SIREUM_HOME}/bin/build.cmd
+</code></pre><p>Windows:</p>
+<pre tabindex="0"><code>${SIREUM_HOME}\bin\build.cmd
+</code></pre><p>From there, you are able to utilize a properly implemented plugin.</p>
+<!-- notice warning ShortCode -->
+<p>Make sure that when you run this command, that you have closed all instances of the Sireum IVE.</p>
+<!-- notice end ShortCode -->
+<!-- notice todo   ShortCode -->
+<p>GH: TODO Come back once symbol resolution details are available.</p>
+<!-- notice end ShortCode -->
+<hr>
+<h2 id="testing-plugin-functionality"><strong>Testing Plugin Functionality</strong></h2>
+<hr>
+<p><a href="#section-topics">Return to Topics</a></p>
+<!-- notice warning ShortCode -->
+<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
+<!-- notice end ShortCode -->
+<p>A simple way for a developer to debug and test their plugin is through the use of calling Logika&rsquo;s verifier through the the command line (Logika&rsquo;s CLI). This can be done through the command line, however, it can also be ran through Sireum&rsquo;s IVE. The following steps describe this method:</p>
+<ol>
+<li>Locate the Sireum.scala file within cli. From your SIREUM_HOME installation, the directory is: (<code>cli/jvm/src/main/scala/org/sireum/Sireum.scala</code>).</li>
+</ol>
+<p><img src="https://doc.sireum.org/figures/slang/ref/logika-plugin-testing-cli-logika-location.png" alt="CliLogikaFolderImage"></p>
+<ol start="2">
+<li>
+<p>Run the main method of the Sireum.scala file. This can be done by clicking the green arrow left of the method definition in the IVE.</p>
+</li>
+<li>
+<p>Once the method finishes, and the build is done. The name of the configuration next to your build button and run button in the ribbon of the IVE should now say &ldquo;<code>Sireum</code>&rdquo;.</p>
+</li>
+<li>
+<p>Click on the arrow next to the configuration name, and then select &ldquo;Edit Configuration&rdquo;. From here, in the agruments box, type the following, replacing &ldquo;<code>absolute_file_path</code>&rdquo; with the appropriate file path.</p>
+</li>
+</ol>
+<pre tabindex="0"><code>logika verifier absolute_file_path
+</code></pre><!-- notice note ShortCode -->
+<p>The file path should be a test file that you want logika to verify. The easiest way to accomplish this is to use a scala worksheet that utilizes your proof with the expected syntax.</p>
+<!-- notice end ShortCode -->
+<ol start="5">
+<li>Apply your changes and now you should be able to run the <code>Sireum</code> configuration, which should be selected, by clicking on the green triangle next to the configuration.</li>
+</ol>
+<p>In order for Logika to utilize a plugin in its evaluation process, the plugin needs to be a part of its &ldquo;defaultPlugins&rdquo; list. When logika looks for a plugin to handle a given step in a deduction, it goes through this list, calling the canHandle method of each plugin in order until a plugin returns a <code>T</code> or says that it can handle it. Once that plugin is found, its handle method is called to evaluate the specific step. If no plugin in the <code>defaultPlugins</code> list returns true, Logika will report an error saying that it <code>&quot;Could not recognize justification form&quot;</code>.</p>
+<h3 id="what-if-the-justifications-from-my-plugins-are-not-recognized">What If The Justification(s) From My Plugins Are Not Recognized?</h3>
+<p>If in the test file the justifications that you have added are not being recognized by the type checker (the justification is underlined in red), here is how you can ensure that everything is setup properly for use with your plugin.</p>
+<ol>
+<li>In the test file, make sure that your first line is <code>// #Sireum #Logika</code>.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span></code></pre></div><ol start="2">
+<li>In your test file, make sure that the justification is properly imported. It will follow the following form if namespace conventions have been followed:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">org.sireum.justification.nameOfMyPluginObject.nameOfMyJustificationWithinThePlugin</span>
+</span></span></code></pre></div><p>An example of a lawEM justification within a &ldquo;<code>tactics</code>&rdquo; plugin would be:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">org.sireum.justification.tactics.lawEM</span>
+</span></span></code></pre></div><p>It is also import to have the following import:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//This import includes the symbols that construct some of the base elements of a step when a user is writting a proof.
+</span></span></span></code></pre></div><p>Other common imports that may be missing in your test file if other standard justifications are not being recognized are:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">org.sireum.justification._</span> <span class="c1">//Premise
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum.justification.natded.prop._</span> <span class="c1">//Propositional Logic (^,|,--&gt;,!,_|_ Rules)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum.justification.natded.pred._</span> <span class="c1">//Predicate Logic (All, Exists Rules)
+</span></span></span></code></pre></div><ol start="3">
+<li>Make sure that the justification that is meant to be handled by your plugin is within the justification object at (<code>$SIREUM_HOME$/runtime/library/shared/src/main/scala/org/sireum/justification.scala</code>). The object can be structured like the following:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">  <span class="k">object</span> <span class="nc">plugincategory</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@just</span> <span class="k">def</span> <span class="n">myJustification</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">$</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@just</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span> <span class="k">def</span> <span class="n">myJustWithArgs</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">StepId</span><span class="o">,</span> <span class="n">q</span><span class="k">:</span> <span class="kt">StepId</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">$</span>  
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div><!-- notice note ShortCode -->
+<p>This object should be within the <code>justification</code> object at the same file. You can notice that the other plugin categories such as <code>natded</code> (natural deduction rules) are within this same object.</p>
+<!-- notice end ShortCode -->
+<p>This process is describe in <a href="#adding-justifications-to-appropriate-location-within-kekinian">an earlier section</a>.</p>
+<ol start="4">
+<li>Finally, <a href="#rebuilding-sireum_home-with-plugin-and-justification-symbols-now-recognized">rebuild Kekinian</a> with any instance of the Sireum IVE closed.</li>
+</ol>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Plugins</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/overview/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Overview
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/example-existing-plugin-claimofplugin/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Example Existing Plugin: ClaimOfPlugin
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

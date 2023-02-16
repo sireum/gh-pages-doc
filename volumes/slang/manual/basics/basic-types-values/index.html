@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Section Topics Booleans
+Unbounded Integers
+Characters
+Strings
+Reals
+Floats
+Booleans Return to Topics
+Slang B Type Slang does not use the Scala Boolean type, but instead provides its own boolean type B and literals T for true and F for false values. Literals true and false are available as well. The primary motivation for this easier reading and writing of truth tables in the truth table sub-language part of Slang that are used in teaching Logical Foundations of Programming." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/basics/basic-types-values/" />
+
+
+    <title>
+        
+            Basic Types and Values :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Basic Types and Values">
+<meta itemprop="description" content="Section Topics Booleans
+Unbounded Integers
+Characters
+Strings
+Reals
+Floats
+Booleans Return to Topics
+Slang B Type Slang does not use the Scala Boolean type, but instead provides its own boolean type B and literals T for true and F for false values. Literals true and false are available as well. The primary motivation for this easier reading and writing of truth tables in the truth table sub-language part of Slang that are used in teaching Logical Foundations of Programming."><meta itemprop="datePublished" content="2022-07-09T18:15:47-05:00" />
+<meta itemprop="dateModified" content="2022-07-09T18:15:47-05:00" />
+<meta itemprop="wordCount" content="3208"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Basic Types and Values"/>
+<meta name="twitter:description" content="Section Topics Booleans
+Unbounded Integers
+Characters
+Strings
+Reals
+Floats
+Booleans Return to Topics
+Slang B Type Slang does not use the Scala Boolean type, but instead provides its own boolean type B and literals T for true and F for false values. Literals true and false are available as well. The primary motivation for this easier reading and writing of truth tables in the truth table sub-language part of Slang that are used in teaching Logical Foundations of Programming."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-09 18:15:47 -0500 CDT" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/basics/basic-types-values/">Basic Types and Values</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <hr>
+<h2 id="section-topics">Section Topics</h2>
+<hr>
+<ul>
+<li>
+<p><a href="#booleans"><strong>Booleans</strong></a></p>
+</li>
+<li>
+<p><a href="#unbounded-integers"><strong>Unbounded Integers</strong></a></p>
+</li>
+<li>
+<p><a href="#characters"><strong>Characters</strong></a></p>
+</li>
+<li>
+<p><a href="#strings"><strong>Strings</strong></a></p>
+</li>
+<li>
+<p><a href="#reals"><strong>Reals</strong></a></p>
+</li>
+<li>
+<p><a href="#floats"><strong>Floats</strong></a></p>
+</li>
+</ul>
+<hr>
+<hr>
+<h2 id="booleans"><strong>Booleans</strong></h2>
+<p><a href="#section-topics">Return to Topics</a></p>
+<h3 id="slang-b-type">Slang <code>B</code> Type</h3>
+<p><em>Slang does not use the <strong>Scala Boolean</strong> type, but instead provides
+its own boolean type <code>B</code> and literals <code>T</code> for true and <code>F</code> for
+false values</em>.  Literals <code>true</code> and <code>false</code> are available as well.
+The primary motivation for this easier reading and writing of
+truth tables in the truth table sub-language part of Slang that are
+used in teaching <a href="http://proglogics.santoslab.org">Logical Foundations of Programming</a>.</p>
+<p>Slang operators on boolean values are given in the table below (highest precedence first).</p>
+<!---
+reference for formatting vertical bars needed for OR operation symbols within table cells: https://stackoverflow.com/questions/49809122/vertical-bar-symbol-within-a-markdown-table>
+-->
+<h3 id="b-operators-and-precedence"><code>B</code> Operators and Precedence</h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>!</code>, <code>~</code></td>
+<td>negation/complement [unary]</td>
+</tr>
+<tr>
+<td><code>==</code></td>
+<td>equality</td>
+</tr>
+<tr>
+<td><code>!=</code></td>
+<td>inequality</td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td>conjunction (logical and)</td>
+</tr>
+<tr>
+<td><code>&amp;&amp;</code></td>
+<td>conditional and (short circuit)</td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td>disjunction (logical or)</td>
+</tr>
+<tr>
+<td><code>|^</code></td>
+<td>logical xor</td>
+</tr>
+<tr>
+<td><code>||</code></td>
+<td>conditional or (short circuit)</td>
+</tr>
+<tr>
+<td><code>imp_:</code>, <code>-&gt;:</code></td>
+<td>logical implication [right associative]</td>
+</tr>
+<tr>
+<td><code>simp_:</code>, <code>--&gt;:</code></td>
+<td>conditional implication (short circuit), [right associative]</td>
+</tr>
+</tbody>
+</table>
+<!-- notice note -->
+<p><strong>ShortCode</strong>: In general, Slang operator precedence follows <a href="https://docs.scala-lang.org/tour/operators.html">Scala&rsquo;s</a>.</p>
+<!-- end notice -->
+<h3 id="logical-vs-short-circuit-operators">Logical vs. Short-Circuit Operators</h3>
+<p>Conjunction, disjunction, and implication operations characterized as
+&ldquo;logical&rdquo; evaluate both operands, whereas &ldquo;short circuit&rdquo; operations
+evaluate the left operand and evaluate the right operand only when
+necessary to determine the value of the operation.</p>
+<p>Here are some examples:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">println</span><span class="o">(~</span><span class="n">F</span> <span class="o">|</span> <span class="n">F</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// println(&#34;F &amp; ((1/0) == 1) :&#34;, F &amp; ((1/0) == 1)) // yields run-time exception
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">println</span><span class="o">(</span><span class="s">&#34;F &amp;&amp; ((1/0) == 1) :&#34;</span><span class="o">,</span> <span class="n">F</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="mi">1</span><span class="o">/</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="mi">1</span><span class="o">))</span>  <span class="c1">// short-circuit avoids exception
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">println</span><span class="o">(</span><span class="s">&#34;T | T :&#34;</span><span class="o">,</span> <span class="n">T</span> <span class="o">|</span> <span class="n">T</span><span class="o">)</span>     <span class="c1">// or
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">println</span><span class="o">(</span><span class="s">&#34;T |^ T :&#34;</span><span class="o">,</span> <span class="n">T</span> <span class="o">|^</span> <span class="n">T</span><span class="o">)</span>   <span class="c1">// exclusive-or
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">println</span><span class="o">(</span><span class="s">&#34;F |^ T &amp; (!F || ~T) :&#34;</span><span class="o">,</span> <span class="n">F</span> <span class="o">|^</span> <span class="n">T</span> <span class="o">&amp;</span> <span class="o">(!</span><span class="n">F</span> <span class="o">||</span> <span class="o">~</span><span class="n">T</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">println</span><span class="o">(</span><span class="s">&#34;Random bool: &#34;</span><span class="o">,</span> <span class="n">B</span><span class="o">.</span><span class="n">random</span><span class="o">)</span>
+</span></span></code></pre></div><p>produces the following output::</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">  true
+</span></span></span><span class="line"><span class="cl"><span class="go">  F &amp;&amp; ((1/0) == 1) :false
+</span></span></span><span class="line"><span class="cl"><span class="go">  T | T :true
+</span></span></span><span class="line"><span class="cl"><span class="go">  T |^ T :false
+</span></span></span><span class="line"><span class="cl"><span class="go">  F |^ T &amp; (!F || ~T) :true
+</span></span></span><span class="line"><span class="cl"><span class="go">  Random bool: false
+</span></span></span></code></pre></div><!---
+   **From John:** Not saying anything yet about boolean operations in proof contexts **
+--->
+<!---
+   Consider giving references to Slang B, Z, C, implementations that
+   illustrate definitions of random.
+--->
+<h3 id="random-b-values">Random B Values</h3>
+<p>Each basic type in Slang has a <code>random</code> method associated with it,
+as illustrated by the <code>B.random</code> operation above.  These <code>random</code>
+methods have an execution semantics, but they play a more important
+role in specification and verification.  During execution,
+the methods generate
+a random Slang value of the appropriate type.  In Logika verification,
+declaring a variable with an initial value given by <code>random</code> has the
+intuition of &ldquo;introducing a variable whose value you know nothing
+about&rdquo;.  Similarly, assigning a random value to an existing variable
+has the effect of removing all constraints from the variable that are
+being tracked by the underlying deduction engine.  Thus, it can be
+understood as &ldquo;forgetting/dropping all knowledge about the variable&rdquo;.</p>
+<hr>
+<h2 id="unbounded-integers"><strong>Unbounded Integers</strong></h2>
+<p><a href="#section-topics">Return to Topics</a></p>
+<h3 id="slang-z-type">Slang <code>Z</code> Type</h3>
+<p>Similar to its dedicated boolean type, <em>Slang introduces its own
+integer type <code>Z</code> instead of using Scala <code>Int</code></em>.  <code>Z</code> integers are
+unbounded, unlike the bounded 32-bit Scala <code>Int</code>.  The primary
+motivation for using it is to simplify reasoning about Slang code correctness,
+in which one does not have worry about overflow and underflow cases in the proof.</p>
+<p>Slang does provide a sophisticated collection of bounded numeric types to
+address its goals of effective compilation to embedded systems (those
+are addressed later <strong>[PENDING: give reference]</strong>).</p>
+<h3 id="z-literals"><code>Z</code> Literals</h3>
+<p>There are several different notations for integer literals, including
+several that are useful for very large integers.  &ldquo;Conventional&rdquo;
+integer literals can be used to state numbers in the interval
+[-2,147,483,648, 2,147,483,647].  The suffix <code>l</code> or <code>L</code> (e.g.,
+<code>53,657L</code>) is used to state literals in the range
+[-9,223,372,036,854,775,808,  9,223,372,036,854,775,807].  <code>0x</code> can be used to
+prefix hexadecimal literals.  Finally, the format <code>z&quot;&lt;digit string with separators&gt;&quot;</code> is useful for stating very large integers, as
+illustrated in the examples below:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">println</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="c1">// can express numbers in [-2147483648, 2147483647]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">println</span><span class="o">(</span><span class="mh">0xFF</span><span class="o">)</span> <span class="c1">// hexadecimal
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">println</span><span class="o">(</span><span class="mi">2L</span><span class="o">)</span> <span class="c1">// use l or L suffix for numbers smaller/larger numbers in [-9223372036854775808,  9223372036854775807]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">println</span><span class="o">(</span><span class="mh">0xFF</span><span class="n">l</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">println</span><span class="o">(</span><span class="n">z</span><span class="s">&#34;1000000000000000000000000000000000000000000000&#34;</span><span class="o">)</span> <span class="c1">// for any Z number
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">println</span><span class="o">(</span><span class="n">z</span><span class="s">&#34;2,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000&#34;</span><span class="o">)</span> <span class="c1">// can be separated by comma, underscore, or space (or mixed)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">println</span><span class="o">(</span><span class="n">z</span><span class="s">&#34;3_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">println</span><span class="o">(</span><span class="n">z</span><span class="s">&#34;4 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">println</span><span class="o">(</span><span class="s">&#34;A random Z: &#34;</span><span class="o">,</span> <span class="n">Z</span><span class="o">.</span><span class="n">random</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">println</span><span class="o">(</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">20L</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">z</span><span class="s">&#34;10&#34;</span> <span class="o">/</span> <span class="mi">2</span><span class="n">l</span> <span class="o">%</span> <span class="mi">10</span><span class="o">)</span> <span class="c1">// arithmetic operators
+</span></span></span></code></pre></div><p>which produces the following output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="go">   1
+</span></span></span><span class="line"><span class="cl"><span class="go">   255
+</span></span></span><span class="line"><span class="cl"><span class="go">   2
+</span></span></span><span class="line"><span class="cl"><span class="go">   255
+</span></span></span><span class="line"><span class="cl"><span class="go">   1000000000000000000000000000000000000000000000
+</span></span></span><span class="line"><span class="cl"><span class="go">   2000000000000000000000000000000000000000000000
+</span></span></span><span class="line"><span class="cl"><span class="go">   3000000000000000000000000000000000000000000000
+</span></span></span><span class="line"><span class="cl"><span class="go">   4000000000000000000000000000000000000000000000
+</span></span></span><span class="line"><span class="cl"><span class="go">   A random Z: 373512564607001550087401314968846454
+</span></span></span><span class="line"><span class="cl"><span class="go">   18
+</span></span></span></code></pre></div><h3 id="z-operators-and-precedence"><code>Z</code> Operators and Precedence</h3>
+<p>Slang operators on integer values are given in the table below.</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-</code></td>
+<td>unary negation</td>
+</tr>
+<tr>
+<td><code>*</code>, <code>/</code>, <code>%</code></td>
+<td>multiplication, division, modulo</td>
+</tr>
+<tr>
+<td><code>+</code>, <code>-</code></td>
+<td>addition, subtraction</td>
+</tr>
+<tr>
+<td><code>==</code>, <code>!=</code></td>
+<td>equality, inequality</td>
+</tr>
+<tr>
+<td><code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code></td>
+<td>comparison operators</td>
+</tr>
+</tbody>
+</table>
+<!-- notice todo -->
+<p><strong>ShortCode</strong>: To Gage: insert some technical remarks about the relationship between Scala integer literals <code>1</code> and the fact that the Slang front-end implicitly coerces these to Slang Z types, but sometimes the IVE can get confused and add error markers (even though the code is correct Slang.   Note the need to use <code>z&quot;1&quot;</code>, etc. in such cases.</p>
+<!-- end notice -->
+<h3 id="the-z-data-types-relationship-to-scalas-integer">The Z Data Type&rsquo;s Relationship to Scala&rsquo;s Integer</h3>
+<p>Since Slang will implicitly understand literal integers  e.i. <code>1</code> to be of the Z data type, there are times where the front end of the slang or the IVE will confuse the typed literal. In this case, it will produce an error even though the program will still run correctly. However, this confusion can be easily corrected by adapting the literal <code>1</code> integer to <code>z&quot;1&quot;</code> an explicit definition of the literal.</p>
+<hr>
+<h2 id="characters"><strong>Characters</strong></h2>
+<p><a href="#section-topics">Return to Topics</a></p>
+<h3 id="slang-c-type">Slang <code>C</code> Type</h3>
+<p>Slang introduces its own character type <code>C</code> (32-bit code point) instead of using Scala
+<code>Char</code>.   Character literals are written using single quotes (e.g.,
+<code>'A'</code>, <code>'q'</code>) as opposed to the double quotes used for strings
+(e.g., <code>&quot;hello&quot;</code>, <code>&quot;A&quot;</code> where the last value is a &ldquo;string A&rdquo; instead
+of a &ldquo;char A&rdquo;).  Unicode literals are using the prefix <code>\u</code> with a
+four-digit hex value (e.g., <code>\u003F</code> corresponds to <code>'?'</code>,
+<code>\u03A9</code> corresponds to the Greek letter Omega).</p>
+<h3 id="c-operators-and-precedence"><code>C</code> Operators and Precedence</h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+</code>, <code>-</code></td>
+<td>addition, subtraction based on unicode values</td>
+</tr>
+<tr>
+<td><code>==</code>, <code>!=</code></td>
+<td>equality, inequality</td>
+</tr>
+<tr>
+<td><code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code></td>
+<td>comparison operators</td>
+</tr>
+<tr>
+<td><code>&lt;&lt;</code>, <code>&gt;&gt;&gt;</code>, <code>&gt;&gt;</code></td>
+<td>bit shifting operators</td>
+</tr>
+<tr>
+<td><code>&amp;</code>, <code>|</code>, <code>|^</code></td>
+<td>bit and, or, xor operators</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="strings"><strong>Strings</strong></h2>
+<p><a href="#section-topics">Return to Topics</a></p>
+<!-- notice todo -->
+<p><strong>ShortCode</strong>:
+To Gage: Try to draft this section.  First state the relationship between Strings in Scala and strings in Slang.  Then introduce examples of string literals and operators following the style above (look in Robby&rsquo;s examples for guidance).   For any new example snippets you make, add them to the example script files.</p>
+<!-- end notice -->
+<h3 id="basic-string-usage">Basic String Usage</h3>
+<h4 id="printing">Printing</h4>
+<p>In general, a string is just a list of characters. The following are common ways to interact with strings for output.</p>
+<h5 id="string-literal">String Literal:</h5>
+<p>A literal string can be constructed by surrounding characters in quotation marks.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// # Sireum
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello World!&#34;</span><span class="o">)</span> <span class="c1">// Prints string starting a new line once finished. Equal to &#34;Hello World!\n&#34; 
+</span></span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">Hello World!
+</span></span></span></code></pre></div><h5 id="string-variable">String Variable:</h5>
+<p>Strings can also be stored in and referred to as variables or values. Variables (<code>var</code>) can be changed after initialization while values (<code>val</code>) can not.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// # Sireum
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">strVal</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&#34;Hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">strVar</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&#34;World&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">strVal</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">strVar</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="o">(</span><span class="n">strVal</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">strVar</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="o">(</span><span class="s">s&#34;</span><span class="si">${</span><span class="n">strVal</span><span class="si">}</span><span class="s"> </span><span class="si">${</span><span class="n">strVar</span><span class="si">}</span><span class="s">!&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">strVar</span> <span class="k">=</span> <span class="s">&#34;Everyone&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// strVal can not be reassigned.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;</span><span class="si">${</span><span class="n">strVal</span><span class="si">}</span><span class="s"> </span><span class="si">${</span><span class="n">strVar</span><span class="si">}</span><span class="s">!&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">Hello
+</span></span></span><span class="line"><span class="cl"><span class="go">World
+</span></span></span><span class="line"><span class="cl"><span class="go">HelloWorld
+</span></span></span><span class="line"><span class="cl"><span class="go">Hello World!
+</span></span></span><span class="line"><span class="cl"><span class="go">Hello Everyone!
+</span></span></span></code></pre></div><h5 id="most-common-print-streams">Most Common Print Streams</h5>
+<p>The two most commonly used print streams are the standard out (stdout) and the standard error (stderr). When using <code>println()</code>, you are using stdout. When you use <code>eprintln()</code>, you are using stderr.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello, I&#39;m stdout&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello, I&#39;m stderr&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">Hello, I&#39;m stdout
+</span></span></span><span class="line"><span class="cl"><span class="go">Hello, I&#39;m stderr **This line will be in RED if it is within the IVE as it is error text.**
+</span></span></span></code></pre></div><p>Another print option is the method, <code>cprint</code> / <code>cprintln</code> which are conditional print statements. The first argument is a <code>boolean</code> that if true, denotes that the print should be to stderr. If the <code>boolean</code> is false, it will instead print to stdout.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">cprintln</span><span class="o">(</span><span class="kc">false</span><span class="o">,</span> <span class="s">&#34;I&#39;m false, so I am being printed by stdout!&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">cprintln</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="s">&#34;I&#39;m true, so I am being printed by stderr!&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">I&#39;m false, so I am being printed by stdout!
+</span></span></span><span class="line"><span class="cl"><span class="go">I&#39;m true, so I am being printed by stderr! **This line will be in RED if it is within the IVE as it is error text.**
+</span></span></span></code></pre></div><p>All print methods are able to take any number of arguments:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello. Is this true? :: &#34;</span><span class="o">,</span><span class="n">T</span><span class="o">==</span><span class="n">T</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">&#34;Give me a number. &#34;</span><span class="o">,</span><span class="mi">54</span><span class="o">,</span><span class="s">&#34; Is that a number? &#34;</span><span class="o">,</span><span class="n">T</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">Hello
+</span></span></span><span class="line"><span class="cl"><span class="go">Hello. Is this true? :: true
+</span></span></span><span class="line"><span class="cl"><span class="go">Give me a number. 54 Is that a number? true
+</span></span></span></code></pre></div><h5 id="string-interpolation">String Interpolation</h5>
+<p>String interpolation is the process of where a string is specifically parsed for containing internal values that need to be addressed. For example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">name</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&#34;Bob&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;Hello, </span><span class="si">${</span><span class="n">name</span><span class="si">}</span><span class="s">!&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">age</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">42</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;</span><span class="si">${</span><span class="n">name</span><span class="si">}</span><span class="s"> is </span><span class="si">${</span><span class="n">age</span><span class="si">}</span><span class="s"> years old!&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">Hello, Bob!
+</span></span></span><span class="line"><span class="cl"><span class="go">Bob is 42 years old!
+</span></span></span></code></pre></div><p>String interpolation can also be done in <a href="#multi-line-printing">multi-line printing</a></p>
+<h5 id="multi-line-printing">Multi-line Printing</h5>
+<p>Two ways that multi-line printing can be accomplished is through single-line with escape characters and through multi-line blocks.</p>
+<p><strong>Single-Line With Escape Characters</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello!\nNow I&#39;m on a new line.\nWow, a third one...&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">Hello!
+</span></span></span><span class="line"><span class="cl"><span class="go">Now I&#39;m on a new line.
+</span></span></span><span class="line"><span class="cl"><span class="go">Wow, a third one...
+</span></span></span></code></pre></div><p><strong>Multi-Line Blocks</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">&#34;&#34;&#34;Hello!
+</span></span></span><span class="line"><span class="cl"><span class="s">Now I&#39;m on a new line.
+</span></span></span><span class="line"><span class="cl"><span class="s">Wow, a third one...&#34;&#34;&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">Hello!
+</span></span></span><span class="line"><span class="cl"><span class="go">Now I&#39;m on a new line.
+</span></span></span><span class="line"><span class="cl"><span class="go">Wow, a third one...
+</span></span></span></code></pre></div><p><strong>Multi-Line Interpolation</strong></p>
+<p>For more information on interpolation, see <a href="#string-interpolation">this section</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">person</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&#34;Bob&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">personAge</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">46</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">isDogOwner</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">s&#34;&#34;&#34;Hello, </span><span class="si">$name</span><span class="s">!
+</span></span></span><span class="line"><span class="cl"><span class="s"></span><span class="si">$name</span><span class="s"> is </span><span class="si">$personAge</span><span class="s"> years old.
+</span></span></span><span class="line"><span class="cl"><span class="s">Are they someone who owns a dog? :: </span><span class="si">$isDogOwner</span><span class="s">&#34;&#34;&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">Hello, Bob!
+</span></span></span><span class="line"><span class="cl"><span class="go">Bob, is 46 years old.
+</span></span></span><span class="line"><span class="cl"><span class="go">Are they someone who owns a dog? :: true
+</span></span></span></code></pre></div><h5 id="strings--error-messages-in-logical-statements">Strings / Error Messages in Logical Statements</h5>
+<p>Both assertions and assumptions can have custom error messages.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">//Normal Assert
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">T</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//With Error Message
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">T</span><span class="o">,</span><span class="s">&#34;error message here&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Normal Assume
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assume</span><span class="o">(</span><span class="n">T</span> <span class="o">|</span> <span class="o">!</span><span class="n">T</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//With Error Message
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assume</span><span class="o">(</span><span class="n">T</span> <span class="o">|</span> <span class="o">!</span><span class="n">T</span><span class="o">,</span><span class="s">&#34;error message here&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><h4 id="substrings-and-characters-of-strings">Substrings and Characters of Strings:</h4>
+<p>Since Strings are just a list of characters, we can pull substrings out of a String object.</p>
+<p>The substring method of Strings are not able to be used in Slang as they are reserved by Scala. In order for Slang to handle the substring proof internally, there is a separate location for the functionality that is within Slang itself.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="k">var</span> <span class="n">str</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&#34;foobar&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="c1">// str.substring(0,3)  **Incorrect, Scala&#39;s substring implementation is not in Slang**
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">firstStr</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="nc">StringOps</span><span class="o">(</span><span class="n">str</span><span class="o">).</span><span class="n">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="c1">// This is the correct syntax to provide a substring.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// str.substring(3) **Incorrect, Scala&#39;s substring implementation is not in Slang**
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">lastStr</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="nc">StringOps</span><span class="o">(</span><span class="n">str</span><span class="o">).</span><span class="n">substring</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="n">str</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="c1">// This is correct. Notice that Slang&#39;s implementation of substring does not have a single argument version of substring. If you are wanting to go from an index to the end of the string, you must denote that index whether it be by a literal or value.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">str</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;</span><span class="si">${</span><span class="n">firstStr</span><span class="si">}</span><span class="s"> and </span><span class="si">${</span><span class="n">lastStr</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">foobar
+</span></span></span><span class="line"><span class="cl"><span class="go">foo and bar
+</span></span></span></code></pre></div><!-- notice note -->
+<p><strong>ShortCode:</strong> For users accustom to languages that implemented a substring method that includes both a single and two agrument definition, Slang does not have a single argument version of substring&rsquo;s functionality defined. As such, the two agrument definition must be used. The above example demonstrates one way this can be done.</p>
+<!-- notice -->
+<h4 id="string-operators-and-precedence">String Operators and Precedence</h4>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>==</code>, <code>===</code></td>
+<td>equality</td>
+</tr>
+<tr>
+<td><code>!=</code>, <code>=!=</code></td>
+<td>inequality</td>
+</tr>
+<tr>
+<td><code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code></td>
+<td>comparison operators</td>
+</tr>
+</tbody>
+</table>
+<!-- notice note ShortCode -->
+<p>Slang does not denote a difference between the operators <code>==</code> and <code>===</code>. For users that are familiar with Scala, they may recall that the <code>===</code> checks not only for structural equality but ensures that the type of the objects match. In slang, both <code>==</code> and <code>===</code> check for structural equality only. Likewise, there is no difference between <code>!=</code> and <code>=!=</code> in Slang.</p>
+<!-- end notice ShortCode -->
+<!-- notice note ShortCode -->
+<p>Also, note that Slang&rsquo;s Strings are not able to be added or subtracted from one another with a <code>+</code> or <code>-</code> operation.</p>
+<!-- end notice ShortCode -->
+<hr>
+<h2 id="reals">Reals</h2>
+<p><a href="#section-topics">Return to Topics</a></p>
+<!-- notice todo ShortCode -->
+<p>To Gage: Try to draft this section.  Note that reals are idealized, unbounded values, and give some intuition about their underlying representation (to be honest, I wouldn&rsquo;t know what to say here, so may need to look at the Kekinian source code or ask Robby).
+Then introduce examples of literals and operators following the style above (look in Robby&rsquo;s examples for guidance).   For any new example snippets you make, add them to the example script files.</p>
+<!-- notice end   ShortCode -->
+<p>the Real data type or <code>R</code> represents an arbitrarily precise decimal number. While floating points (both 32 and 64 bit) have a fixed position, <code>R</code> does not.</p>
+<p>Initialization:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">example</span><span class="k">:</span> <span class="kt">R</span> <span class="o">=</span> <span class="n">r</span><span class="s">&#34;5.0&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Using 5 or 5.0 instead of r&#34;5.0&#34; will not work as they are integer and double values respectively, and they will not be converted implicitly. The type of an R literal must be explicitly stated, even during instantiation. 
+</span></span></span></code></pre></div><!-- notice note ShortCode -->
+<p>When typing <code>R</code> literals, you must use the form <code>r&quot;0.0&quot;</code>. The forms <code>0</code> or <code>0.0</code> are not implicitly converted to an <code>R</code> value.</p>
+<!-- end notice ShortCode -->
+<p>The following are examples of basic arithmetic utilizing <code>R</code> values.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">rVal1</span><span class="k">:</span> <span class="kt">R</span> <span class="o">=</span> <span class="n">r</span><span class="s">&#34;1.0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">rVal2</span><span class="k">:</span> <span class="kt">R</span> <span class="o">=</span> <span class="n">r</span><span class="s">&#34;2.0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">rVal5</span><span class="k">:</span> <span class="kt">R</span> <span class="o">=</span> <span class="n">r</span><span class="s">&#34;5.0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">rVal7</span><span class="k">:</span> <span class="kt">R</span> <span class="o">=</span> <span class="n">r</span><span class="s">&#34;7.5&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">rVal7</span><span class="o">+</span><span class="n">rVal2</span><span class="o">/</span><span class="n">rVal7</span><span class="o">+</span><span class="n">r</span><span class="s">&#34;0.489091&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">rVal1</span><span class="o">-</span><span class="n">rVal5</span><span class="o">*(</span><span class="n">rVal7</span><span class="o">-</span><span class="n">rVal1</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">((</span><span class="n">rVal7</span><span class="o">/</span><span class="n">rVal2</span><span class="o">)*(</span><span class="n">r</span><span class="s">&#34;1.2345&#34;</span><span class="o">))</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">8.255757666666666666666666666666667
+</span></span></span><span class="line"><span class="cl"><span class="go">-31.50
+</span></span></span><span class="line"><span class="cl"><span class="go">4.629375
+</span></span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-</code></td>
+<td>unary negation</td>
+</tr>
+<tr>
+<td><code>*</code>, <code>/</code>, <code>%</code></td>
+<td>multiplication, division, modulo</td>
+</tr>
+<tr>
+<td><code>+</code>, <code>-</code></td>
+<td>addition, subtraction</td>
+</tr>
+<tr>
+<td><code>==</code>, <code>===</code></td>
+<td>equality</td>
+</tr>
+<tr>
+<td><code>!=</code>, <code>=!=</code></td>
+<td>inequality</td>
+</tr>
+<tr>
+<td><code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code></td>
+<td>comparison operators</td>
+</tr>
+</tbody>
+</table>
+<!-- notice note ShortCode -->
+<p>Both <code>==</code> and <code>===</code> only check for structural equality while both <code>!=</code> and <code>=!=</code> only check for structural inequality. Neither check for referential equality nor do they check for matching data types. This is because slang does not interact with pointer-type structures, and two unlike data types are not able to be directly equated in the first place.</p>
+<!-- end notice ShortCode -->
+<hr>
+<h2 id="floats">Floats</h2>
+<p><a href="#section-topics">Return to Topics</a></p>
+<!-- notice todo ShortCode -->
+<p>To Gage: Try to draft this section.  Describe the difference between floats and reals.   Note the impact on specification and verification (to be honest, I would have to think about this myself some and discuss it with Robby.  Basically we need to consider underflow/overflow as well as loss of precision issues that do not occure with reals).
+Then introduce examples of literals and operators following the style above (look in Robby&rsquo;s examples for guidance).   For any new example snippets you make, add them to the example script files.</p>
+<!-- notice end   ShortCode -->
+<!-- notice todo   ShortCode -->
+<p>Going to begin by producing a baseline, and can introduce the more specific and difficult issues at another date.</p>
+<!-- end notice ShortCode -->
+<p>While Reals (<code>R</code>) have arbitrary precision, floats do not. Within Slang there are both 32-bit and 64-bit floats, <code>F32</code> and <code>F64</code> respectively.</p>
+<h3 id="initialization">Initialization:</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Option A: Explicitly convert literal to F32 or F64
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">fVal32_a</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="n">f32</span><span class="s">&#34;4.0&#34;</span> <span class="c1">//32-Bit explicit to F32 conversion for literal
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">fVal64_a</span><span class="k">:</span> <span class="kt">F64</span> <span class="o">=</span> <span class="n">f64</span><span class="s">&#34;4.0&#34;</span> <span class="c1">//64-Bit explicit to F64 conversion for literal 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Option B: Explicitly convert literal to float/double which then is implicitly converted
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">fVal32_b</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="mf">4.0f</span> <span class="c1">//32-Bit explicit to float conversion for literal (Then implicitly converts to F32)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">fVal64_b</span><span class="k">:</span> <span class="kt">F64</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="c1">//64-Bit from double to implicitly converted F64
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">fVal32_a</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">fVal64_a</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">fVal32_b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">fVal64_b</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">4.0
+</span></span></span><span class="line"><span class="cl"><span class="go">4.0
+</span></span></span><span class="line"><span class="cl"><span class="go">4.0
+</span></span></span><span class="line"><span class="cl"><span class="go">4.0
+</span></span></span></code></pre></div><!-- notice note ShortCode -->
+<p>Please note that you must be explicit about the values provided to types in Slang. The Option B statements for <code>F32</code> and <code>F64</code> only work as shown above. This is because the <code>F32</code> data type is constructed from a 32-bit float data type (which the literal is). Likewise, <code>F64</code>&rsquo;s option b works as its constructor looks for a double data type (which the literal is).</p>
+<!-- end notice ShortCode -->
+<p>Float values that are 32-Bit, and float values that are 64-Bit are not able to be supplied to the other as Slang will not implicitly convert the value. Likewise, neither will accept an integer value (<code>4</code>).</p>
+<h3 id="example-of-f32-and-f64-arithmetic">Example of <code>F32</code> and <code>F64</code> Arithmetic:</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">a1</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="mf">89.342f</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">a2</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="n">f32</span><span class="s">&#34;592021.3462134&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">a3</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="n">f32</span><span class="s">&#34;931232343.3423123&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">b1</span><span class="k">:</span> <span class="kt">F64</span> <span class="o">=</span> <span class="mf">15.32312677</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">b2</span><span class="k">:</span> <span class="kt">F64</span> <span class="o">=</span> <span class="mf">909.3523523456</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">b3</span><span class="k">:</span> <span class="kt">F64</span> <span class="o">=</span> <span class="mf">887187.869809</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">flRnd32</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="n">F32</span><span class="o">.</span><span class="n">random</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">flRnd64</span><span class="k">:</span> <span class="kt">F64</span> <span class="o">=</span> <span class="n">F64</span><span class="o">.</span><span class="n">random</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;</span><span class="si">$flRnd32</span><span class="s"> (Result will vary)&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;</span><span class="si">$flRnd64</span><span class="s"> (Result will vary)&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">a2</span> <span class="o">-</span> <span class="n">a1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">((</span><span class="n">a3</span> <span class="o">-</span> <span class="n">a2</span><span class="o">)</span> <span class="o">*</span> <span class="n">a1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">((</span><span class="n">a3</span> <span class="o">/</span> <span class="n">a1</span><span class="o">)</span> <span class="o">+</span> <span class="n">a1</span> <span class="o">%</span> <span class="n">a2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="o">(</span><span class="n">a3</span> <span class="o">/</span> <span class="n">a1</span><span class="o">)</span> <span class="o">+</span> <span class="o">(</span><span class="n">a1</span><span class="o">*</span><span class="mf">40.65f</span><span class="o">)</span> <span class="o">/</span> <span class="n">a2</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">*</span><span class="n">a1</span><span class="o">-((</span><span class="mf">40.65f</span><span class="o">*</span><span class="n">a1</span><span class="o">*</span><span class="n">a1</span><span class="o">)/</span><span class="n">a2</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;x*a1-((40.65f*a1*a1)/a2) == a3? :: </span><span class="si">${</span><span class="o">(</span><span class="n">x</span><span class="o">*</span><span class="n">a1</span><span class="o">-((</span><span class="mf">40.65f</span><span class="o">*</span><span class="n">a1</span><span class="o">*</span><span class="n">a1</span><span class="o">)/</span><span class="n">a2</span><span class="o">))</span> <span class="o">==</span> <span class="n">a3</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">b1</span> <span class="o">-</span> <span class="mf">16.0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">b2</span> <span class="o">/</span> <span class="n">b1</span> <span class="o">*</span> <span class="n">b3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">b2</span> <span class="o">%</span> <span class="n">b1</span> <span class="o">+</span> <span class="n">b3</span> <span class="o">-</span> <span class="mf">0.2285109</span> <span class="o">*</span> <span class="n">b2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">F64</span> <span class="o">=</span> <span class="o">(</span><span class="n">b3</span> <span class="o">/</span> <span class="n">b1</span><span class="o">)</span> <span class="o">+</span> <span class="o">(</span><span class="n">b1</span> <span class="o">*</span> <span class="mf">40.65</span><span class="o">)</span> <span class="o">/</span> <span class="n">b2</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="n">y</span><span class="o">*</span><span class="n">b1</span><span class="o">-((</span><span class="mf">40.65</span><span class="o">*</span><span class="n">b1</span><span class="o">*</span><span class="n">b1</span><span class="o">)/</span><span class="n">b2</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;y*b1-((40.65*b1*b1)/b2) == b3 :: </span><span class="si">${</span><span class="n">y</span><span class="o">*</span><span class="n">b1</span><span class="o">-((</span><span class="mf">40.65</span><span class="o">*</span><span class="n">b1</span><span class="o">*</span><span class="n">b1</span><span class="o">)/</span><span class="n">b2</span><span class="o">)</span> <span class="o">==</span> <span class="n">b3</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">0.90476924 (Result will vary)
+</span></span></span><span class="line"><span class="cl"><span class="go">0.8493481968307036 (Result will vary)
+</span></span></span><span class="line"><span class="cl"><span class="go">591932.06
+</span></span></span><span class="line"><span class="cl"><span class="go">8.3145269E10
+</span></span></span><span class="line"><span class="cl"><span class="go">1.042332E7
+</span></span></span><span class="line"><span class="cl"><span class="go">1.0423231E7
+</span></span></span><span class="line"><span class="cl"><span class="go">9.3123232E8
+</span></span></span><span class="line"><span class="cl"><span class="go">x*a1-((40.65f*a1*a1)/a2) == a3? :: true
+</span></span></span><span class="line"><span class="cl"><span class="go">-0.67687323
+</span></span></span><span class="line"><span class="cl"><span class="go">5.2650244854908034E7
+</span></span></span><span class="line"><span class="cl"><span class="go">886985.3607574641
+</span></span></span><span class="line"><span class="cl"><span class="go">57899.30339345649
+</span></span></span><span class="line"><span class="cl"><span class="go">887187.869809
+</span></span></span><span class="line"><span class="cl"><span class="go">y*b1-((40.65*b1*b1)/b2) == b3 :: true
+</span></span></span></code></pre></div><h3 id="underflowoverflow">Underflow/Overflow</h3>
+<!-- notice todo   ShortCode -->
+<p>Attempted, but need to verify my observations are true</p>
+<!-- end notice ShortCode -->
+<p>Underflow and overflow in Slang does not result in wrapping around as overflow does commonly with other data types (such as integers in many languages). Instead, the value is considered <code>F32.PInf</code> for overflow and <code>F32.NInf</code> for underflow if it is an F32 data type. F64 has its own equivalent in <code>F64.PInf</code> and <code>F64.NInf</code>. These values print to <code>Infinity</code> and <code>-Infinity</code> respectively.</p>
+<p>Operations that involve  the addition or subtraction of two infinities that approach opposite directions, result in <code>NaN</code> (<code>F32.NaN</code> and <code>F64.NaN</code> respectively). This is because infinity is not of a definite or inherently matching size in mathmetics, so the operation can not be accurately determined. This is the reason for the value NaN.</p>
+<h4 id="demonstration">Demonstration</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">bigFloat</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="n">F32</span><span class="o">.</span><span class="nc">PInf</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;bigFloat : </span><span class="si">$bigFloat</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;bigFloat Negated : </span><span class="si">${</span><span class="o">-</span><span class="n">bigFloat</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;bigFloat - F32.PInf : </span><span class="si">${</span><span class="n">bigFloat</span><span class="o">-</span><span class="n">F32</span><span class="o">.</span><span class="nc">PInf</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;bigFloat - F32.NInf : </span><span class="si">${</span><span class="n">bigFloat</span><span class="o">-</span><span class="n">F32</span><span class="o">.</span><span class="nc">NInf</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;bigFloat + F32.NaN : </span><span class="si">${</span><span class="n">bigFloat</span><span class="o">+</span><span class="n">F32</span><span class="o">.</span><span class="nc">NaN</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;F32.PInf - F32.PInf : </span><span class="si">${</span><span class="n">F32</span><span class="o">.</span><span class="nc">PInf</span><span class="o">-</span><span class="n">F32</span><span class="o">.</span><span class="nc">PInf</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;bigFloat - 1.0 : </span><span class="si">${</span><span class="n">bigFloat</span><span class="o">-</span><span class="mf">1.0f</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bigFloat</span> <span class="k">=</span> <span class="n">bigFloat</span> <span class="o">+</span> <span class="n">f32</span><span class="s">&#34;1.0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;bigFloat + 1.0 : </span><span class="si">$bigFloat</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">bigFloat : Infinity
+</span></span></span><span class="line"><span class="cl"><span class="go">bigFloat Negated : -Infinity
+</span></span></span><span class="line"><span class="cl"><span class="go">bigFloat - F32.PInf : NaN
+</span></span></span><span class="line"><span class="cl"><span class="go">bigFloat - F32.NInf : Infinity
+</span></span></span><span class="line"><span class="cl"><span class="go">bigFloat + F32.NaN : NaN
+</span></span></span><span class="line"><span class="cl"><span class="go">F32.PInf - F32.PInf : NaN
+</span></span></span><span class="line"><span class="cl"><span class="go">bigFloat - 1.0 : Infinity
+</span></span></span><span class="line"><span class="cl"><span class="go">bigFloat + 1.0 : Infinity
+</span></span></span></code></pre></div><h3 id="loss-of-precision">Loss of Precision</h3>
+<!-- notice todo   ShortCode -->
+<p>Attempted, but need to be checked.</p>
+<!-- end notice ShortCode -->
+<p>The loss of precision of a float value can happen when a value is rounded due to float values having a fixed precision. For example, 32-bit float values (<code>F32</code>) have six significant values. Any digits after the sixth significant digit are not necessarily accurate. While converting in Slang is possible through the methods within the conversions package (<code>sireum.org.conversions</code>), like other aspects of conversion in Slang, it must be explicit. These conversions do not yet have a built in contract, meaning there is nothing that can be ensured by default from their use. In addition, since <code>F32</code> values take a Scala <code>float</code> value as the parameter for its constructor and <code>F64</code> values take a Scala <code>double</code> value as the parameter for its constructor, a valid float, and a valid double can be used to initialize or populate the appropriate types. Likewise, there is no restriction on the number of significant figures that are in the value being interpolated, meaning that if our input value is more significant figures than the maximum promised by the data type, there will be a loss of precision compared to the input value.</p>
+<h4 id="demonstration-1">Demonstration</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">&#34;4621346978291f\n&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;4621346978291f is </span><span class="si">${</span><span class="mi">4621346978291</span><span class="n">f</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">lopfl</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="mi">4621346978291</span><span class="n">f</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;F32 Value from float : </span><span class="si">$lopfl</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">lopfl2</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="n">f32</span><span class="s">&#34;4621346978291&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;F32 Value Interpolation : </span><span class="si">$lopfl2</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">convertF32toR</span><span class="k">:</span> <span class="kt">R</span> <span class="o">=</span> <span class="n">conversions</span><span class="o">.</span><span class="n">F32</span><span class="o">.</span><span class="n">toR</span><span class="o">(</span><span class="n">lopfl2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">s&#34;F32 to R : </span><span class="si">$convertF32toR</span><span class="s">&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">4621346978291f
+</span></span></span><span class="line"><span class="cl"><span class="go"></span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="go">4621346978291f is 4.6213471E12
+</span></span></span><span class="line"><span class="cl"><span class="go">F32 Value from float : 4.6213471E12
+</span></span></span><span class="line"><span class="cl"><span class="go">F32 Value Interpolation : 4.6213471E12
+</span></span></span><span class="line"><span class="cl"><span class="go">F32 to R : 4.62134706176E+12
+</span></span></span></code></pre></div><h3 id="operations">Operations</h3>
+<p>Both <code>F32</code> and <code>F64</code> have the same operations.</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-</code></td>
+<td>unary negation</td>
+</tr>
+<tr>
+<td><code>*</code>, <code>/</code>, <code>%</code></td>
+<td>multiplication, division, modulo</td>
+</tr>
+<tr>
+<td><code>+</code>, <code>-</code></td>
+<td>addition, subtraction</td>
+</tr>
+<tr>
+<td><code>==</code>, <code>===</code>, <code>~~</code></td>
+<td>equality</td>
+</tr>
+<tr>
+<td><code>!=</code>, <code>=!=</code>, <code>!~</code></td>
+<td>inequality</td>
+</tr>
+<tr>
+<td><code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code></td>
+<td>comparison operators</td>
+</tr>
+</tbody>
+</table>
+<!-- notice note ShortCode -->
+<p><code>==</code>, <code>===</code>, and <code>~~</code> all test for structural equality only. <code>!=</code>, <code>=!=</code>, and <code>!~</code> all test for structural equality only.</p>
+<!-- end notice ShortCode -->
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/basics/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Basics</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/basics/simple-output/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Simple Output
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

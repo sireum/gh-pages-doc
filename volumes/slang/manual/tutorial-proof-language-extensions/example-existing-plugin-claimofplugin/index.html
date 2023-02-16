@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="ClaimOfPlugin File This is the entire plugin, below, it will be broken into sections and explained. The plugin file can be found at this location within your Kekinian installation ().
+// #Sireum /* Copyright (c) 2017-2022, Robby, Kansas State University All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/example-existing-plugin-claimofplugin/" />
+
+
+    <title>
+        
+            Example Existing Plugin: ClaimOfPlugin :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Example Existing Plugin: ClaimOfPlugin">
+<meta itemprop="description" content="ClaimOfPlugin File This is the entire plugin, below, it will be broken into sections and explained. The plugin file can be found at this location within your Kekinian installation ().
+// #Sireum /* Copyright (c) 2017-2022, Robby, Kansas State University All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.">
+
+<meta itemprop="wordCount" content="1879"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Example Existing Plugin: ClaimOfPlugin"/>
+<meta name="twitter:description" content="ClaimOfPlugin File This is the entire plugin, below, it will be broken into sections and explained. The plugin file can be found at this location within your Kekinian installation ().
+// #Sireum /* Copyright (c) 2017-2022, Robby, Kansas State University All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer."/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/example-existing-plugin-claimofplugin/">Example Existing Plugin: ClaimOfPlugin</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h2 id="claimofplugin-file">ClaimOfPlugin File</h2>
+<p>This is the entire plugin, below, it will be broken into sections and explained. The plugin file can be found at this location within your Kekinian installation ().</p>
+<pre tabindex="0"><code>// #Sireum
+/*
+ Copyright (c) 2017-2022, Robby, Kansas State University
+ All rights reserved.
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ 1. Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#34;AS IS&#34; AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.sireum.logika.plugin
+
+import org.sireum._
+import org.sireum.lang.symbol.Info
+import org.sireum.lang.{ast =&gt; AST}
+import org.sireum.logika.{Logika, Smt2, State, StepProofContext}
+import org.sireum.logika.Logika.Reporter
+
+@datatype class ClaimOfPlugin extends Plugin {
+
+  val justificationName: ISZ[String] = ISZ(&#34;org&#34;, &#34;sireum&#34;, &#34;justification&#34;)
+
+  val name: String = &#34;ClaimOfPlugin&#34;
+
+  @pure override def canHandle(logika: Logika, just: AST.ProofAst.Step.Justification): B = {
+    just match {
+      case just: AST.ProofAst.Step.Justification.Apply =&gt;
+        just.invokeIdent.attr.resOpt.get match {
+          case res: AST.ResolvedInfo.Method =&gt; return res.id == &#34;ClaimOf&#34; &amp;&amp; res.owner == justificationName
+          case _ =&gt; return F
+        }
+      case _ =&gt; return F
+    }
+  }
+
+  override def handle(logika: Logika,
+                      smt2: Smt2,
+                      cache: Smt2.Cache,
+                      log: B,
+                      logDirOpt: Option[String],
+                      spcMap: HashSMap[AST.ProofAst.StepId, StepProofContext],
+                      state: State,
+                      step: AST.ProofAst.Step.Regular,
+                      reporter: Reporter): Plugin.Result = {
+    @strictpure def err(): Plugin.Result = Plugin.Result(F, state.nextFresh, state.claims)
+    val just = step.just.asInstanceOf[AST.ProofAst.Step.Justification.Apply]
+    val arg: AST.Exp = just.args(0) match {
+      case a: AST.Exp.Eta =&gt; a.ref.asExp
+      case a =&gt;
+        reporter.error(a.posOpt, Logika.kind, s&#34;Expecting an eta expansion of a fact, theorem, or lemma&#34;)
+        return err()
+    }
+    val (name, targs): (ISZ[String], ISZ[AST.Typed]) = arg match {
+      case arg: AST.Exp.Ident =&gt;
+        arg.attr.resOpt.get match {
+          case res: AST.ResolvedInfo.Fact =&gt; (res.name, ISZ())
+          case res: AST.ResolvedInfo.Theorem =&gt; (res.name, ISZ())
+          case _ =&gt;
+            reporter.error(arg.posOpt, Logika.kind, s&#34;Expecting a fact, theorem, or lemma&#34;)
+            return err()
+        }
+      case arg: AST.Exp.Select =&gt;
+        arg.attr.resOpt.get match {
+          case res: AST.ResolvedInfo.Fact =&gt; (res.name, for (t &lt;- arg.targs) yield t.typedOpt.get)
+          case res: AST.ResolvedInfo.Theorem =&gt; (res.name, ISZ())
+          case _ =&gt;
+            reporter.error(arg.posOpt, Logika.kind, s&#34;Expecting a fact, theorem, or lemma&#34;)
+            return err()
+        }
+      case arg =&gt;
+        reporter.error(arg.posOpt, Logika.kind, s&#34;Expecting a name, but found $arg&#34;)
+        return err()
+    }
+
+    val (kind, typeParams, claims): (String, ISZ[AST.TypeParam], ISZ[AST.Exp]) = logika.th.nameMap.get(name).get match {
+      case inf: Info.Fact =&gt; (&#34;Fact&#34;, inf.ast.typeParams, inf.ast.claims)
+      case inf: Info.Theorem =&gt; (if (inf.ast.isLemma) &#34;Lemma&#34; else &#34;Theorem&#34;, inf.ast.typeParams, ISZ(inf.ast.claim))
+      case _ =&gt; halt(&#34;Infeasible&#34;)
+    }
+    val sm = lang.tipe.TypeChecker.buildTypeSubstMap(name, arg.posOpt, typeParams, targs, reporter).get
+    val stepClaim = AST.Util.normalizeExp(step.claim)
+    for (claim &lt;- claims) {
+      val normClaim = AST.Util.normalizeExp(claim)
+      val substNormClaim = AST.Util.substExpSkipResolvedInfo(normClaim, sm)
+      if (stepClaim == substNormClaim) {
+        val claimPos = claim.posOpt.get
+        val q = logika.evalRegularStepClaim(smt2, cache, state, step.claim, step.id.posOpt, reporter)
+        val (stat, nextFresh, claims) = (q._1, q._2, q._3 :+ q._4)
+        if (stat) {
+          reporter.inform(step.claim.posOpt.get, Reporter.Info.Kind.Verified,
+            st&#34;&#34;&#34;Accepted by using $kind ${(name, &#34;.&#34;)}&#39;s claim at [${claimPos.beginLine}, ${claimPos.beginColumn}], i.e.:
+                |
+                |$claim
+                |&#34;&#34;&#34;.render)
+        }
+        return Plugin.Result(stat, nextFresh, claims)
+      }
+    }
+
+    reporter.error(step.claim.posOpt, Logika.kind, st&#34;Could not find the stated claim in $kind ${(name, &#34;.&#34;)}&#34;.render)
+    return err()
+  }
+
+}
+</code></pre><h2 id="packaging-and-imports">Packaging and Imports</h2>
+<hr>
+<p>claimOfPlugin.sc Code:</p>
+<pre tabindex="0"><code>// #Sireum
+
+package org.sireum.logika.plugin
+
+import org.sireum._
+import org.sireum.lang.symbol.Info
+import org.sireum.lang.{ast =&gt; AST}
+import org.sireum.logika.{Logika, Smt2, State, StepProofContext}
+import org.sireum.logika.Logika.Reporter
+</code></pre><hr>
+<h3 id="first-line">First Line</h3>
+<p>The first line of any plugin must include:</p>
+<pre tabindex="0"><code>// #Sireum
+</code></pre><p>This is because the plugins utilize Sireum, and this is a requirement of Sireum.</p>
+<h3 id="package">Package</h3>
+<p>It is good practice for all plugins within Logika to be under the package below. The ClaimOfPlugin follows this rule.</p>
+<pre tabindex="0"><code>package org.sireum.logika.plugin
+</code></pre><h3 id="imports">Imports</h3>
+<p>The ClaimOfPlugin retains all of the <a href="#basic-requirements">default plugins</a> required of a plugin with the addition of the import:</p>
+<pre tabindex="0"><code>import org.sireum.lang.symbol.Info
+</code></pre><p>This import provides access to the facts and theorm structures that this plugin works within in order to make proof progress.</p>
+<h2 id="definition-and-class-values">Definition and Class Values</h2>
+<h3 id="definition">Definition</h3>
+<p>The definition of the ClaimOfPlugin is as follows:</p>
+<pre tabindex="0"><code>@datatype class ClaimOfPlugin extends Plugin {
+
+}
+</code></pre><p>Plugins must extend the Plugin type. The name of the plugin reflecting the string utilized in the default plugin list. It is good practice that they match the name of the file itself.</p>
+<h3 id="class-level-variables">Class-Level Variables</h3>
+<p>The ClaimOfPlugin contains two class-level variables that are used in evalution that are also a part of any plugin:</p>
+<pre tabindex="0"><code>val justificationName: ISZ[String] = ISZ(“org”, “sireum”, “justification”)
+
+val name: String = “ClaimOfPlugin”
+</code></pre><p>The justification name plugin provides the path from which the justification symbols handled by this plugin are located.</p>
+<p>The name string reflects the name of the plugin itself. It is used to communicate within the plugin itself and the systems outside the file.</p>
+<h3 id="canhandle-method">canHandle Method</h3>
+<p>The can handle the method of a plugin, and therefore the ClaimOfPlugin works to determine whether or not the plugin is able to handle the step provided. This a required method of any plugin, but in the ClaimOfPlugin’s implementation of the method, it utilizes a methodology to determine its ability to solve the step using the following structured approach:</p>
+<pre tabindex="0"><code>@pure override def canHandle(logika: Logika, just: AST.ProofAst.Step.Justification): B = {
+    just match {
+      case just: AST.ProofAst.Step.Justification.Apply =&gt;
+        just.invokeIdent.attr.resOpt.get match {
+          case res: AST.ResolvedInfo.Method =&gt; return res.id == &#34;ClaimOf&#34; &amp;&amp; res.owner == justificationName
+          case _ =&gt; return F
+        }
+      case _ =&gt; return F
+    }
+  }
+</code></pre><ol>
+<li>
+<p>Looking at the justification passed into the method (the justification is a child of the step at the Logika level, which is not a direct part of the plugin architecture), the method determines if it is of the type, Apply, if it is not, it returns F, otherwise, it continues.</p>
+</li>
+<li>
+<p>Now, looking at the resulting operation of the justification (just.invokeIdent.attr.resOpt.get), the methods makes sure that the ID is equivalent to “ClaimOf”, and the justificationName class-level (recall that this is the package that we expect the ClaimOf justification to reside in) is equal to the owner property of this justification. If it is not both of these, it will return false, but if both are satisfied, then it will return true.</p>
+</li>
+</ol>
+<p>In short, the canHandle method will only return true if the justification of the step is equal to the relevant keyword, “ClaimOf”, and the use of that key word comes from the appropriate directory with the overall justification being of the appropriate type, Apply. Any other outcome provides a false result.</p>
+<p>The ClaimOfPlugin provides a best practice structure from which similar plugins can build their own canHandle methods, testing against similar stored values or literals when appropriate. It is imperative that the methodology for determining the ability of a plugin to handle a step only returns true for a situation that it can handle, and that it is not handling something that another plugin should handle as Logika’s system of determining what plugin to have handle a given line stops asking plugins if it can handle a step once a single plugin has returned that it can. This means that if a plugin appears earlier in the list of plugins that Logika inquiries and has some error in its determination, it could potentially handle errors that are meant for other plugins, or that the plugin can simply not handle.</p>
+<h2 id="handle-method">Handle Method</h2>
+<p>The handle method of the ClaimOfPlugin class, or any plugin, is called after its canHandle method returns true. The Logika.scala file’s method once again is the moderator for these calls, however, when determining how we construct a given plugin’s handle method, we can keep in mind that whatever information on the nature of the step and its justification that can be gleaned from the canHandle method is applicable.</p>
+<h3 id="definition-1">Definition</h3>
+<pre tabindex="0"><code>override def handle(logika: Logika, smt2: Smt2, cache: Smt2.Cache, log: B, logDirOpt: Option[String], spcMap: HashSMap[AST.ProofAst.StepId, StepProofContext], state: State, step: AST.ProofAst.Step.Regular, reporter: Reporter): Plugin.Result = { }
+</code></pre><p>Since there is a default implementation of the handle method that is provided by the Plugin trait itself, a plugin must use the override keyword. The rest of the definition is a mirror of the Plugin trait’s implementation (src/main/scala/org/sireum/logika/plugin/Plugin.scala). The types and names of the parameters are self explanatory, however, anytime that an option type is presented, it is used to allow for an Option.none() value which can function as a null value of the given type.</p>
+<h3 id="implementation">Implementation</h3>
+<p>There is a definition of a strict pure method within the handle method, and this method, err, returns a Plugin result that denotes an error in the processing of the step provided.</p>
+<p>ClaimOfPlugin’s handle method goes through a process resembling the following:</p>
+<ol>
+<li>Define a value that stores the justification of the step.</li>
+<li>Determine whether the first expression of the justification’s arguments is any of the eta type, reporting an error and returning if it is not. If so, the value of the expression is held within a value in the method.</li>
+<li>If the argument is of the type Ident
+<ol>
+<li>If the resulting operation of the argument is a fact or a theorem, use the result’s name and an empty list to populate the values name and targs at the method level. If it is neither of these things, report an error and return.</li>
+</ol>
+</li>
+<li>If the argument is of the type select
+<ol>
+<li>If the resulting operation of the argument is a fact, populate the name value at the method level with the result’s name and a list of the typed options for argument’s targs for the targs at the method level. If the resulting operation of the argument is a theorem, populate the name value at the method level with the result’s name and an empty list for the targs value at the method level.</li>
+</ol>
+</li>
+<li>If the argument is not the ident or select type, report an error and return.
+<ol>
+<li>Now, if the info from the (logika.th.nameMap.get(name).get) is of the subtype, Fact, the method values kind is set to “Fact”, typeParams is set to the typeParams fo the info, and the claims is set to the claims of the claims. If the info is of the subtype, Theorem, it populates the kind value with whether it is a Lemma or a Theorem (checked via subtype), and then the typeParams is stored in the typeParams at the method level, and an immutable list of claims with the info’s claim stored inside the list.</li>
+</ol>
+</li>
+<li>Create a populate values for the substitute map and the stepClaim.</li>
+<li>Now, for every claim:
+<ol>
+<li>Normalize the claim</li>
+<li>Substitute the normalized claim, skipping info that is already resolved with respect to the submap.</li>
+<li>Then, if the Step’s normalized claim is equal to this current claims normalized and substituted form, then check if logika’s evaluation of the regular step claim returns true, if it does inform the reporter that the claim was accepted. Regardless of whether or not it returned true, return a Plugin.result containing the evaluations information.</li>
+</ol>
+</li>
+<li>Finally, if the program reaches the end of this method by any means, report an error and return the @strictpure error just like any other error in this method.</li>
+</ol>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Plugins</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/how-to-create-a-plugin/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> How to Create a Plugin
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/tutorial-proof-language-extensions/example-existing-plugin-propositional-natural-deduction/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Example Existing Plugin: Propostional Natural Deduction
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

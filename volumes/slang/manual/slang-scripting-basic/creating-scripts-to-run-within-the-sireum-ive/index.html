@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Using Sireum to create an IVE Project for Slang Scripts Sireum includes some command line options to generate a skeleton Slang script project that is ready for use within the IVE. This saves having to go through a series of steps within the IVE to set up the project. The command line option will create a project with a single script file. To add other script files to the same project, use the :guilabel:File / New / File menu option in the IVE and manually insert the appropriate Sireum headers and imports (see below)." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/slang-scripting-basic/creating-scripts-to-run-within-the-sireum-ive/" />
+
+
+    <title>
+        
+            Creating Scripts to Run Within the Sireum IVE :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Creating Scripts to Run Within the Sireum IVE">
+<meta itemprop="description" content="Using Sireum to create an IVE Project for Slang Scripts Sireum includes some command line options to generate a skeleton Slang script project that is ready for use within the IVE. This saves having to go through a series of steps within the IVE to set up the project. The command line option will create a project with a single script file. To add other script files to the same project, use the :guilabel:File / New / File menu option in the IVE and manually insert the appropriate Sireum headers and imports (see below)."><meta itemprop="datePublished" content="2022-07-28T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-07-28T00:00:00+00:00" />
+<meta itemprop="wordCount" content="610"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Creating Scripts to Run Within the Sireum IVE"/>
+<meta name="twitter:description" content="Using Sireum to create an IVE Project for Slang Scripts Sireum includes some command line options to generate a skeleton Slang script project that is ready for use within the IVE. This saves having to go through a series of steps within the IVE to set up the project. The command line option will create a project with a single script file. To add other script files to the same project, use the :guilabel:File / New / File menu option in the IVE and manually insert the appropriate Sireum headers and imports (see below)."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-28 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/slang-scripting-basic/creating-scripts-to-run-within-the-sireum-ive/">Creating Scripts to Run Within the Sireum IVE</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h2 id="using-sireum-to-create-an-ive-project-for-slang-scripts">Using Sireum to create an IVE Project for Slang Scripts</h2>
+<p>Sireum includes some command line options to generate a skeleton Slang script project that is ready for use within the IVE.  This saves having to go through a series of steps within the IVE to set up the project.  The command line option will create a project with a single script file.  To add other script files to the same project, use the :guilabel:<code>File / New / File</code> menu option in the IVE and manually insert the appropriate Sireum headers and imports (see below).</p>
+<p>To generate a &ldquo;hello world&rdquo; Slang script project in the current directory and launch Sireum IVE, the following commands can be used (assuming <code>SIREUM_HOME</code> is set to Sireum&rsquo;s installation path).  Instead of the second command in each listing below, the IVE can also be launched using app launcher of the host OS.</p>
+<p><strong>macOS</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Generates ./hello project directory with ./hello/src/script.sc</span>
+</span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">SIREUM_HOME</span><span class="si">}</span>/bin/sireum tools ivegen .
+</span></span><span class="line"><span class="cl">  open <span class="si">${</span><span class="nv">SIREUM_HOME</span><span class="si">}</span>/bin/mac/idea/IVE.app
+</span></span></code></pre></div><p><strong>Linux</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Generates ./hello project directory with ./hello/src/script.sc</span>
+</span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">SIREUM_HOME</span><span class="si">}</span>/bin/sireum tools ivegen .
+</span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">SIREUM_HOME</span><span class="si">}</span>/bin/linux/idea/bin/IVE.sh
+</span></span></code></pre></div><p><strong>Windows</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">REM Generates .\hello project directory with .\hello\src\script.sc</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">%SIREUM_HOME%</span>\bin\sireum.bat tools ivegen . 
+</span></span><span class="line"><span class="cl">  cmd /C <span class="nv">%SIREUM_HOME%</span>\bin\win\idea\bin\IVE.exe
+</span></span></code></pre></div><p>Once Sireum IVE is running, open the <code>hello</code> directory as a project using the :guilabel:<code>File / Open</code> menu option, then open the <code>script.sc</code> file for editing.
+(When asked to add <code>Ammonite</code> dependencies, choose <code>Ignore</code> for now; you can add the dependencies but it might take a while to download the packages.)</p>
+<p><img src="https://doc.sireum.org/slang-script-hello-open-run.jpg" alt="slang-script-hello-open-run"></p>
+<p><strong>Opening and Executing the Sireum-generated <em>Hello</em> Slang script project</strong></p>
+<p>To run the script, click on the green ► button at the top-left part of the editor (or click on the green ► button on the right side of &ldquo;Run script.sc&rdquo; at the top-right part of the window).   Execution opens the <code>Run</code> pane at the bottom of the IVE to show console output for the script.</p>
+<!-- notice tip  ShortCode -->
+<p>Note: The green arrow on the left calls the tool pipeline directly from in Java whereas the &ldquo;Slang Script Runner&rdquo; calls a shell script which launches a separate JVM.</p>
+<!-- notice end ShortCode -->
+<p>To rename the IntelliJ/IVE module to something other than &ldquo;Hello&rdquo;, select the project name in the resource browser and use context menu to rename.   To rename the project itself, close the project and rename the folder containing the project from the file system.</p>
+<p><img src="https://doc.sireum.org/figures/slang/ref/slang-script-hello-rename.png" alt="slang-script-hello-rename"></p>
+<p><strong>Renaming the Slang script module</strong></p>
+<p>Alternatively, when originally creating the project, the <code>ivegen</code> tool can be passed a command line argument using the switches <code>-n</code> or <code>--name</code> to specify the name as illustrated below for macOS (Linux and Windows are similar).</p>
+<p><strong>macOS</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  <span class="c1"># Generates ./myfavproj project directory with ./myfavproj/src/script.sc</span>
+</span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">SIREUM_HOME</span><span class="si">}</span>/bin/sireum tools ivegen --name myfavproj .
+</span></span></code></pre></div><p>To generate the project in a location other than the current directory, replace the <code>.</code> with the target directory, e.g.,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  <span class="c1"># Generates &lt;mytargetdirectory&gt;/myfavproj project directory with &lt;mytargetdirectory&gt;/myfavproj/src/script.sc</span>
+</span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">SIREUM_HOME</span><span class="si">}</span>/bin/sireum tools ivegen --name myfavproj &lt;mytargetdirectory&gt;
+</span></span></code></pre></div><!-- notice tip  ShortCode -->
+<p>${SIREUM_HOME}/bin/sireum tools ivegen -n slang-by-examples-git &ndash;module slang-by-examples .
+I gave the above command in the directory above slang-by-examples-git folder to populate an existing collection of scripts
+in slang-by-examples-git/src
+with the name slang-by-examples used as the module name</p>
+<!-- notice end -->
+<h2 id="creating-additional-scripts-in-the-project">Creating Additional Scripts in the Project</h2>
+<p><img src="https://doc.sireum.org/figures/slang/ref/slang-script-second.png" alt="slang-script-second"></p>
+<p><strong>Creating additional scripts within the proejct</strong></p>
+<p>Additional scripts within the same project can be created using the IVE :guilabel:<code>File / New / File</code> to create a file with a <code>.sc</code> extension (e.g. :file:<code>mysecondscript.sc</code> as illustrated in the figure above.  This script illustrates how the Slang example fragments from other chapters to can be put into scripts for experimenting with language features.  Note that each script file must start with the Sireum file indicator and import.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Scala" data-lang="Scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// #Sireum
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span></code></pre></div><p>The <code>// #Sireum</code> tells the IVE that the file should be recognized as a Slang file for editor support and for compilation / execution.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/slang-scripting-basic/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang Scripting (Basic)</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/slang-scripting-basic/overview/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Overview
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/slang-scripting-basic/running-scala-scripts-from-the-command-line/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Running Scala Scripts from the Command Line
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

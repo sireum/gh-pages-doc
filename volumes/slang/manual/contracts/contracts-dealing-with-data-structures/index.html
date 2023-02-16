@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="JH: May want to start within simpler example here (doesn&amp;rsquo;t involve loop or cases) based on update or swap.
+Contracts that capture properties of data structures require understanding of additional subtleties for the In(...) and Modifies constructs and for the use of quantification. Consider the following method that takes a sequence of integers and squares each element of the sequence::
+def square(a: ZS): Unit = { Contract( Modifies(a), Case( &amp;#34;empty&amp;#34;, Requires(a." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/contracts/contracts-dealing-with-data-structures/" />
+
+
+    <title>
+        
+            Contracts Dealing with Data Structures :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Contracts Dealing with Data Structures">
+<meta itemprop="description" content="JH: May want to start within simpler example here (doesn&rsquo;t involve loop or cases) based on update or swap.
+Contracts that capture properties of data structures require understanding of additional subtleties for the In(...) and Modifies constructs and for the use of quantification. Consider the following method that takes a sequence of integers and squares each element of the sequence::
+def square(a: ZS): Unit = { Contract( Modifies(a), Case( &#34;empty&#34;, Requires(a."><meta itemprop="datePublished" content="2022-07-28T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-07-28T00:00:00+00:00" />
+<meta itemprop="wordCount" content="809"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Contracts Dealing with Data Structures"/>
+<meta name="twitter:description" content="JH: May want to start within simpler example here (doesn&rsquo;t involve loop or cases) based on update or swap.
+Contracts that capture properties of data structures require understanding of additional subtleties for the In(...) and Modifies constructs and for the use of quantification. Consider the following method that takes a sequence of integers and squares each element of the sequence::
+def square(a: ZS): Unit = { Contract( Modifies(a), Case( &#34;empty&#34;, Requires(a."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-28 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/contracts/contracts-dealing-with-data-structures/">Contracts Dealing with Data Structures</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <!-- notice note ShortCode -->
+<p><strong>JH: May want to start within simpler example here (doesn&rsquo;t involve loop
+or cases) based on update or swap</strong>.</p>
+<!-- notice end ShortCode -->
+<p>Contracts that capture properties of data structures require
+understanding of additional subtleties for the <code>In(...)</code> and
+<code>Modifies</code> constructs and for the use of quantification.   Consider
+the following method that takes a sequence of integers and squares
+each element of the sequence::</p>
+<pre tabindex="0"><code>  def square(a: ZS): Unit = {
+    Contract(
+      Modifies(a),
+      Case(
+        &#34;empty&#34;,
+        Requires(a.size == 0),  // this case applies when input array is empty
+        Ensures(
+          a == In(a) // In(a) gives the input value of a in the pre-state of square
+        )
+      ),
+      Case(
+        &#34;non-empty&#34;,
+        Requires(a.size &gt; 0),   // this case applies when input array not is empty
+        Ensures(
+          a.size == In(a).size, // nothing is added or removed from array (elements are only transformed)
+          ∀(a.indices)(i =&gt; a(i) == In(a(i)) * In(a(i)))
+          // a.indices returns a Slang &#34;range&#34; representing indices of a
+          // can use All instead of ∀
+          // In(a(i)) desugars to (In(a))(i)
+        )
+      )
+    )
+
+    for (i &lt;- 0 until a.size) { // iterate with i,  0 &lt;= i &lt;= a.size
+      Invariant(
+        Modifies(a),           // a is modified by the loop
+        a.size == In(a).size,  // a&#39;s size always equals its size at input
+        ∀(0 until i)(j =&gt; a(j) == In(a(j)) * In(a(j))), // applies to part that has been processed
+        ∀(i until a.size)(j =&gt; a(j) == In(a(j)))        // applies to part to be processed
+      )
+      a(i) = a(i) * a(i)
+    }
+  }
+</code></pre><p>The above contract provides an additional example of Slang&rsquo;s contract
+cases notation: one case addresses the situation where the sequence is
+empty, the second case addresses the non-empty case.</p>
+<p>Before the cases, the <code>Modifies</code> clause indicates that parameter
+<code>a</code> <em>may</em> be modified by the method.   Note that this is clearly a
+&ldquo;may&rdquo; as opposed to a &ldquo;must&rdquo; modality since, while the non-empty
+case modifies the sequence elements, the empty case does not.   In
+other terms, the <code>Modifies</code> clause can be understood as being
+&ldquo;conservative&rdquo; and an &ldquo;over-approximation&rdquo; of what is actually
+modified.</p>
+<p>In the &ldquo;empty&rdquo; case, <code>In</code> construct is used in the <code>Ensure</code> clause
+to indicate that the value of <code>a</code> in the post-state is equal to the
+value of <code>a</code> in the pre-state (indicated by <code>In(a)</code>).   Recall
+that Slang&rsquo;s equality <code>==</code> is value-based equality.</p>
+<p>In the &ldquo;non-empty&rdquo; case, <code>In</code> is used within an object access
+expression <code>... . size</code>  to indicate that the field access applies
+to the value of the object in the pre-state.  This clause of the
+contract captures a common idiom where one wants to indicate that the
+size of the data structure has not changed, even though the contents
+may be changed.  This type of constraint is often necessary to ensure
+that reasoning about bounds violations proceeds as expected (if it is
+omitted, then Logika will consider that the size of the structure may have
+changed and so it is possible that sequence accesses that should be within
+bounds cannot be proven to be in bounds).</p>
+<p>The other <code>Ensures</code> clause specifies how the sequence contents have
+been transformed:  for each index <code>i</code> of the sequence, the sequence
+value at that position in the post-state is equal the square of the
+value at that position in the pre-state.  Note that the use of
+<code>In(a(i))</code> around the sequence indexing expression <code>a(i)</code> raises
+the question: can arbitrary forms of expressions be surrounded by
+<code>In</code> to indicate the given <em>expression</em> (not just a single variable)
+should be evaluated in the pre-state.   The answer is &ldquo;no&rdquo;:
+technically, Slang Contracts <code>In</code> clause can only be applied to
+variables &ndash; in the example above, the syntactic sugar <code>In(a(i))</code> is
+introduced as a convenience for <code>(In(a))(i)</code>.  In the desugared
+expression, Slang&rsquo;s rule of &ldquo;only apply <code>In</code> to variables&rdquo; is
+followed.  See Section <strong>insert reference to sequences/quantification
+section</strong> for an explanation of Slang&rsquo;s quantification notation.</p>
+<!-- notice note ShortCode -->
+<p><strong>JH: Ask Jason/Robby what we did in this type of situation in SPARK:
+an input variable has its internals modified.  Here we have no
+explicit in/out notations.</strong></p>
+<p><strong>JH: Need to adapt the previous section explanations of modifies to
+indicate that the clause also applies to parameters &ndash; not just global
+variables.</strong></p>
+<!-- notice end ShortCode -->
+<p>In the method body, the <code>Invariant</code> contract indicates properties
+that should hold true at the beginning and end of the loop body</p>
+<!-- notice note ShortCode -->
+<p>(<strong>JH:double-check position of invariant checking</strong>).</p>
+<!-- notice end ShortCode -->
+<p><code>Modifies(a)</code>
+indicates that the sequence may be modified during the execution of
+the loop body.  The next invariant constraint indicates that the size
+of the sequence is not changed: the sequence size is always equal to
+its size in the pre-state.  The next constraint indicates what has
+been accomplished in the loop up to the present iteration: the value
+of each element of the sequence up to (but not including) the present
+index has been squared.   The final constraint indicates that nothing
+has &ldquo;messed with&rdquo; the other elements in the sequence &ndash; they still
+match their values in the pre-state.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/contracts/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Contracts</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/contracts/contract-cases/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Contract Cases
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/contracts/specification-only-methods/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Specification-only Methods
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

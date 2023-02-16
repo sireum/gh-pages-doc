@@ -1,0 +1,454 @@
+---
+title: "Motivation"
+date: 2022-07-20T15:42:11+02:00
+---
+
+In order to describe what we understand for Slang programs to be correct,
+we need some concepts that are best discussed in terms of reasoning about such programs.
+We begin with very simple Slang program fragments, so that all attention is on the concepts
+while the program fragments themselves are not of much interest.
+
+## Immutable and Mutable Variables
+
+There are two kinds of variables available:
+- *Immutable* variables are assigned once and then never changed
+- *Mutable* variables may be assigned multiple times (but at least once)
+
+### Immutable Variables
+
+Immutable variables are declared by means of the keyword `val`.
+They are particularly easy to reason about.
+We consider two problems that we commonly encounter in programming:
+- Programs that yield a wrong result
+- Programs that abort because undefined behaviour
+
+#### Debugging a Simple Fragment: Wrong Result
+
+Let's consider the following very simple program fragment consisting of three immutable assignments.
+
+```scala {linenos=inline}
+val x: Z = 1
+val y: Z = x + x + 1
+val z: Z = x + y
+```
+
+We can easily determine the values of the variables `x`, `y` and `z` at the different locations in the fragment:
+Executing line 1 assigns `x` the value `1`; 
+executing line 2 assigns `y` the value `3` because the value of `x` is `1`; 
+executing line 3 assigns `z` the value `4` because the value of `x` is `1` and the value of `y` is `3`.
+
+We perform this type of step-by-step "mental evaluation", reasoning the value of each variable assignment, if we want to find an error in a program. 
+For instance, if we expect the value of `z` above to be `3` after execution of line 3,
+then somewhere on the way of our mental execution we ought to be able to observe an "unexpected value".
+
+We can make our expectations about the evaluation more explicit by inserting `assert` statements into the program.
+The `assert` statement does nothing 
+if the condition stated as its parameter is true when the statement is executed -- execution just continues past the assertion.
+Otherwise, execution is aborted.   This gives us a concise means to express "continue program execution if my expectations about the program's meaning are correct; otherwise halt where my expectations are violated", e.g., so we can diagnose and fix the problem.
+The following fragment aborts at line 4.
+
+```scala {linenos=inline,hl_lines="4"}
+val x: Z = 1
+val y: Z = x + x + 1
+val z: Z = x + y
+assert(z == 3)
+```
+
+We observe, that the assigment to variable `z` is wrong.  (John: According to the assert statement, we expected the value of z to be 3, but we executed the program and the assertion failed with a message that z actually has the value 4.)
+Suppose, taking the sum `x + y` is intended. (John: suppose calculating the value of `z` as the sum `x + y` is intended, thus the assignment to `z` is correct, but we must have made a mistake before that.)
+Thus, we need to have a look at the values of `x` and `y`.
+Further suppose, the value of `x` should be `1`. (John: Our intentions at this point are that `x` should have the value of `1` and `y` the value of `2`)
+Then the value of `y` must be `2`.
+Let's insert a corresponding `assert` statements into the fragment to express our intentions.
+
+```scala {linenos=inline,hl_lines="4 6"}
+val x: Z = 1
+val y: Z = x + x + 1
+assert(x == 1)
+assert(y == 2)
+val z: Z = x + y
+assert(z == 3)
+```
+
+(John: explain that the assertion for x succeeds but the one for y fails.)
+We conclude that the assigment to `y` must be wrong (because we have determined that everything else is fine).
+We know that the value of `x` must be `1` when the assignment to `y` is executed.
+To fix the error we have to change the assignment to `y` like shown below, for instance.
+
+```scala {linenos=inline}
+val x: Z = 1
+assert(x == 1)
+val y: Z = x + 1
+assert(x == 1)
+assert(y == 2)
+val z: Z = x + y
+assert(z == 3)
+```
+
+(John: when running the program, all assertions succeed, and thus we know that ... )
+This program assigns value `3` to variable `z`.
+
+
+We have approached the faulty fragment by a method of program debugging:
+*We have stated which result we expected and 
+then traced values of variables occuring during the execution of the fragment
+until we have found the error*, e.g, the erroneous assigment to variable `y`.
+Note, that we have traced values forwards following the sequence of assigments
+but that have stated the expected values backwards starting from the result.
+This is a rather natural way to approach reasoning about programs
+as the information about the expected values propagates backwards from the result
+and the information about values propagates forward along the executed assignments.
+
+There is one serious problem with the approach we have just followed.
+We should have been explicit about the expected result `z == 3` of the fragment from the beginning of our coding activity.
+That is, we should have started with the second fragment (of which we state the fixed version below).
+
+```scala {linenos=inline}
+val x: Z = 1
+val y: Z = x + 1
+val z: Z = x + y
+assert(z == 3)
+```
+
+We shall do this systematically from now on.
+As we go on, we'll use additional techniques to specify expected results that offer better support for reasoning.
+
+(John: it seems like we should use phrases above like "We state our intentions/expectations" and also "we consider the facts that must be true at/after each statement in the program", and "when we try to reason about whether the assertion holds or not, we see if the facts at that point will cause the assertion to be true".)
+
+We'll also introduce techniques to specify expected input of a program.
+The following section provides a small example to motivate this.
+
+#### Debugging a Simple Fragment: Undefined Behaviour
+
+Consider the following program fragment.
+The assignment to `z` aborts because division by zero is undefined.
+That is, before the assignment is executed we expect the condition `y != 0` to hold.
+
+```scala {linenos=inline,hl_lines="3"}
+val x: Z = 2
+val y: Z = 0
+val z: Z = x / y
+assert(z == 2)
+```
+
+Let's insert the corresponding `assert` statement.
+
+```scala {linenos=inline,hl_lines="3"}
+val x: Z = 2
+val y: Z = 0
+assert(y != 0)
+val z: Z = x / y
+assert(z == 2)
+```
+
+The condition `y != 0` no longer refers to a specific value of variable `y`.  That is, for the assertion to pass, `y` may be any value from the set of integers that are not `0`.  In terms of our desire for a successful program execution, the assertion describes the set of values for which `x / y` is defined.
+Thus, `y != 0` is a fact that we need to establish before evaluting `x / y`.
+Now, we can trace the value of `y` and check whether it satisfies the fact `y != 0`.
+Performing our mental execution of the program, we see that variable `y` is assigned the value `0`. 
+Let's insert a corresponding assertion to capture our knowledge about the value of `y` at that point.
+
+```scala {linenos=inline,hl_lines="4"}
+val x: Z = 2
+val y: Z = 0
+assert(y == 0)
+assert(y != 0)
+val z: Z = x / y
+assert(z == 2)
+```
+
+Knowing `y == 0` (line 3), we can substitute `0` for `y` in the condition `y != 0`, obtaining `0 != 0`.
+Of course, this is false, and for this reason the program aborts when evaluating `assert(y != 0)`.
+If we change the value assigned to `y` to `2`, we get the following fragment.
+
+```scala {linenos=inline,hl_lines="6"}
+val x: Z = 2
+val y: Z = 2
+assert(y == 2)
+assert(y != 0)
+val z: Z = x / y
+assert(z == 2)
+```
+
+Evaluation succeeds for the assignment to `z` because `x / y` is defined for `y == 2`.
+Of course, the fragment still does not yield `z == 2`, and so the last assertion fails.   If we change the program so that variable `y` is assigned the value `1`, then the entire fragment executes without a run-time exception or assertion violation.
+
+```scala {linenos=inline}
+val x: Z = 2
+val y: Z = 1
+assert(y == 1)
+assert(y != 0)
+val z: Z = x / y
+assert(z == 2)
+```
+
+In larger programs it becomes virtually impossible to keep in your head all the conditions and values 
+that need to be traced and satisfied during a mental execution of a program.
+This is where software tools like Logika intervene.
+Logika provides support for this tracing and 
+the derivation of new facts to manage the scale and complexity associated with reasoning about programs.
+We will see that such tools are most effective if we introduce some additional contracts focus solely on specification and automated reasoning.   Some of these constructs are unlike `assert` in that they are not executable (they are simply ignored during execution) and their entire purpose is to support reasoning (both mental and automated).
+Nevertheless, the `assert` statement remains useful for purposes linked to the execution of programs:
+- We can use it to check runtime conditions in programs for faults beyond our control 
+  like random hardware faults.
+  We will not follow up on this here. Our focus is on reasoning and those aspects that are under our control.
+- We can use it or specialised variants for software testing.
+  Software testing is closely related to reasoning about software programs in the way outlined above.
+  Tracing values and relating them to facts provides valuable information for the creation of test cases.
+
+#### Tracing Facts
+
+We have seen above that facts are used to specify conditions for defined behaviour (John: avoided run-time exceptions?), e.g., using an assertion, we stated that we needed the fact `y != 0` to hold before a division operation to avoid the operation throwing a run-time exception.
+But we haven't used them for more yet.
+Consider the following fragment (where function `randomInt` yields some arbitrary integer value)
+
+```scala
+val m: Z = randomInt()
+val n: Z = randomInt()
+val z: Z = m + n
+val y: Z = z - n
+val x: Z = z - y
+assert(x == n & y == m)
+```
+
+Can we still determine whether the assertion at the end holds even though we don't know the values of `m` and `n`?
+
+Let's trace the facts established by the assignments to the variables `x`, `y` and `z` through the fragment,
+and derive new facts by algebraic reasoning using laws of integer arithmetic.
+
+- After the assignment to `z` in line 3, we obtain the fact `z == m + n`.
+  This is just what the assignment says.
+- After the assignment to `y` in line 4, we obtain additionally `y == z - n`.
+  Using the equation `z == m + n` that still holds after the assignment to `y`,
+  we can derive a new fact, namely, `y == (m + n) - n` by substituting `m + n` for `z` in `y == z - n`.
+  We can simplify `y == (m + n) - n` to `y == m + (n - n)` and further to `y == m`.
+- After the assignment to `x` in line 5, we obtain `x == z - y` as a new fact.
+  We can make use of the two facts `z == m + n` and `y == m` that remain true after the assignment to `x`.
+  We can substitute `z` and `y` in `x == z - y` to obtain `x == (m + n) - m` 
+  which we can simplify to `x == n`.
+- Finally, we have two facts `x == n` and `y == m`. 
+  So, we can conclude `x == n & y == m` and the assertion in line 6 must always be true,
+  independently of the values of `m` and `n`.
+
+Note that because we didn't make any assumptions about the values of `m` and `n`, we have demonstrated (i.e., proved) that the assertion holds for all possible values of `m` and `n`.
+We are so confident in our reasoning that we might now view the use of the `assert` statement in line 6 appear redundant (we have clearly demonstrated that the assertion will always succeed).  
+
+As we shift our perspective from *execution* to the *proof-based reasoning* illustrated above, we introduce some alternate notation to indicate the facts that we know to be true via our proof-based reasoning.  We'll use special proof notation instead of `assert` and intersperse proof information
+supporting reasoning such as just presented in the program text.
+
+Instead of the verbose reasoning narrative written out above, our new notation lets us state the proof more concisely 
+by noting the most important facts as series of deductions as comments in the program fragment. 
+We know how to read it according to our reasoning narrative above.
+An additional advantage of the short form is 
+that one can grasp quickly the important steps and facts of a proof.
+
+```scala
+val m: Z = randomInt()
+val n: Z = randomInt()
+val z: Z = m + n
+// deduce z == m + n
+val y: Z = z - n
+// deduce y == z - n
+// deduce y == (m + n) - n
+// deduce y == m
+val x: Z = z - y
+// deduce x == z - y
+// deduce x == (m + n) - m
+// deduce x == n
+// deduce x == n & y == m
+assert(x == n & y == m)
+```
+
+### Mutable Variables
+
+Mutable variables are declared by means of the keyword `var`.
+Reasoning about mutable variables is much more complicated than reasoning about immutable variables.
+The problem of dealing with undefined behaviour is not affected by this (John: maybe have this as a footnote, or state it later in an assessment.  It seems to disrupt the flow of the explanation when written at this point).
+Let's have a look at a simple program using mutable variables.
+
+#### Tracing Values and Facts
+
+The following program swaps the values of two integer variables `x` and `y` using simple arithmetic manipulations.
+
+```scala {linenos=inline}
+// consider some example input values 
+// represented using values for m and n
+val m: Z = 1
+val n: Z = 2
+// initialize the program variables x and y
+var x: Z = m 
+var y: Z = n 
+// carry out computation to achieve swap
+x = x + y
+y = x - y
+x = x - y
+// check condition indicating that swap has been achieved
+assert(x == 2 & y == 1)
+```
+
+We can verify this in two ways.  In the first way, illustrated above, we use some arbitrary concrete values `1` and `2` for `m` and `n` we then we can trace the values through the program. We first assign `m` (`1`) to `x` and `n` (`2`) to `y`
+  Then, at the end of the program, we can conclude that the program swaps the values of two integer variables 
+  if the values of `x` and `y` are now `2` and `1`, respectively.  A summary of our mental execution is as follows: in line 9 variable `x` is assigned `2`; in line 10 variable `y` is assigned `1`;
+  and in line 11 variable `x` is assigned `1`.
+  This is what we do if we are testing a program: we choose some appropriate concrete inputs, we execute a program/method, and afterwards we check that the actual result of the program corresponds to a stated expected result.
+
+
+Alternatively, instead of reasoning about specific concrete values, we can consider arbitrary values and trace facts about the variables through the program to construct a proof to that the expected result (`x == n & y == m`) holds at the end.
+
+```scala {linenos=inline}
+// consider arbitrary input values 
+// represented by random values for m and n
+val m: Z = randomInt()
+val n: Z = randomInt()
+// initialize the program variables x and y
+var x: Z = m 
+var y: Z = n 
+// carry out computation to achieve swap
+x = x + y
+y = x - y
+x = x - y
+// check condition indicating that swap has been achieved
+assert(x == n & y == m)
+```
+
+The following narrative summarizes our reasoning (fact tracing) about the program:
+
+  - After executing line 6 we obtain the new fact `x == m`.
+  - After executing line 7 we obtain the additional fact `y == n`.
+
+    Now we have established symbolically the initial values of the variables.
+    Let's follow up the evolution of the facts as we proceed through the computation.
+
+  - First attempt
+    - After executing line 9 we obtain `x == x + y`.
+      Something is wrong here!
+    - If we have `x == m` and `x == x + y`, we can infer that `y` must equal `0`.
+    - The problem we see here is that in an assignment `x = x + y`
+      the `x` on the left-hand side refers to the *new value* of variable `x`,
+      and the value on the right-hand side refers to the *old value* of variable `x`.
+      Of course, we know this. But we also need to reflect this formally in the way
+      we reason about programs.
+  - Distinguishing old facts from new facts
+    - The solution the problem we have just encountered to rename variables 
+      from old facts systematically, so that we can distinguish old facts about a variable
+      from newly established facts. The facts related to variables evolve during program execution.
+      Renaming variables permits us to see the past evolution of the facts concerning a variable.
+    - After execution of line 9, variable `x` as used in line 6 needs to be renamed.
+      For the sake of this example, let's just append the line number to the variable name.
+      The old fact `x == m` becomes `x6 == m`: in line 6 `x` is assignment `m`.
+      The asignment in line 9 then esatblishes `x == x6 + y`: variable `x6` on the right-hand side
+      refers to variable `x` from the past. We can proceed like this to complete the proof
+      continuing to rename variables as we encounter assignments to them.
+  - Second attempt
+    - After executing line 9 we obtain `x == x6 + y`; and by renaming in old facts `x6 == m`.
+      We still know `y == n`. Because `y` is not assigned it is not renamed.
+      Thus, we can infer `x == m + n`.
+    - After executing line 10 we obtain `y == x - y7` (because we have renamed the old `y`);
+      and by renaming in old facts `y7 == n` and `x == m + m`.
+      Thus we can infer `y == (m + n) - n`, and by calculation `y == m`.
+    - After executing line 11 we obtain `x == x9 - y`; and by renaming `x9 == m + n`.
+      We also get `x9 == x6 + y7`, the fact established by execution of line 9 
+      with `x` and `y` renamed according to the assignments in lines 10 and 11.
+      But we do not need this and, in general, 
+      we prefer to derive facts like `x9 == m + n` that progress the proof.
+      We infer `x == (m + n) - y`, and further `x == (m + n) - n` because `y == m`.
+      Thus, we have `x == n`.
+    - Hence, after excuting lines, 9, 10, and 11 we have `x == n` and `y == m`, in other words
+      `x == n & y == m`.
+
+As before we can state the proof more concisely as a series of deductions in the comments.
+We have not mentioned the renamed variables in proof.
+They can make a proof rather difficult to read.
+Instead, we have deduced facts that make mention or reference of older unnecessary.
+This helps for reading the proof: we have only to look only at the most recent assignment 
+before the one currently considered to derive new facts.
+
+```scala {linenos=inline}
+// initialise variables
+val m: Z = 1
+val n: Z = 2
+var x: Z = m
+// deduce x == m
+var y: Z = n
+// deduce y == n
+// carry out computation
+x = x + y
+// deduce x == m + n
+y = x - y
+// deduce y == (m + n) - n
+// deduce y == m
+x = x - y
+// deduce x == (m + n) - m
+// deduce x == n
+// deduce x == n & y == m
+// check condition
+assert(x == n & y == m)
+```
+
+#### Program Intricacy
+
+In the preceding section we can see that reasoning about program becomes rather intricate quickly.
+Partly this is caused by assignments to variables, 
+but the amount of detail and relationships between different variables to consider increases
+fast in software programs.
+Even small programs become quickly rather difficult to handle.
+For this reason, we use software to assist with this reasoning such as Logika.
+With Logika we can also master large programs because of the software tracks facts 
+and carries out renaming automatically.
+Additional concepts and techniques we encounter later provide the necessary toolset to scale
+the approach to large programs containing common programming constructs such as while loops.
+
+#### Testing a Simple Fragment
+
+Knowing about the relationship between values and facts we can formulate a simple testing method
+for program fragments.
+Of course, we need to refine this later on to deal with proper Slang programs,
+but the principle remains the same.
+The fragments we have looked at above have the following general shape, consisting of three parts
+
+```scala
+initialise variables
+carry out computation
+check condition
+```
+
+The `initialise variables` part sets up the input values for the fragment.
+Usually, the input values are chosen 
+taking into account conditions concerning input values, e.g., to avoid division by zero.
+The `carry out computation` part contains the "program".
+The `check condition` part specifies a condition to determine whether the program is correct.
+Correctness is discussed into the following section.
+
+#### Program Correctness
+
+#### Relating Programs (Outlook?)
+
+## Program Verification
+
+### Proof
+
+### Testing
+
+### Logika
+
+We have approached the faulty fragment by a method of program debugging:
+*We have stated which result we expected and 
+then traced values of variables occuring during the execution of the fragment
+until we have found the error*, e.g, the erroneous assigment to variable `y`.
+Note, that we have traced values forwards following the sequence of assigments
+but that have stated the expected values backwards starting from the result.
+This is a rather natural way to approach reasoning about programs
+as the information about the expected values propagates backwards from the result
+and the information about values propagates forward along the executed assignments.
+
+(John: it seems like we should use phrases above like "We state our intentions/expectations" and also "we consider the facts that must be true at/after each statement in the program", and "when we try to reason about whether the assertion holds or not, we see if the facts at that point will cause the assertion to be true".)
+
+* Show motivation-1.sc running with assertion failing (to illustrate that the IVE supports the notion of execution of our program fragments that that assertions have an executable semantics)
+
+* [Optional] show motivation-2.sc running with intermediate assertion violation for mistaken assignment to y (it's too bad that the location of the assertion failure isn't more clear).  motivation-3.sc running shows no assertions violated.
+
+
+* illustrate tracing of values of variables with light bulbs, and illustrate logika checking of assertions for val-based example.
+
+* explain what we mean by fact: a condition/expression referencing the value of program variables (which connects more subtely to the language of expressions)
+
+* explain using lightbulbs the deduce steps in comments.

@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Many of the method contract concepts above are illustrated below with an example of a Circular Queue (i.e., a ring buffer). The example also illustrates additional concepts not yet documented above including invariants, separation of public interfaces (with contracts) from private implementations (with more detailed contracts), spec variables, specification helper methods, and data refinement (relating an public-facing abstract view of a data structure to multiple concrete implementations).
+For now, documentation is given in-line in program comments" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/contracts/extended-example--circular-queue/" />
+
+
+    <title>
+        
+            Extended Example -- Circular Queue :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Extended Example -- Circular Queue">
+<meta itemprop="description" content="Many of the method contract concepts above are illustrated below with an example of a Circular Queue (i.e., a ring buffer). The example also illustrates additional concepts not yet documented above including invariants, separation of public interfaces (with contracts) from private implementations (with more detailed contracts), spec variables, specification helper methods, and data refinement (relating an public-facing abstract view of a data structure to multiple concrete implementations).
+For now, documentation is given in-line in program comments"><meta itemprop="datePublished" content="2022-07-28T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-07-28T00:00:00+00:00" />
+<meta itemprop="wordCount" content="4216"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Extended Example -- Circular Queue"/>
+<meta name="twitter:description" content="Many of the method contract concepts above are illustrated below with an example of a Circular Queue (i.e., a ring buffer). The example also illustrates additional concepts not yet documented above including invariants, separation of public interfaces (with contracts) from private implementations (with more detailed contracts), spec variables, specification helper methods, and data refinement (relating an public-facing abstract view of a data structure to multiple concrete implementations).
+For now, documentation is given in-line in program comments"/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-28 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/contracts/extended-example--circular-queue/">Extended Example &ndash; Circular Queue</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>Many of the method contract concepts above are illustrated below with an example of a
+Circular Queue (i.e., a ring buffer).   The example also illustrates
+additional concepts not yet documented above including invariants,
+separation of public interfaces (with contracts) from private
+implementations (with more detailed contracts), spec variables,
+specification helper methods, and data refinement (relating an
+public-facing abstract view of a data structure to multiple concrete
+implementations).</p>
+<p>For now, documentation is given in-line in program comments</p>
+<p><img src="https://doc.sireum.org/examples/slang/ref/Queue-Example-File.scala" alt="Queue Example File (Open In New Tab)"></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">	      
+</span></span><span class="line"><span class="cl">  <span class="cm">/*============================================================================
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *   A b s t r a c t    R e p r e s e n t a t i o n   of      Q u e u e
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *============================================================================*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">  Create a trait to serve as the abstract interface for the circular queue.
+</span></span></span><span class="line"><span class="cl"><span class="cm">  The trait is parameterized by the type of elements E.
+</span></span></span><span class="line"><span class="cl"><span class="cm">  Slang&#39;s @record specifier is used to indicate that the trait can be implemented by
+</span></span></span><span class="line"><span class="cl"><span class="cm">  an object structure whose fields can be updated.
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">  The queue operations implement a First-In First-Out (FIFO) policy, where new elements
+</span></span></span><span class="line"><span class="cl"><span class="cm">  are inserted in the &#34;rear&#34; of the queue and removed from the &#34;front&#34; of the queue.
+</span></span></span><span class="line"><span class="cl"><span class="cm">  In the abstract representation (a sequence) for the queue,
+</span></span></span><span class="line"><span class="cl"><span class="cm">  the &#34;front&#34; of the queue is the 0th position in the sequence, and
+</span></span></span><span class="line"><span class="cl"><span class="cm">  &#34;rear&#34; of the queue is the highest index position of the sequence (max - 1).
+</span></span></span><span class="line"><span class="cl"><span class="cm">   */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@record</span> <span class="k">trait</span> <span class="nc">CircularQueue</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* Define a specification variable to publicly expose the abstract state of the circular queue.
+</span></span></span><span class="line"><span class="cl"><span class="cm">       The abstract state is represented by a (M)utable (S)equence indexed by (Z) (type MSZ),
+</span></span></span><span class="line"><span class="cl"><span class="cm">       where the front of the queue (first to dequeue) is a the 0th index position.
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">       @spec indicates that the definition will not be presented in the deployed program;
+</span></span></span><span class="line"><span class="cl"><span class="cm">       it is introduced for specification and verification/proof purposes only.
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">       The deployed code will have a concrete representation of the queue provided by
+</span></span></span><span class="line"><span class="cl"><span class="cm">       a Slang object that implements this trait.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@spec</span> <span class="k">var</span> <span class="n">rep</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="n">$</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* Define a specification definition to establish properties relating the publicly
+</span></span></span><span class="line"><span class="cl"><span class="cm">     exposed abstract state of the queue to it&#39;s underlying implementation.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     In the scientific literature on contract languages, this is often called the
+</span></span></span><span class="line"><span class="cl"><span class="cm">     &#34;representation invariant&#34;/
+</span></span></span><span class="line"><span class="cl"><span class="cm">     This will be refined by implementors of the interface/trait to give more about
+</span></span></span><span class="line"><span class="cl"><span class="cm">     the relationship between the abstract state and the implementation.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     it is introduced for specification and verification/proof purposes only.
+</span></span></span><span class="line"><span class="cl"><span class="cm">   */</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@spec</span> <span class="k">def</span> <span class="n">repInv</span> <span class="k">=</span> <span class="nc">Invariant</span><span class="o">(</span><span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="n">max</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="cm">/*----------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="cm">       P r o p e t i e s
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">       The following definitions capture the properties of the queue that impact
+</span></span></span><span class="line"><span class="cl"><span class="cm">       the queue&#39;s behavior.  These will be filled in when implementing classes
+</span></span></span><span class="line"><span class="cl"><span class="cm">       are developed and instances are created.
+</span></span></span><span class="line"><span class="cl"><span class="cm">    *----------------------------------*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="cm">/* The interface exposes the maximum number of elements in the queue.
+</span></span></span><span class="line"><span class="cl"><span class="cm">      &#34;@pure&#34; indicates that evaluating this definition produces no visible
+</span></span></span><span class="line"><span class="cl"><span class="cm">      side effects.
+</span></span></span><span class="line"><span class="cl"><span class="cm">   */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@pure</span> <span class="k">def</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Z</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* The default value for concrete queue slots that are logically &#34;empty&#34;.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * This concept only applies to the concrete
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * representation (the notion of empty slots is not manifested in the abstract
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * representation since it is a variable length structure that only holds the
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * elements that are logically in the queue).
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * However, default needs to be exposed in the interface representation
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * to make the opportunity to select the default value visible to clients.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@pure</span> <span class="k">def</span> <span class="n">default</span><span class="k">:</span> <span class="kt">E</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* Indicates if the unused positions in the queue are to be overwritten
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * with the default value above.  This concept only applies to the concrete
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * representation.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@pure</span> <span class="k">def</span> <span class="n">scrub</span><span class="k">:</span> <span class="kt">B</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/*  Indicates the semantics (policy) to be followed when the queue is full and
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *  there is an attempt to add another element.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@pure</span> <span class="k">def</span> <span class="n">policy</span><span class="k">:</span> <span class="kt">CircularQueue.Policy.Type</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/*----------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="cm">       O p e r a t i o n s
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">       The following definitions capture the queries and operations on the queue.
+</span></span></span><span class="line"><span class="cl"><span class="cm">       At this point, only the method signatures and contracts for the operations
+</span></span></span><span class="line"><span class="cl"><span class="cm">       are given.  Slang&#39;s &#34;Contract.Only&#34; construct is used to provide a contract
+</span></span></span><span class="line"><span class="cl"><span class="cm">       without a method implementation.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *----------------------------------*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Contract states the returned value should correspond to the size of the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// abstract representation of the queue.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// Size corresponds to the current number of elements in the queue.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">def</span> <span class="n">size</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="nc">Contract</span><span class="o">.</span><span class="nc">Only</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">rep</span><span class="o">.</span><span class="n">size</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Contract states the returned value should be the result of comparing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// the size of the abstract representation of the queue to zero.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">def</span> <span class="n">isEmpty</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="nc">Contract</span><span class="o">.</span><span class="nc">Only</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// opposite of above
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">def</span> <span class="n">nonEmpty</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="nc">Contract</span><span class="o">.</span><span class="nc">Only</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Contract states the returned value should be the result of comparing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// the size of the abstract representation of the queue to max size of queue.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">def</span> <span class="n">isFull</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="nc">Contract</span><span class="o">.</span><span class="nc">Only</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">max</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Enqueue - add an element to the rear of the queue.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// The contract uses Slang&#39;s contract cases notation to address three cases:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//   - queue is not full
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//   - queue is full and policy is &#34;drop front&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//   - queue is full and policy is &#34;drop rear&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// In all cases, the state of the queue (rep) is being modified
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">def</span> <span class="n">enqueue</span><span class="o">(</span><span class="n">element</span><span class="k">:</span> <span class="kt">E</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nc">Contract</span><span class="o">.</span><span class="nc">Only</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">rep</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Case</span><span class="o">(</span><span class="s">&#34;Non-full&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Non-full case is selected when size is less than max
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nc">Requires</span><span class="o">(</span><span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="n">max</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// New value (denoted by rep -- the value of rep in the post-state)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// is obtained by adding the element to the end queue as it was
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// in the pre-state (denoted by &#34;In(rep)&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nc">Ensures</span><span class="o">(</span><span class="n">rep</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">rep</span><span class="o">)</span> <span class="k">:</span><span class="kt">+</span> <span class="kt">element</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Case</span><span class="o">(</span><span class="s">&#34;Drop front policy and full&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// This case is selected when size = max and the policy is drop front
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// i.e., the &#34;oldest&#34; element in the queue is to be dropped
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nc">Requires</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">policy</span> <span class="o">==</span> <span class="nc">CircularQueue</span><span class="o">.</span><span class="nc">Policy</span><span class="o">.</span><span class="nc">DropFront</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">        <span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// The size of rep in the post-state is equal to size of rep in the pre-state
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">rep</span><span class="o">).</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// All the previous elements of the queue are moved forward one position,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="c1">// except for the oldest element at index 0, which is overwritten
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="nc">All</span><span class="o">(</span><span class="mi">1</span> <span class="n">until</span> <span class="n">rep</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">rep</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">rep</span><span class="o">)(</span><span class="n">i</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// The value is inserted at the rear of the queue
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">rep</span><span class="o">(</span><span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">element</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Case</span><span class="o">(</span><span class="s">&#34;Drop rear policy and full&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// This case is selected when size = max and the policy is drop rear
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// i.e., the most recent element in the queue is to be dropped
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nc">Requires</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">policy</span> <span class="o">==</span> <span class="nc">CircularQueue</span><span class="o">.</span><span class="nc">Policy</span><span class="o">.</span><span class="nc">DropRear</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">        <span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// The size of rep in the post-state is equal to size of rep in the pre-state
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">rep</span><span class="o">).</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// Use a &#34;helper predicate&#34; msEqualExcept from ContractUtil
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="c1">// to state a frame condition that the queue in the pre-state is equal to the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="c1">// queue in the post-state except for the element at the rear of the queue, i.e.,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="c1">// at index position rep.size - 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">msEqualExcept</span><span class="o">(</span><span class="n">rep</span><span class="o">,</span> <span class="nc">In</span><span class="o">(</span><span class="n">rep</span><span class="o">),</span> <span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="n">rep</span><span class="o">(</span><span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">element</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// TODO: Need to double-check the logic for the Full and NoDrop case.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">dequeue</span><span class="o">()</span><span class="k">:</span> <span class="kt">E</span> <span class="o">=</span> <span class="nc">Contract</span><span class="o">.</span><span class="nc">Only</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// One can only dequeue when there is at least one element in the queue
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nc">Requires</span><span class="o">(</span><span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// The queue is modified
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nc">Modifies</span><span class="o">(</span><span class="n">rep</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// dequeueing an element decreases the size by 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">rep</span><span class="o">).</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// all elements other than the one at the front (index 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// are moved forward in the queue (note: &#34;until&#34; is non-inclusive on upper bound)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nc">All</span><span class="o">(</span><span class="mi">1</span> <span class="n">until</span> <span class="nc">In</span><span class="o">(</span><span class="n">rep</span><span class="o">).</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">rep</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">rep</span><span class="o">)(</span><span class="n">i</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// Return the element at the front of the queue
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nc">Res</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">rep</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/* elements - defines a method to return all the elements of the queue
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * as a mutable sequence.  This enables the clients of the queue to get
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * all the elements at once without seeing the underlying representation.
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * The construction (simplicity) of the contract relies on the design decision
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * to present the implementation-independent collection of elements using the
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * same type (MSZ[E]) that was used in the contract design to represent the
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * abstract value of the queue.
+</span></span></span><span class="line"><span class="cl"><span class="cm">   */</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="n">elements</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Contract</span><span class="o">.</span><span class="nc">Only</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">rep</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">override</span> <span class="k">def</span> <span class="n">string</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">elements</span><span class="o">.</span><span class="n">string</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/*============================================================================
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *   C o n c r e t e    R e p r e s e n t a t i o n   of      Q u e u e
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *============================================================================*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">object</span> <span class="nc">CircularQueue</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/*----------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="cm">    H e l p e r    D e f i n i t i o n s
+</span></span></span><span class="line"><span class="cl"><span class="cm">  *----------------------------------*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@enum</span> <span class="k">object</span> <span class="nc">Policy</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    &#39;NoDrop    <span class="c1">// pre-conditions on enqueue do not allow the value to be inserted when the queue is full
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    &#39;DropFront <span class="c1">// the &#34;oldest&#34; element in the queue is dropped
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    &#39;DropRear  <span class="c1">// the most recently inserted element in the queue is dropped
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/* inv[E]
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * Defines a boolean helper method that will be used to define the class invariant in
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * each of the three classes providing concrete implementations of the circular queue
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * (NoDrop, DropFront, and DropRear)
+</span></span></span><span class="line"><span class="cl"><span class="cm">   */</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">inv</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">max</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">default</span><span class="k">:</span> <span class="kt">E</span><span class="o">,</span> <span class="n">scrub</span><span class="k">:</span> <span class="kt">B</span><span class="o">,</span> <span class="n">queue</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">],</span> <span class="n">front</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">rear</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">numOfElements</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">      <span class="n">max</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">max</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span> <span class="o">&amp;</span>   <span class="c1">// TODO: don&#39;t understand this constraint.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                <span class="c1">//  May we always create one extra slot so that rear always
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                <span class="c1">//  points to an empty slot (to make the reasoning easier)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="n">queue</span><span class="o">.</span><span class="n">isInBound</span><span class="o">(</span><span class="n">front</span><span class="o">)</span> <span class="o">&amp;</span>  <span class="c1">// uses the isInBound method of the MSZ class to check if front index is in bounds
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="n">queue</span><span class="o">.</span><span class="n">isInBound</span><span class="o">(</span><span class="n">rear</span><span class="o">)</span> <span class="o">&amp;</span>   <span class="c1">// ..and the same for rear index
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">numOfElements</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">numOfElements</span> <span class="o">&lt;=</span> <span class="n">max</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// Establish relationship between numOfElements and front and rear indices, where the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// relationship depends on the relative position of rear, front as they wrap around the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// circular representation.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// TODO: it seems a bit more natural to capture this with an implies
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="o">(</span><span class="n">rear</span> <span class="o">&gt;=</span> <span class="n">front</span><span class="o">)</span> <span class="o">===</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="n">rear</span> <span class="o">-</span> <span class="n">front</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">rear</span> <span class="o">&lt;</span> <span class="n">front</span><span class="o">)</span> <span class="o">===</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="n">rear</span> <span class="o">+</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="n">front</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// If the scrub option is set, all the &#34;unused&#34; slots in the queue should be set to
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// the default value.  Note &#34;modPos&#34; is used to wrap the index position correctly
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// in the &#34;circular&#34; concrete representation.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="o">(</span><span class="n">scrub</span> <span class="n">imply_:</span> <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="n">numOfElements</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">queue</span><span class="o">(</span><span class="n">modPos</span><span class="o">(</span><span class="n">rear</span> <span class="o">+</span> <span class="n">i</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">))</span> <span class="o">==</span> <span class="n">default</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/* refinement[E]
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * Defines a boolean helper method that is true is the concrete representation of the queue
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * (reflected by the queue, numOfElements, and front parameter) corresponds to the abstract
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * representation of the queue (reflected by the rep parameter).
+</span></span></span><span class="line"><span class="cl"><span class="cm">   */</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">refinement</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">rep</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">],</span> <span class="n">queue</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">],</span> <span class="n">numOfElements</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">front</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// number of elements is the same in both representations
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">rep</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">numOfElements</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// the element at position i in the abstract representation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//   matches the value at the &#34;logical&#34; position i in the concrete representation.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//   The modPos helper is used to wrap the i correctly back to the low index positions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//   of the concrete representation.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//      modPos(n: Z, m: Z): Z = if (n &lt; m) n else n - m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nc">All</span><span class="o">(</span><span class="n">rep</span><span class="o">.</span><span class="n">indices</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">rep</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">queue</span><span class="o">(</span><span class="n">modPos</span><span class="o">(</span><span class="n">front</span> <span class="o">+</span> <span class="n">i</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/* refinement[E]
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * Defines a boolean helper method to use in the post-condition of the create method
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * for each kind of queue (NoDrop, DropFront, DropRear).  The method ensures that the
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * basic attributes of the concrete representation (the &#34;res&#34; parameter) are set correctly.
+</span></span></span><span class="line"><span class="cl"><span class="cm">   */</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">createEnsures</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">res</span><span class="k">:</span> <span class="kt">CircularQueue</span><span class="o">[</span><span class="kt">E</span><span class="o">],</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">default</span><span class="k">:</span> <span class="kt">E</span><span class="o">,</span> <span class="n">scrub</span><span class="k">:</span> <span class="kt">B</span><span class="o">,</span> <span class="n">policy</span><span class="k">:</span> <span class="kt">Policy.Type</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span><span class="o">.</span><span class="n">max</span> <span class="o">==</span> <span class="n">max</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span><span class="o">.</span><span class="n">default</span> <span class="o">==</span> <span class="n">default</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span><span class="o">.</span><span class="n">scrub</span> <span class="o">==</span> <span class="n">scrub</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span><span class="o">.</span><span class="n">policy</span> <span class="o">==</span> <span class="n">policy</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/*----------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *  NoDrop  C o n c r e t e    R e p r e s e n t a t i o n
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *----------------------------------------------------------*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">object</span> <span class="nc">NoDrop</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* create[E]
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Creates a concrete representation of the circular queue that implements the
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * NoDrop policy when the queue is full (the method acts as a constructor)
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@pure</span> <span class="k">def</span> <span class="n">create</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">max</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">default</span><span class="k">:</span> <span class="kt">E</span><span class="o">,</span> <span class="n">scrub</span><span class="k">:</span> <span class="kt">B</span><span class="o">)</span><span class="k">:</span> <span class="kt">NoDrop</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// ensure that attributes are correctly set
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">createEnsures</span><span class="o">(</span><span class="nc">Res</span><span class="o">,</span> <span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">,</span> <span class="nc">Policy</span><span class="o">.</span><span class="nc">NoDrop</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// ensure that state of the concrete representation is appropriately initialized
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">additionalCreateEnsures</span><span class="o">(</span><span class="nc">Res</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// ensure that abstract representation is appropriately initialized
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="c1">//  to the empty sequence
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="c1">// TODO: seems like it might be nice to have a helper method that is shared
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="c1">//   between all concrete representations to handle this
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="nc">Res</span><span class="o">[</span><span class="kt">NoDrop</span><span class="o">[</span><span class="kt">E</span><span class="o">]].</span><span class="n">rep</span> <span class="o">==</span> <span class="nc">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// call the constructor for the NoDrop class defined below
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// TODO: I don&#39;t understand why max + 1 is used
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">return</span> <span class="nc">NoDrop</span><span class="o">(</span><span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">,</span> <span class="nc">MS</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">max</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">default</span><span class="o">),</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * additionalCreateEnsures[E]
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * helper spec - specifies that the state of the concrete representation is
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// appropriately initialized
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">additionalCreateEnsures</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">res</span><span class="k">:</span> <span class="kt">NoDrop</span><span class="o">[</span><span class="kt">E</span><span class="o">])</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span><span class="o">.</span><span class="n">front</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span><span class="o">.</span><span class="n">rear</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span><span class="o">.</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Note: isAllMS ensures that all positions of the res.queue have the value res.default
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">isAllMS</span><span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="n">queue</span><span class="o">,</span> <span class="n">res</span><span class="o">.</span><span class="n">default</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/* Class that conforms to the interface of the CircularQueue trait, and
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * provides a queue implementation that implements the NoDrop policy.
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   */</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@record</span> <span class="k">class</span> <span class="nc">NoDrop</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="k">val</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="k">val</span> <span class="n">default</span><span class="k">:</span> <span class="kt">E</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="k">val</span> <span class="n">scrub</span><span class="k">:</span> <span class="kt">B</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">queue</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">],</span>
+</span></span><span class="line"><span class="cl">                          <span class="c1">// index of oldest element in queue; dequeue always takes the element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                          <span class="c1">//   at index front
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                          <span class="k">var</span> <span class="n">front</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="c1">// index of next available slot; enqueue always inserts at index rear
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                          <span class="c1">// Note: front points to a &#34;used&#34; slot; rear points to an &#34;unused&#34; slot
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                          <span class="k">var</span> <span class="n">rear</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="c1">// number of logical elements currently in the queue
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                          <span class="k">var</span> <span class="n">numOfElements</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">CircularQueue</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// defines the class invariant using the inv helper spec defined above.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// The invariant will be automatically included in the pre and post condition
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// for each method in the class.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// TODO: given that the way that the constructor is defined outside of the class,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//  how do we recognize that the invariant should be applied to the post-condition of the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//  constructor?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nd">@spec</span> <span class="k">def</span> <span class="n">invariant</span> <span class="k">=</span> <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">inv</span><span class="o">(</span><span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">,</span> <span class="n">queue</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">rear</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Formally specify the desired data refinement that relates the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// rep state (abstract) to the queue, front, rear, and numOfElements state (concrete).
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// The relationship between these is captured via third item in the DataRefinement
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// contract, which is a boolean expression stated using the refinement helper spec
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// defined above.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">DataRefinement</span><span class="o">(</span><span class="n">rep</span><span class="o">)(</span><span class="n">queue</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">rear</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">)(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">refinement</span><span class="o">(</span><span class="n">rep</span><span class="o">,</span> <span class="n">queue</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">,</span> <span class="n">front</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// provide the concrete implementation of the policy attribute introduced in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// the interface (CircularQueue trait)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">policy</span><span class="k">:</span> <span class="kt">Policy.Type</span> <span class="o">=</span> <span class="nc">Policy</span><span class="o">.</span><span class="nc">NoDrop</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// provide the concrete implementation of the size method introduced in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// the interface (CircularQueue trait)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">override</span> <span class="k">def</span> <span class="n">size</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// define the contract for the concrete implementation in terms of the concrete
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// state.  Verification obligations are auto-generated requiring that the interface
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// contract is also satified by the method below, and that must be established by
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// relying on the refinement relationship between the concrete and abstract state.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">numOfElements</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">numOfElements</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// provide the concrete implementation of the isEmpty method introduced in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// the interface (CircularQueue trait)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">override</span> <span class="k">def</span> <span class="n">isEmpty</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">numOfElements</span> <span class="o">==</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// provide the concrete implementation of the nonEmpty method introduced in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// the interface (CircularQueue trait)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">override</span> <span class="k">def</span> <span class="n">nonEmpty</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="o">!</span><span class="n">isEmpty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// provide the concrete implementation of the isFull method introduced in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// the interface (CircularQueue trait)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">override</span> <span class="k">def</span> <span class="n">isFull</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="n">max</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">numOfElements</span> <span class="o">==</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* enqueue[E]
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Provides a concrete implementation of enqueue that realizes the
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * NoDrop policy.  In effect, the NoDrop policy is achieved by having
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * a contract that does not allow the method to be called when the queue
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * is full.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">enqueue</span><span class="o">(</span><span class="n">element</span><span class="k">:</span> <span class="kt">E</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// queue is not full
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nc">Requires</span><span class="o">(</span><span class="n">numOfElements</span> <span class="o">!=</span> <span class="n">max</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="n">rear</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// new value is placed in rear of queue, as indicated by pre-state value of rear
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">queue</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">))</span> <span class="o">==</span> <span class="n">element</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// update rear, and make sure that it wraps around if necessary
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">rear</span> <span class="o">==</span> <span class="n">modPos</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="n">numOfElements</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// the post-state queue must be the same as the pre-state queue except for the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="c1">// value in the rear position
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">msEqualExcept</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="nc">In</span><span class="o">(</span><span class="n">queue</span><span class="o">),</span> <span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="n">queue</span><span class="o">(</span><span class="n">rear</span><span class="o">)</span> <span class="k">=</span> <span class="n">element</span>
+</span></span><span class="line"><span class="cl">      <span class="n">rear</span> <span class="k">=</span> <span class="n">modPos</span><span class="o">(</span><span class="n">rear</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="n">numOfElements</span> <span class="k">=</span> <span class="n">numOfElements</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* dequeue[E]
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Provides a concrete implementation of dequeue.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">dequeue</span><span class="o">()</span><span class="k">:</span> <span class="kt">E</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Requires</span><span class="o">(</span><span class="n">numOfElements</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">numOfElements</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">front</span> <span class="o">==</span> <span class="n">modPos</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">front</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Res</span> <span class="o">==</span> <span class="n">queue</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">front</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Note: the fact that scrubbing occurs correctly is enforced in the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// post-condition by the automatically included invariant
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">r</span> <span class="k">=</span> <span class="n">queue</span><span class="o">(</span><span class="n">front</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">scrub</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">queue</span><span class="o">(</span><span class="n">front</span><span class="o">)</span> <span class="k">=</span> <span class="n">default</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">front</span> <span class="k">=</span> <span class="n">modPos</span><span class="o">(</span><span class="n">front</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="n">numOfElements</span> <span class="k">=</span> <span class="n">numOfElements</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* elements MSZ[E]
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Provides a concrete implementation of elements.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     *
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">elements</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="n">refinement</span><span class="o">(</span><span class="nc">Res</span><span class="o">,</span> <span class="n">queue</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">,</span> <span class="n">front</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">r</span> <span class="k">=</span> <span class="nc">MS</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">,</span> <span class="n">default</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">numOfElements</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">r</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">=</span> <span class="n">queue</span><span class="o">(</span><span class="n">modPos</span><span class="o">(</span><span class="n">front</span> <span class="o">+</span> <span class="n">i</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/*----------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *  DropFront  C o n c r e t e    R e p r e s e n t a t i o n
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *  Note: Much of the code for this implementation follows
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * the NoDrop implementation, and comments/documentation are
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * omitted except where the implementation differs in an
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * interesting way
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *----------------------------------------------------------*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">object</span> <span class="nc">DropFront</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@pure</span> <span class="k">def</span> <span class="n">create</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">max</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">default</span><span class="k">:</span> <span class="kt">E</span><span class="o">,</span> <span class="n">scrub</span><span class="k">:</span> <span class="kt">B</span><span class="o">)</span><span class="k">:</span> <span class="kt">DropFront</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">createEnsures</span><span class="o">(</span><span class="nc">Res</span><span class="o">,</span> <span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">,</span> <span class="nc">Policy</span><span class="o">.</span><span class="nc">NoDrop</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">additionalCreateEnsures</span><span class="o">(</span><span class="nc">Res</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">            <span class="nc">Res</span><span class="o">[</span><span class="kt">DropFront</span><span class="o">[</span><span class="kt">E</span><span class="o">]].</span><span class="n">rep</span> <span class="o">==</span> <span class="nc">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nc">DropFront</span><span class="o">(</span><span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">,</span> <span class="nc">MS</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">max</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">default</span><span class="o">),</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">additionalCreateEnsures</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">res</span><span class="k">:</span> <span class="kt">DropFront</span><span class="o">[</span><span class="kt">E</span><span class="o">])</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span><span class="o">.</span><span class="n">front</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span><span class="o">.</span><span class="n">rear</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span><span class="o">.</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">isAllMS</span><span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="n">queue</span><span class="o">,</span> <span class="n">res</span><span class="o">.</span><span class="n">default</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@record</span> <span class="k">class</span> <span class="nc">DropFront</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="k">val</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="k">val</span> <span class="n">default</span><span class="k">:</span> <span class="kt">E</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="k">val</span> <span class="n">scrub</span><span class="k">:</span> <span class="kt">B</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="n">queue</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">],</span>
+</span></span><span class="line"><span class="cl">                             <span class="k">var</span> <span class="n">front</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="k">var</span> <span class="n">rear</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                             <span class="k">var</span> <span class="n">numOfElements</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">CircularQueue</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@spec</span> <span class="k">def</span> <span class="n">invariant</span> <span class="k">=</span> <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">inv</span><span class="o">(</span><span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">,</span> <span class="n">queue</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">rear</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">DataRefinement</span><span class="o">(</span><span class="n">rep</span><span class="o">)(</span><span class="n">queue</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">rear</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">)(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">refinement</span><span class="o">(</span><span class="n">rep</span><span class="o">,</span> <span class="n">queue</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">,</span> <span class="n">front</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">policy</span><span class="k">:</span> <span class="kt">Policy.Type</span> <span class="o">=</span> <span class="nc">Policy</span><span class="o">.</span><span class="nc">DropFront</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">size</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">numOfElements</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">numOfElements</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">isEmpty</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">numOfElements</span> <span class="o">==</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">nonEmpty</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="o">!</span><span class="n">isEmpty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">isFull</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="n">max</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">numOfElements</span> <span class="o">==</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">enqueue</span><span class="o">(</span><span class="n">element</span><span class="k">:</span> <span class="kt">E</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// no pre-conditions; method can be called even when queue is full
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nc">Modifies</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="n">rear</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// new element goes in position of pre-state rear
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">queue</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">))</span> <span class="o">==</span> <span class="n">element</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// move rear index one position forward, and wrap if necessary
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">rear</span> <span class="o">==</span> <span class="n">modPos</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// update numOfElements for case when the queue was NOT full
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">max</span><span class="o">)</span> <span class="o">===</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// update numOfElements for case when the queue was full
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">==</span> <span class="n">max</span><span class="o">)</span> <span class="o">===</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// all elements of the pre-state queue and post-state queue are equal,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="c1">// except for the value at In(rear)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">msEqualExcept</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="nc">In</span><span class="o">(</span><span class="n">queue</span><span class="o">),</span> <span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// if the queue is full, simply call dequeue to remove the front element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">if</span> <span class="o">(</span><span class="n">isFull</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dequeue</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">queue</span><span class="o">(</span><span class="n">rear</span><span class="o">)</span> <span class="k">=</span> <span class="n">element</span>
+</span></span><span class="line"><span class="cl">      <span class="n">rear</span> <span class="k">=</span> <span class="n">modPos</span><span class="o">(</span><span class="n">rear</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="n">numOfElements</span> <span class="k">=</span> <span class="n">numOfElements</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">dequeue</span><span class="o">()</span><span class="k">:</span> <span class="kt">E</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Requires</span><span class="o">(</span><span class="n">numOfElements</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">numOfElements</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">front</span> <span class="o">==</span> <span class="n">modPos</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">front</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Res</span> <span class="o">==</span> <span class="n">queue</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">front</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">r</span> <span class="k">=</span> <span class="n">queue</span><span class="o">(</span><span class="n">front</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">scrub</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">queue</span><span class="o">(</span><span class="n">front</span><span class="o">)</span> <span class="k">=</span> <span class="n">default</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">front</span> <span class="k">=</span> <span class="n">modPos</span><span class="o">(</span><span class="n">front</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="n">numOfElements</span> <span class="k">=</span> <span class="n">numOfElements</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">elements</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="n">refinement</span><span class="o">(</span><span class="nc">Res</span><span class="o">,</span> <span class="n">queue</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">,</span> <span class="n">front</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">r</span> <span class="k">=</span> <span class="nc">MS</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">,</span> <span class="n">default</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">numOfElements</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">r</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">=</span> <span class="n">queue</span><span class="o">(</span><span class="n">modPos</span><span class="o">(</span><span class="n">front</span> <span class="o">+</span> <span class="n">i</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="cm">/*----------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *  DropRear  C o n c r e t e    R e p r e s e n t a t i o n
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * Note: Much of the code for this implementation follows
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * the NoDrop implementation, and comments/documentation are
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * omitted except where the implementation differs in an
+</span></span></span><span class="line"><span class="cl"><span class="cm">   * interesting way
+</span></span></span><span class="line"><span class="cl"><span class="cm">   *----------------------------------------------------------*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">object</span> <span class="nc">DropRear</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@pure</span> <span class="k">def</span> <span class="n">create</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">max</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">default</span><span class="k">:</span> <span class="kt">E</span><span class="o">,</span> <span class="n">scrub</span><span class="k">:</span> <span class="kt">B</span><span class="o">)</span><span class="k">:</span> <span class="kt">DropRear</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">createEnsures</span><span class="o">(</span><span class="nc">Res</span><span class="o">,</span> <span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">,</span> <span class="nc">Policy</span><span class="o">.</span><span class="nc">NoDrop</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">additionalCreateEnsures</span><span class="o">(</span><span class="nc">Res</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">            <span class="nc">Res</span><span class="o">[</span><span class="kt">DropRear</span><span class="o">[</span><span class="kt">E</span><span class="o">]].</span><span class="n">rep</span> <span class="o">==</span> <span class="nc">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nc">DropRear</span><span class="o">(</span><span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">,</span> <span class="nc">MS</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">max</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">default</span><span class="o">),</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">additionalCreateEnsures</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">res</span><span class="k">:</span> <span class="kt">DropRear</span><span class="o">[</span><span class="kt">E</span><span class="o">])</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span><span class="o">.</span><span class="n">front</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span><span class="o">.</span><span class="n">rear</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span><span class="o">.</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">isAllMS</span><span class="o">(</span><span class="n">res</span><span class="o">.</span><span class="n">queue</span><span class="o">,</span> <span class="n">res</span><span class="o">.</span><span class="n">default</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@record</span> <span class="k">class</span> <span class="nc">DropRear</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="k">val</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">val</span> <span class="n">default</span><span class="k">:</span> <span class="kt">E</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">val</span> <span class="n">scrub</span><span class="k">:</span> <span class="kt">B</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">queue</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">],</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">var</span> <span class="n">front</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">var</span> <span class="n">rear</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">var</span> <span class="n">numOfElements</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">CircularQueue</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@spec</span> <span class="k">def</span> <span class="n">invariant</span> <span class="k">=</span> <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">inv</span><span class="o">(</span><span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">,</span> <span class="n">queue</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">rear</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">DataRefinement</span><span class="o">(</span><span class="n">rep</span><span class="o">)(</span><span class="n">queue</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">rear</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">)(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">refinement</span><span class="o">(</span><span class="n">rep</span><span class="o">,</span> <span class="n">queue</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">,</span> <span class="n">front</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">policy</span><span class="k">:</span> <span class="kt">Policy.Type</span> <span class="o">=</span> <span class="nc">Policy</span><span class="o">.</span><span class="nc">DropRear</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">size</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">numOfElements</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">numOfElements</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">isEmpty</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">numOfElements</span> <span class="o">==</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">nonEmpty</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="o">!</span><span class="n">isEmpty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">isFull</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">numOfElements</span> <span class="o">==</span> <span class="n">max</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">numOfElements</span> <span class="o">==</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">enqueue</span><span class="o">(</span><span class="n">element</span><span class="k">:</span> <span class="kt">E</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// In contrast to enqueue in the other implementations, Contract Cases are used
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// to handle the various wrapping scenarios instead of using spec helpers calculating
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// the wraps
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="n">rear</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Case</span><span class="o">(</span><span class="s">&#34;Non-full and rear is not the last index&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Requires</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// indicates that we can insert without dropping
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">max</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// indicates that we don&#39;t need to wrap
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">rear</span> <span class="o">&lt;</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">          <span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// straight-forward calculations, when no dropping and no wrapping
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">numOfElements</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rear</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">queue</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">))</span> <span class="o">==</span> <span class="n">element</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">msEqualExcept</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="nc">In</span><span class="o">(</span><span class="n">queue</span><span class="o">),</span> <span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">          <span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Case</span><span class="o">(</span><span class="s">&#34;Non-full and rear is the last index&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Requires</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// indicates that we can insert without dropping
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">max</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// indicates that we will have to wrap the update of rear
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">rear</span> <span class="o">==</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">          <span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">numOfElements</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// rear is wrapped
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">rear</span> <span class="o">==</span> <span class="mi">0</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// TODO: I would rather see the constraints below expressed directly in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//  terms of In(rear), since the &#34;invariant&#34; concept is that one always
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//  inserts at rear when queue is not full.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">queue</span><span class="o">(</span><span class="n">max</span><span class="o">)</span> <span class="o">==</span> <span class="n">element</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">msEqualExcept</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="nc">In</span><span class="o">(</span><span class="n">queue</span><span class="o">),</span> <span class="n">max</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Case</span><span class="o">(</span><span class="s">&#34;Full and rear is the first index&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Requires</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// when full, we need to insert at the &#34;logical&#34; rear - 1 position,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//  overwriting the previous insertion
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">numOfElements</span> <span class="o">==</span> <span class="n">max</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// ...and when rear == 0, we need to wrap backwards to high-end of the sequence
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//    to obtain the &#34;physical&#34; index representing the &#34;logical&#34; rear - 1 position
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">rear</span> <span class="o">==</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">          <span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// an element is dropped so no increment
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">numOfElements</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// overwriting last inserted value, so no change
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">rear</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// TODO: the way this is spec&#39;ed, the correspondence between max and logical rear - 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//  is a bit unclear.  Either put a specific constraint in here that uses modNeg
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//  or make a reference to the invariant that makes such a relationship clear.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">queue</span><span class="o">(</span><span class="n">max</span><span class="o">)</span> <span class="o">==</span> <span class="n">element</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">msEqualExcept</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="nc">In</span><span class="o">(</span><span class="n">queue</span><span class="o">),</span> <span class="n">max</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Case</span><span class="o">(</span><span class="s">&#34;Full and rear is not the first index&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Requires</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// when full, we need to insert at the &#34;logical&#34; rear - 1 position,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">//  overwriting the previous insertion
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// TODO: In shouldn&#39;t be used below (since this is the precondition)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">==</span> <span class="n">max</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// rear is greater than 0, so we don&#39;t have to wrap backwards
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">rear</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">          <span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// an element is dropped so no increment
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">numOfElements</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// overwriting last inserted value, so no change
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">rear</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">rear</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// since the queue is full, we insert at rear - 1 (overwriting most recent inserted value)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">queue</span><span class="o">(</span><span class="n">rear</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">element</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// input and output queue values are the same, except at rear - 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">msEqualExcept</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="nc">In</span><span class="o">(</span><span class="n">queue</span><span class="o">),</span> <span class="n">rear</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">isFull</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// if full, insert at logical rear - 1, and we don&#39;t need to update indices or
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// number of elements since we are overwriting most recently inserted value.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">queue</span><span class="o">(</span><span class="n">modNeg</span><span class="o">(</span><span class="n">rear</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">))</span> <span class="k">=</span> <span class="n">element</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// if not full, insert at rear
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">queue</span><span class="o">(</span><span class="n">rear</span><span class="o">)</span> <span class="k">=</span> <span class="n">element</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// move rear index forward, and wrap if necessary
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">rear</span> <span class="k">=</span> <span class="n">modPos</span><span class="o">(</span><span class="n">rear</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// increment number of elements
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">numOfElements</span> <span class="k">=</span> <span class="n">numOfElements</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">dequeue</span><span class="o">()</span><span class="k">:</span> <span class="kt">E</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Requires</span><span class="o">(</span><span class="n">numOfElements</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="n">front</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">numOfElements</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">front</span> <span class="o">==</span> <span class="n">modPos</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">front</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Res</span> <span class="o">==</span> <span class="n">queue</span><span class="o">(</span><span class="nc">In</span><span class="o">(</span><span class="n">front</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">r</span> <span class="k">=</span> <span class="n">queue</span><span class="o">(</span><span class="n">front</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">scrub</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">queue</span><span class="o">(</span><span class="n">front</span><span class="o">)</span> <span class="k">=</span> <span class="n">default</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">front</span> <span class="k">=</span> <span class="n">modPos</span><span class="o">(</span><span class="n">front</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="n">numOfElements</span> <span class="k">=</span> <span class="n">numOfElements</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="k">def</span> <span class="n">elements</span><span class="k">:</span> <span class="kt">MSZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="n">refinement</span><span class="o">(</span><span class="nc">Res</span><span class="o">,</span> <span class="n">queue</span><span class="o">,</span> <span class="n">numOfElements</span><span class="o">,</span> <span class="n">front</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">r</span> <span class="k">=</span> <span class="nc">MS</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">numOfElements</span><span class="o">,</span> <span class="n">default</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">numOfElements</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">r</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">=</span> <span class="n">queue</span><span class="o">(</span><span class="n">modPos</span><span class="o">(</span><span class="n">front</span> <span class="o">+</span> <span class="n">i</span><span class="o">,</span> <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@pure</span> <span class="k">def</span> <span class="n">create</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">max</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">default</span><span class="k">:</span> <span class="kt">E</span><span class="o">,</span> <span class="n">scrub</span><span class="k">:</span> <span class="kt">B</span><span class="o">,</span> <span class="n">policy</span><span class="k">:</span> <span class="kt">Policy.Type</span><span class="o">)</span><span class="k">:</span> <span class="kt">CircularQueue</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Contract</span><span class="o">(</span><span class="nc">Ensures</span><span class="o">(</span><span class="n">createEnsures</span><span class="o">(</span><span class="nc">Res</span><span class="o">,</span> <span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">,</span> <span class="n">policy</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">policy</span> <span class="k">match</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="nc">Policy</span><span class="o">.</span><span class="nc">NoDrop</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">NoDrop</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="nc">Policy</span><span class="o">.</span><span class="nc">DropFront</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">DropFront</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="nc">Policy</span><span class="o">.</span><span class="nc">DropRear</span> <span class="k">=&gt;</span> <span class="k">return</span> <span class="nc">DropRear</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">max</span><span class="o">,</span> <span class="n">default</span><span class="o">,</span> <span class="n">scrub</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span></code></pre></div>
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/contracts/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Contracts</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/contracts/discussion-and-application-concepts/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Discussion and Application Concepts
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

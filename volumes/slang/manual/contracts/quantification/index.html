@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Slang Contracts include bounded quantification expressions and these can be used to state properties/constraints in assertions as well as other Slang Contracts constructs. Slang also has unbounded quantification expressions that can be used in proof contexts, but in Slang Contracts quantification is always bounded.
+Quantification expressions are most often used when reasoning about values of integer ranges and Slang collections including sequences, sets, and maps. Technically, Slang&amp;rsquo;s bounded quantification can only be applied to integer ranges and sequence elements (both for immutable and mutable sequences), but one can the elements method for sets and keys for maps to obtain sequences that can quantified over." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/contracts/quantification/" />
+
+
+    <title>
+        
+            Quantification :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Quantification">
+<meta itemprop="description" content="Slang Contracts include bounded quantification expressions and these can be used to state properties/constraints in assertions as well as other Slang Contracts constructs. Slang also has unbounded quantification expressions that can be used in proof contexts, but in Slang Contracts quantification is always bounded.
+Quantification expressions are most often used when reasoning about values of integer ranges and Slang collections including sequences, sets, and maps. Technically, Slang&rsquo;s bounded quantification can only be applied to integer ranges and sequence elements (both for immutable and mutable sequences), but one can the elements method for sets and keys for maps to obtain sequences that can quantified over."><meta itemprop="datePublished" content="2022-07-28T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-07-28T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1094"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Quantification"/>
+<meta name="twitter:description" content="Slang Contracts include bounded quantification expressions and these can be used to state properties/constraints in assertions as well as other Slang Contracts constructs. Slang also has unbounded quantification expressions that can be used in proof contexts, but in Slang Contracts quantification is always bounded.
+Quantification expressions are most often used when reasoning about values of integer ranges and Slang collections including sequences, sets, and maps. Technically, Slang&rsquo;s bounded quantification can only be applied to integer ranges and sequence elements (both for immutable and mutable sequences), but one can the elements method for sets and keys for maps to obtain sequences that can quantified over."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-28 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/contracts/quantification/">Quantification</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>Slang Contracts include bounded quantification
+expressions and these can be used to state
+properties/constraints in assertions as well as other Slang Contracts
+constructs.  Slang also has unbounded quantification expressions that
+can be used in proof contexts, but in Slang Contracts quantification
+is always bounded.</p>
+<p>Quantification expressions are most often used when reasoning about values of
+integer ranges and Slang collections including sequences, sets, and
+maps.  Technically, Slang&rsquo;s bounded quantification can only be applied
+to integer ranges and sequence elements (both for immutable and
+mutable sequences), but one can the <code>elements</code> method for sets and
+<code>keys</code> for maps to obtain sequences that can quantified over.</p>
+<h2 id="quantification-over-integer-ranges">Quantification over Integer Ranges</h2>
+<p>The most common bounded quantification is over integer (<code>Z</code>) ranges, and
+the general form for these expressions is as follows::</p>
+<pre tabindex="0"><code>  *q* (*m* until/to *n*) (*i* =&gt; ... *i* ...)
+</code></pre><p>where</p>
+<ul>
+<li><em>q</em> is a quantifier <code>All</code> or <code>Exists</code>,</li>
+<li><em>m</em> is an expression of type <code>Z</code> and is first element of the range to quantify over</li>
+<li><em>n</em> is an expression of type <code>Z</code> and is the upper bound of the range,</li>
+<li><code>to</code> indicates that the range is a closed interval (includes <em>n</em>)
+where was <code>until</code> indicates that the range goes up to but does
+not include <em>n</em>,</li>
+<li><em>i</em> is the quantified (bound) variable, and</li>
+<li>&ldquo;&hellip; <em>i</em> &hellip;&rdquo; is a boolean expression containing <em>i</em>.</li>
+</ul>
+<p>Given the following sequence of integers::</p>
+<pre tabindex="0"><code>  val s1 = ISZ(1,2,3,4)
+</code></pre><p>one can use quantified expressions to assert properties of the
+sequence::</p>
+<pre tabindex="0"><code>  assert(All(0 until s1.size)(i =&gt; s1(i) &gt;= 0))
+
+  assert(Exists(0 until s1.size)(j =&gt; s1(j) == 2))
+
+  assert(Exists(0 until s1.size)(j =&gt; s1(j) &lt; 0))  // fails 
+</code></pre><p>The upper and lower bounds of the range can be expressions, which is
+useful for reasoning about segments of a sequence::</p>
+<pre tabindex="0"><code>  assert(All(0 to ((s1.size / 2) - 1))(k =&gt; s1(k) &gt; 0 &amp; s1(k) &lt; 3))
+  
+  assert(All((s1.size / 2) until s1.size))(k =&gt; s1(k) &gt;= 3))
+</code></pre><!-- notice tip ShortCode -->
+<p><strong>Note:</strong> Following the data structure-based representation of Slang Contracts,
+<code>All</code> and <code>Exists</code> are actually object constructors where the
+first argument in the examples above is a sequence of <code>Z</code>
+representing the range, and the second argument is a lambda expression
+<code>... =&gt; ...</code> that introduces the quantified variable as the argument
+of the lambda expression and has a body of boolean type.</p>
+<!-- notice end ShortCode -->
+<p>Slang&rsquo;s bounded quantification expressions can be used in
+specification contexts and proof contexts.
+Since the assertion specification is also executable,
+quantification expressions must be executable.<br>
+To get an executable form of a quantification expression,
+the Slang compiler transforms the expression into a loop.
+For example, the following pseudo-code shows the structure of the loop
+implementation of the <code>All</code> quantifier when it is applied to ranges
+of type <code>Z</code>::</p>
+<pre tabindex="0"><code>  def all(seq: ISZ[Z])(p: Z =&gt; Boolean): B = {
+     for (e &lt;- seq) {
+       if (!p(e)) {
+         return F
+       }
+     }
+      return T
+  }
+</code></pre><p>When quantifying over sequence indices, Slang provides some syntactic
+sugar than enables one to use the <code>indices</code>
+method inspired from Scala collections libraries and write::</p>
+<pre tabindex="0"><code>  assert(All(s.indices)(i =&gt; s(i) &gt;= 0))
+</code></pre><p>Behind the scenes, this gets represented as something equivalent to::</p>
+<pre tabindex="0"><code>  assert(All(0 until s1.size)(i =&gt; s1(i) &gt;= 0))
+</code></pre><p>Quantifiers can be nested, as illustrated in the following examples::</p>
+<pre tabindex="0"><code>  val s3 = ISZ(ISZ(1,2,3),ISZ(11,12,13),ISZ(21,22,23))
+
+  // illustrating nested quantification
+  
+  assert(All(s3.indices)(i =&gt; All(s3(i).indices)(j =&gt; s3(i)(j) &gt; i * 10)))
+
+  assert(Exists(s3.indices)(i =&gt; All(s3(i).indices)(j =&gt; (s3(i)(j) &gt;= 11) &amp; (s3(i)(j) &lt;= 13))))
+
+  assert(Exists(s3.indices)(i =&gt; Exists(s3(i).indices)(j =&gt; (s3(i)(j) == 12))))
+</code></pre><p>In the first example, with zero-based indexing, the assertion uses
+nested <code>All</code> to check
+that successive sub-sequences have values greater than 0 (0 * 10), 10
+(1 * 10), and 20 (2 * 10), respectively.</p>
+<p>The second example uses an existential
+quantification to state that there <em>exists</em> a sub-sequence with an index
+<code>i</code> where <em>all</em> the index positions <code>j</code> of the sub-sequence have
+values between 11 and 13.</p>
+<p>The third example, states that there
+exists a sub-sequence with index <code>i</code> such that there exists a index
+<code>j</code> within the sub-sequence where the value is 12.</p>
+<!-- notice tip ShortCode -->
+<p><strong>Note:</strong> In the current syntax of Slang, one <em>cannot</em> mimic familiar
+abbreviations from logic notation such as <em>Ax,y. &hellip; x .. y &hellip;</em>, that
+is, one <em>cannot</em> write something like <code>All(0 to 5, 10 to 15)((x,y) =&gt; ...)</code>.</p>
+<!-- notice end ShortCode -->
+<h2 id="quantification-over-sequences-elements">Quantification over Sequences Elements</h2>
+<p>Slang also provides bounded quantification over sequence elements,
+enabled by various forms of syntactic sugar.   For example, one can
+state constraints of sequence elements directly (as opposed to
+&ldquo;looking up&rdquo; the element <code>v</code> at a particular index <code>i</code> via
+<code>s1(i)</code>) as follows::</p>
+<pre tabindex="0"><code>  assert(All(s1)(v =&gt; v &gt;= 0))  // direct quantification over sequence elements
+</code></pre><p>Behind the scenes, this gets represented as something equivalent to::</p>
+<pre tabindex="0"><code>  assert(All(0 until s1.size)(i =&gt; (v =&gt; v &gt;= 0) s1(i))
+</code></pre><p>which in turn is equivalent to::</p>
+<pre tabindex="0"><code>  assert(All(0 until s1.size)(i =&gt; s1(i) &gt;= 0))
+</code></pre><p>This style of quantification also applies to sequences of
+pairs/tuples (<strong>Robby: couldn&rsquo;t get this to work</strong>)::</p>
+<pre tabindex="0"><code>  // assert(All(s2)((v1,v2) =&gt; v1 == v2))
+</code></pre><p>Slang doesn&rsquo;t (yet) provide bounded quantification over set and map
+elements, but one can use associated methods that yield sequences.</p>
+<p>For sets, the <code>elements</code> method can be used::</p>
+<pre tabindex="0"><code>  val set1: Set[Z] = Set.empty[Z] ++ ISZ(1,2,3,4)
+
+  // state a constraint that applies to all elements of a set
+  assert(All(set1.elements)(v =&gt; v &lt; 5)) 
+</code></pre><p>For maps, both the <code>keys</code> and <code>values</code> methods can be used::</p>
+<pre tabindex="0"><code>val m: Map[C,Z] = Map[C,Z](ISZ((&#39;a&#39;,1),(&#39;b&#39;,2),(&#39;c&#39;,3)))
+
+assert(All(m.keys)(c =&gt; c &lt; &#39;d&#39;))
+assert(All(m.values)(n =&gt; n &lt; 4))
+</code></pre><p><strong>Robby: I couldn&rsquo;t get quantification over <code>entries</code> to work</strong>.</p>
+<p><strong>Robby: Help me with explaining the desugarings for the above, e.g.,
+as a numerical range over the size of the key sets.</strong></p>
+<p>Using the sequence element quantification notation, the examples of
+nested quantification above can be re-stated more concisely::</p>
+<pre tabindex="0"><code>  // rephrasing the nested quantification examples above, in a more compact form
+  // by quantifying directly over sequence elements (when possible)
+
+  // original: (All(s3.indices)(i =&gt; All(s3(i).indices)(j =&gt; s3(i)(j) &gt; i * 10)))
+  assert(All(s3.indices)(i =&gt; All(s3(i))(v =&gt; v &gt; i * 10)))
+
+  // original: assert(Exists(s3.indices)(i =&gt; All(s3(i).indices)(j =&gt; (s3(i)(j) &gt;= 11) &amp; (s3(i)(j) &lt;= 13))))
+  assert(Exists(s3)(ss =&gt; All(ss)(v =&gt; (v &gt;= 11) &amp; (v &lt;= 13))))
+
+  // original: assert(Exists(s3.indices)(i =&gt; Exists(s3(i).indices)(j =&gt; (s3(i)(j) == 12))))
+  assert(Exists(s3)(ss =&gt; Exists(ss)(v =&gt; v == 12)))
+</code></pre><p>In the first example, the first quantication <code>All(s3.indices)(i =&gt; ...)</code> cannot be restated because the index <code>i</code> is used in a
+calculation.  However, second quantification can now be stated
+directly over values <code>v</code> in the subsequence <code>s(i)</code>.</p>
+<p>The second example can now be understood as there <em>exists</em> a
+sub-sequence <code>ss</code> such that <em>all</em> values <code>v</code> of the sub-sequence lie
+between and 13.</p>
+<p>The third example can now be understood as there <em>exists</em> a
+sub-sequence <code>ss</code> such that there <em>exists</em> a value <code>v</code> of the
+sub-sequence that equals 12.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/contracts/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Contracts</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/contracts/assertions-and-basic-property-constraint-expressions/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Assertions and Basic Property/Constraint Expressions
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/contracts/assume/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Assume
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

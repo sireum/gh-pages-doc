@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Immutable Sequences Types for immutable sequences (IS) have the form
+IS[I, E] // I is index type ; E is element type
+where
+I is the type of indices for the sequence &amp;ndash; it can be either Z or Slang @bits or @range types, and E is the type of elements in the sequence &amp;ndash; it can be any Slang type that is immutable (this ensures that immutable structures always have immutable elements (recursively))." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/sequences-sets-maps/sequences/" />
+
+
+    <title>
+        
+            Sequences :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Sequences">
+<meta itemprop="description" content="Immutable Sequences Types for immutable sequences (IS) have the form
+IS[I, E] // I is index type ; E is element type
+where
+I is the type of indices for the sequence &ndash; it can be either Z or Slang @bits or @range types, and E is the type of elements in the sequence &ndash; it can be any Slang type that is immutable (this ensures that immutable structures always have immutable elements (recursively))."><meta itemprop="datePublished" content="2022-07-09T21:58:37-05:00" />
+<meta itemprop="dateModified" content="2022-07-09T21:58:37-05:00" />
+<meta itemprop="wordCount" content="1531"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Sequences"/>
+<meta name="twitter:description" content="Immutable Sequences Types for immutable sequences (IS) have the form
+IS[I, E] // I is index type ; E is element type
+where
+I is the type of indices for the sequence &ndash; it can be either Z or Slang @bits or @range types, and E is the type of elements in the sequence &ndash; it can be any Slang type that is immutable (this ensures that immutable structures always have immutable elements (recursively))."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-09 21:58:37 -0500 CDT" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/sequences-sets-maps/sequences/">Sequences</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h2 id="immutable-sequences">Immutable Sequences</h2>
+<p>Types for immutable sequences (IS) have the form</p>
+<p>IS[I, E]  // I is <em>index</em> type ; E is <em>element</em> type</p>
+<p>where</p>
+<ul>
+<li>I is the type of <em>indices</em> for the sequence &ndash; it can be either <code>Z</code>
+or Slang <code>@bits</code> or <code>@range</code> types, and</li>
+<li>E is the type of <em>elements</em> in the sequence &ndash; it can be any Slang
+type that is <em>immutable</em> (this ensures that immutable structures
+always have immutable elements (recursively)).</li>
+</ul>
+<h3 id="immutable-sequence-methods">Immutable Sequence Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ISZ(e1, ..., en)</code></td>
+<td>create a sequence</td>
+</tr>
+<tr>
+<td><code>IS.create(n,e)</code></td>
+<td>seq. of size n with default element e</td>
+</tr>
+<tr>
+<td><code>s(i)</code></td>
+<td>lookup element at index i</td>
+</tr>
+<tr>
+<td><code>s.isEmpty, s.nonEmpty</code></td>
+<td>test for emptiness, non-emptiness</td>
+</tr>
+<tr>
+<td><code>s(i1 ~&gt; e1, ..., ik ~&gt; ek)</code></td>
+<td>update at index i with value e</td>
+</tr>
+<tr>
+<td><code>s.size</code></td>
+<td>return size (number of elements)</td>
+</tr>
+<tr>
+<td><code>s.indices</code></td>
+<td>return Slang range of indices of s</td>
+</tr>
+</tbody>
+</table>
+<h3 id="immutable-sequence-infix-operations">Immutable Sequence Infix Operations</h3>
+<table>
+<thead>
+<tr>
+<th>Infix Operation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>++</code></td>
+<td>concatentate</td>
+</tr>
+<tr>
+<td><code>+:</code>, <code>:+</code></td>
+<td>prepend, append</td>
+</tr>
+<tr>
+<td><code>-</code>,</td>
+<td>remove single element</td>
+</tr>
+<tr>
+<td><code>--</code>,</td>
+<td>remove multiple elements</td>
+</tr>
+<tr>
+<td><code>==</code>, <code>!=</code></td>
+<td>equality, inequality</td>
+</tr>
+</tbody>
+</table>
+<p>Table <a href="#immutable-sequence-methods">Immutable Sequence Methods</a> and Table
+<a href="#immutable-sequence-infix-operations">Immutable Sequence Infix Operations</a>
+summarize the methods and infix
+operations associated with immutable sequences</p>
+<!-- notice note  ShortCode -->
+<p><strong>ToDo, From John:</strong>
+Fix table references and document how to do this in Sphinx documentation.
+<strong>Note From Gage</strong>
+Determine how to in Hugo&rsquo;s framework now. (RESOLVED)</p>
+<!-- notice end   ShortCode -->
+<p>Below are some examples of declaring an immutable sequence of strings
+indexed by integers.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Creating Immutable Sequences
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// an Immutable Sequence of String indexed by Z
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="n">s01</span><span class="k">:</span> <span class="kt">IS</span><span class="o">[</span><span class="kt">Z</span>,<span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">IS</span><span class="o">[</span><span class="kt">Z</span>, <span class="kt">String</span><span class="o">](</span><span class="s">&#34;a&#34;</span><span class="o">,</span> <span class="s">&#34;b&#34;</span><span class="o">,</span> <span class="s">&#34;c&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// using the Slang type alias ISZ for Z-indexed immutable sequences
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="n">s02</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&#34;q&#34;</span><span class="o">,</span> <span class="s">&#34;r&#34;</span><span class="o">,</span> <span class="s">&#34;s&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">s02a</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;q&#34;</span><span class="o">,</span> <span class="s">&#34;r&#34;</span><span class="o">,</span> <span class="s">&#34;s&#34;</span><span class="o">)</span>  <span class="c1">// type can often be inferred
+</span></span></span></code></pre></div><p>Because sequences indexed by integers are so common, Slang provides
+the type alias <code>ISZ[E]</code> for <code>IS[Z,E]</code>, illustrated above.  The
+Slang compiler and IDE can often automatically infer a sequence type,
+but it is good practice to explicitly declare the type.</p>
+<p>The <code>create</code> method can also be used to create a sequence of
+elements that all have the same value.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// Creating Immutable Sequences -- automatically generate repeating element with &#34;.create&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// IS.create(s,v) - create a sequence of size s, where each index holds value v
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">s03</span> <span class="k">=</span> <span class="nc">IS</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="s">&#34;c&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="n">s03</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;c&#34;</span><span class="o">,</span> <span class="s">&#34;c&#34;</span><span class="o">,</span> <span class="s">&#34;c&#34;</span><span class="o">,</span> <span class="s">&#34;c&#34;</span><span class="o">))</span>   <span class="c1">// structural equality
+</span></span></span></code></pre></div><p>Recall that Slang uses structural equality (illustrated by the last
+line above).</p>
+<p>Slang uses <code>s(i)</code> to look up the value in sequence <code>s</code> at index
+position <code>i</code>, which is the same as Scala, but it uses different a
+systax for updating, i.e., <code>s(i ~&gt; e)</code> &ndash; creates a copy of
+sequence <code>s</code> where the value at index <code>i</code> is the value of
+expression <code>e</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Indexing and updating sequences
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// recall: val s01: IS[Z,String] = IS[Z, String](&#34;a&#34;, &#34;b&#34;, &#34;c&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s01</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="s">&#34;b&#34;</span><span class="o">)</span>   <span class="c1">// lookup value at index 1; 0-based indexing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s01</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="n">s01</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span> <span class="o">==</span> <span class="s">&#34;c&#34;</span><span class="o">)</span>   <span class="c1">// highest index is 1 less than size
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// recall: val s03 = IS.create(4,&#34;c&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">var</span> <span class="n">s04</span> <span class="k">=</span> <span class="n">s03</span><span class="o">(</span><span class="mi">3</span> <span class="o">~&gt;</span> <span class="s">&#34;d&#34;</span><span class="o">)</span>  <span class="c1">// update - actually, create new sequence s04 like s03 except index 3 element is &#34;d&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">s04</span> <span class="k">=</span> <span class="n">s04</span><span class="o">(</span><span class="mi">0</span> <span class="o">~&gt;</span> <span class="s">&#34;a&#34;</span><span class="o">,</span><span class="mi">1</span> <span class="o">~&gt;</span> <span class="s">&#34;b&#34;</span><span class="o">)</span>  <span class="c1">// create new version of s04 where elements at indices 0 and 1 are changed
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s04</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;a&#34;</span><span class="o">,</span><span class="s">&#34;b&#34;</span><span class="o">,</span><span class="s">&#34;c&#34;</span><span class="o">,</span><span class="s">&#34;d&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">s04</span><span class="o">(</span><span class="mi">0</span> <span class="o">~&gt;</span> <span class="s">&#34;x&#34;</span><span class="o">)</span>                        <span class="c1">// reminder: update on immutable sequences produces new sequence
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s04</span> <span class="o">!=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;x&#34;</span><span class="o">,</span><span class="s">&#34;b&#34;</span><span class="o">,</span><span class="s">&#34;c&#34;</span><span class="o">,</span><span class="s">&#34;d&#34;</span><span class="o">))</span>  <span class="c1">//  ...does not update in place
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s04</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;a&#34;</span><span class="o">,</span><span class="s">&#34;b&#34;</span><span class="o">,</span><span class="s">&#34;c&#34;</span><span class="o">,</span><span class="s">&#34;d&#34;</span><span class="o">))</span>
+</span></span></code></pre></div><p>Scala sequences use 0-based
+indexing by default (one can set a custom non-zero-based indexing
+scheme, see below) and that <code>size</code> method returns the number of
+elements in the sequence (not the highest index value).</p>
+<p>Immutable sequences can be &ldquo;updated&rdquo; (not truly updated; a copy is
+produced) using the <code>~&gt;</code> operation.  Multiple updates can be stated
+in one go.</p>
+<p>Slang provides the methods <code>isEmpty</code>, <code>nonEmpty</code> (like Scala) for checking
+&ldquo;empty-ness&rdquo; and <code>isInBound</code> for checking if a possible index value
+is in bounds for a particular sequence.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Checking empty-ness and that index values are in bounds
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// recall: val s01: IS[Z,String] = IS[Z, String](&#34;a&#34;, &#34;b&#34;, &#34;c&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// recall: val s03 = IS.create(4,&#34;c&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">s05</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">[</span><span class="kt">String</span><span class="o">]()</span>   <span class="c1">// empty sequence
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s05</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span>       <span class="c1">// test empty-ness
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s01</span><span class="o">.</span><span class="n">nonEmpty</span><span class="o">)</span>      <span class="c1">// test non-empty-ness
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(!</span><span class="n">s01</span><span class="o">.</span><span class="n">isInBound</span><span class="o">(</span><span class="mi">3</span><span class="o">))</span> <span class="c1">// check if index value is in bounds (3 is not in bounds for s01)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s03</span><span class="o">.</span><span class="n">isInBound</span><span class="o">(</span><span class="mi">3</span><span class="o">))</span>  <span class="c1">// 3 is in bounds for s03
+</span></span></span></code></pre></div><p>Slang&rsquo;s single element <code>-</code> and multiple element <code>--</code> removal
+operations are similar to set difference in that they remove
+element(s) anywhere in the sequence based on value.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Removal operations: &#34;-&#34; (single element) and &#34;--&#34; (multiple element)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// recall: val s01: IS[Z,String] = IS[Z, String](&#34;a&#34;, &#34;b&#34;, &#34;c&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s01</span> <span class="o">-</span> <span class="s">&#34;a&#34;</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;b&#34;</span><span class="o">,</span> <span class="s">&#34;c&#34;</span><span class="o">))</span> <span class="c1">// removing an element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;z&#34;</span><span class="o">,</span><span class="s">&#34;a&#34;</span><span class="o">)</span> <span class="o">-</span> <span class="s">&#34;a&#34;</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;z&#34;</span><span class="o">))</span>  <span class="c1">// removing is based on element value, not index position
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;a&#34;</span><span class="o">,</span><span class="s">&#34;a&#34;</span><span class="o">,</span><span class="s">&#34;a&#34;</span><span class="o">)</span> <span class="o">-</span> <span class="s">&#34;a&#34;</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// recall: assert(s04 == ISZ(&#34;a&#34;,&#34;b&#34;,&#34;c&#34;,&#34;d&#34;))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s04</span> <span class="o">--</span> <span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;b&#34;</span><span class="o">,</span><span class="s">&#34;c&#34;</span><span class="o">)</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;a&#34;</span><span class="o">,</span><span class="s">&#34;d&#34;</span><span class="o">))</span>  <span class="c1">// removing multiple elements
+</span></span></span></code></pre></div><p>Slang provides FP-oriented methods like <code>map</code>, <code>flatMap</code>, <code>filter</code>,
+<code>withFilter</code> in a form very similar to Scala&rsquo;s.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// map, filter, etc. on sequences
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">s06</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">n</span> <span class="k">=&gt;</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>  <span class="c1">// using map with Slang&#39;s anonymous function n =&gt; ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s06</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="n">s06</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">n</span> <span class="k">=&gt;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">)</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">))</span>  <span class="c1">// keep only the elements that satisfy the predicate passed to filter
+</span></span></span></code></pre></div><p>Slang sequences support Scala-style iterators.
+In the following example, <code>e</code>
+binds to each element of the indexed sequence of characters <code>s1</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Iterators for sequences
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// recall: assert(s04 == ISZ(&#34;a&#34;,&#34;b&#34;,&#34;c&#34;,&#34;d&#34;))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">var</span> <span class="n">s07</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">[</span><span class="kt">String</span><span class="o">]()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="o">(</span><span class="n">e</span> <span class="k">&lt;-</span> <span class="n">s04</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// iterating over all elements of s04
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">s07</span> <span class="k">=</span> <span class="n">e</span> <span class="o">+:</span> <span class="n">s07</span>  <span class="c1">// adding elements to front of s07 to reverse s04
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="n">s07</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">(</span><span class="s">&#34;d&#34;</span><span class="o">,</span><span class="s">&#34;c&#34;</span><span class="o">,</span><span class="s">&#34;b&#34;</span><span class="o">,</span><span class="s">&#34;a&#34;</span><span class="o">))</span>   <span class="c1">// s04 reversed
+</span></span></span></code></pre></div><p>If one needs to work indices directly, the <code>.indices</code> method can be
+used produce a Slang <em>range</em> which can iterated over.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Iterating over sequences using &#34;.indices&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// recall: assert(s04 == ISZ(&#34;a&#34;,&#34;b&#34;,&#34;c&#34;,&#34;d&#34;))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">var</span> <span class="n">s08</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">[(</span><span class="kt">Z</span>,<span class="kt">String</span><span class="o">)]()</span>  <span class="c1">// s08 holds and empty sequence of pairs of indices (type Z) and String
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="n">s04</span><span class="o">.</span><span class="n">indices</span><span class="o">)</span> <span class="o">{</span>    <span class="c1">// iterating over all indices of s04
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">s08</span> <span class="k">=</span> <span class="n">s08</span> <span class="k">:</span><span class="kt">+</span> <span class="o">(</span><span class="kt">i</span><span class="o">,</span><span class="kt">s04</span><span class="o">(</span><span class="kt">i</span><span class="o">))</span>    <span class="c1">// add pair of index and element to the end of s08
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="n">s08</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">((</span><span class="mi">0</span><span class="o">,</span><span class="s">&#34;a&#34;</span><span class="o">),(</span><span class="mi">1</span><span class="o">,</span><span class="s">&#34;b&#34;</span><span class="o">),(</span><span class="mi">2</span><span class="o">,</span><span class="s">&#34;c&#34;</span><span class="o">),(</span><span class="mi">3</span><span class="o">,</span><span class="s">&#34;d&#34;</span><span class="o">)))</span>
+</span></span></code></pre></div><p>The implementation of Slang&rsquo;s immutable sequences can be found in
+<strong>IS.scala</strong> in Sirem runtime library.</p>
+<!-- notice note  ShortCode -->
+<p><strong>Todo, From John, To Robby:</strong></p>
+<p>Consider addressing the following advances topics in a concluding section.</p>
+<ul>
+<li>Point to and briefly describe the Slang implentation of sequences.</li>
+<li>Describe the use of the utility class ISZopstation?).</li>
+<li>Talk about using toSeq to convert to Scala sequences, e.g., as might be needed in a Scala extension of Slang that is working with Slang sequences.</li>
+</ul>
+<!-- notice end   ShortCode -->
+<h2 id="mutable-sequences">Mutable Sequences</h2>
+<p>Types for Mutable Sequences (MS) have a form essentially identical to
+that for Immutable Sequences (the only difference is that mutable
+sequences can hold <em>mutable or immutable</em> elements):</p>
+<p>MS[I, E]  // I is <em>index</em> type ; E is <em>element</em> type</p>
+<p>where</p>
+<ul>
+<li>I is the type of <em>indices</em> for the sequence &ndash; it can be either <code>Z</code>
+or Slang <code>@bits</code> or <code>@range</code> types, and</li>
+<li>E is the type of <em>elements</em> in the sequence &ndash; it can be any
+<em>mutable</em> or <em>immutable</em>  Slang type</li>
+</ul>
+<p>The examples below illutrate that:</p>
+<ul>
+<li>Mutable sequences are created using the same syntactic style as
+immutable sequences,</li>
+<li>Despite the syntactic similarities, immutable and mutable sequences
+are not considered to be equal even though their contents are equal,</li>
+<li>methods are provide to convert between immutable and mutable sequences.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Creating Mutable Sequences
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">s12</span> <span class="k">=</span> <span class="nc">MSZ</span><span class="o">(</span><span class="s">&#34;a&#34;</span><span class="o">,</span> <span class="s">&#34;b&#34;</span><span class="o">,</span> <span class="s">&#34;c&#34;</span><span class="o">)</span> <span class="c1">// a Mutable Sequence of String indexed by Z
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// recall: val s01: IS[Z,String] = IS[Z, String](&#34;a&#34;, &#34;b&#34;, &#34;c&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s01</span> <span class="o">!=</span> <span class="n">s12</span><span class="o">)</span>  <span class="c1">// mutable and immutable sequences are not considered to have equal values (equality always fails)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// use .toMS and .toIS to convert between immutable and mutable sequences
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s01</span><span class="o">.</span><span class="n">toMS</span> <span class="o">==</span> <span class="n">s12</span><span class="o">)</span>  <span class="c1">// s01.toMS converts s01 from immutable sequence to mutable
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s01</span> <span class="o">==</span> <span class="n">s12</span><span class="o">.</span><span class="n">toIS</span><span class="o">)</span>  <span class="c1">// s12.toIS converts s12 from mutable to immutable sequence
+</span></span></span></code></pre></div><!-- notice note  ShortCode -->
+<p><strong>ToDo, From John, To Robby:</strong>
+Add text providing the rationale for why &ldquo;immutable and mutable sequences
+are not considered to be equal even though their contents are equal&rdquo;.</p>
+  <!-- notice end   ShortCode -->
+<p>As expected, mutable and immutable sequences differ primarily in the
+notion of updating.   The assignment command form <code>ms(i) = e</code>
+destructively updates mutable sequence <code>ms</code> and index position <code>i</code>
+(can be an arbitrary expression) with the value of <code>e</code>.   However,
+the expression form <code>ms(i ~&gt; e)</code> does not update <code>ms</code>; it returns a
+new mutable sequence with index value <code>i</code> mapping to value of <code>e</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">  <span class="c1">// Updating Mutable Sequences
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// recall: val s12 = MSZ(&#34;a&#34;, &#34;b&#34;, &#34;c&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">s12</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="k">=</span> <span class="s">&#34;c&#34;</span>    <span class="c1">// destructive update
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">s12</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="k">=</span> <span class="s">&#34;c&#34;</span>    <span class="c1">// destructive update
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="n">s12</span> <span class="o">==</span> <span class="nc">MSZ</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">&#34;c&#34;</span><span class="o">))</span>  <span class="c1">// s12 has all &#34;c&#34;&#39;s now
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">s12</span><span class="o">(</span><span class="mi">1</span> <span class="o">~&gt;</span> <span class="s">&#34;d&#34;</span><span class="o">)</span>   <span class="c1">// not a destructive update; produces a new MSZ with index 1 holding &#34;d&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="n">s12</span> <span class="o">==</span> <span class="nc">MSZ</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">&#34;c&#34;</span><span class="o">))</span>  <span class="c1">// s12 still has the same value
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="n">s12</span><span class="o">(</span><span class="mi">1</span> <span class="o">~&gt;</span> <span class="s">&#34;d&#34;</span><span class="o">)</span> <span class="o">==</span> <span class="nc">MSZ</span><span class="o">(</span><span class="s">&#34;c&#34;</span><span class="o">,</span><span class="s">&#34;d&#34;</span><span class="o">,</span><span class="s">&#34;c&#34;</span><span class="o">))</span>  <span class="c1">// create a new version based on s12
+</span></span></span></code></pre></div><p>To avoid creating alias which makes verification more challenging,
+Slang adopts a copy-semantics for assignment of mutable sequences.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Implicit copying of Mutable Sequences to avoid aliasing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">s13</span> <span class="k">=</span> <span class="n">s12</span>       <span class="c1">// make a copy of s12 for s13
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s13</span> <span class="o">==</span> <span class="n">s12</span><span class="o">)</span>  <span class="c1">// s12 and s13 are equal due to structural equality
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="n">s13</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="k">=</span> <span class="s">&#34;a&#34;</span>        <span class="c1">// update s13
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s13</span> <span class="o">!=</span> <span class="n">s12</span><span class="o">)</span>  <span class="c1">// due to the copy made, only s13 is updated
+</span></span></span></code></pre></div>
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/sequences-sets-maps/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Sequences, Sets, and Maps</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/sequences-sets-maps/overview/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Overview
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/sequences-sets-maps/sets/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Sets
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

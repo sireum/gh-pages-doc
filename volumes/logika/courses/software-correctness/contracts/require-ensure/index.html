@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="A function contract is composed of a pre-condition and a post-condition in terms of a requires and an ensures clause. Similarly to chapter, we begin by introducing an informal notation with informal reasoning first and then provide Slang syntax.
+In order to specify a contract for a function informally we write the following two clauses before the function body,
+// requires: ... // ensures: ... Using the formal Slang contract notation, we write" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/contracts/require-ensure/" />
+
+
+    <title>
+        
+            Function Contracts :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Function Contracts">
+<meta itemprop="description" content="A function contract is composed of a pre-condition and a post-condition in terms of a requires and an ensures clause. Similarly to chapter, we begin by introducing an informal notation with informal reasoning first and then provide Slang syntax.
+In order to specify a contract for a function informally we write the following two clauses before the function body,
+// requires: ... // ensures: ... Using the formal Slang contract notation, we write"><meta itemprop="datePublished" content="2022-11-27T12:45:42+01:00" />
+<meta itemprop="dateModified" content="2022-11-27T12:45:42+01:00" />
+<meta itemprop="wordCount" content="968"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Function Contracts"/>
+<meta name="twitter:description" content="A function contract is composed of a pre-condition and a post-condition in terms of a requires and an ensures clause. Similarly to chapter, we begin by introducing an informal notation with informal reasoning first and then provide Slang syntax.
+In order to specify a contract for a function informally we write the following two clauses before the function body,
+// requires: ... // ensures: ... Using the formal Slang contract notation, we write"/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-11-27 12:45:42 &#43;0100 &#43;0100" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/contracts/require-ensure/">Function Contracts</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>A <em>function contract</em> is composed of a pre-condition and a post-condition in terms of a requires and an ensures clause.
+Similarly to chapter, we begin by introducing an informal notation with informal reasoning first
+and then provide Slang syntax.</p>
+<p>In order to specify a contract for a function informally we write the following two clauses before the function body,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// requires: ...
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ensures: ...
+</span></span></span></code></pre></div><p>Using the formal Slang contract notation, we write</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(...),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(...)</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span>
+</span></span></code></pre></div><h2 id="functions">Functions</h2>
+<p>A function declaration in Slang is similar to a Scala function declaration. The only noticeable difference is the use of Slang types in the signature. The Slang type <code>B</code> corresponds to Scala&rsquo;s <code>boolean</code> and <code>Z</code> to Sala&rsquo;s <code>int</code>.
+Note however, that Slang&rsquo;s <code>Z</code> is unbounded.
+For instance,</p>
+<ul>
+<li>a function to increment an integer number could have the signature
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">incr</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span>
+</span></span></code></pre></div></li>
+<li>and a function to determine whether an integer number divides another
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">divides</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span>
+</span></span></code></pre></div></li>
+</ul>
+<p>We have an intuitive understanding of what we expect these functions to accomplish, consulting the informal description and relying on the naming of the functions. However, we would like to carry out rigorous correctness
+arguments similar to those presented in the preceding chapter. Supposing that the implementation of the functions could be arbitrarily complex, we begin by stating what is expected by providing a contract.</p>
+<ul>
+<li>
+<p>For instance, the contract for <code>incr</code> could be specified as</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">incr</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// requires: true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// ensures: Res &gt; x
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>The ensures clause contains the term <code>Res</code> that refers to the result of the function.
+All we ensure is <code>Res &gt; x</code>. In other words, <code>incr</code> may yield and increment of <code>x</code> of arbitrary size.
+Any expression <code>x + d</code> with <code>d</code> larger than <code>0</code> achieves this.</p>
+<p>The requires clause specifies <code>true</code> which means it requires nothing. We can leave the clause away, getting a more concise version</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">incr</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ensures: Res &gt; x
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>It is common to leave away trivial statements such as <code>requires: true</code>, although we specify them sometimes for emphasis. Think of it as docmumentation: Is it important to know?</p>
+<p>We can implement incr by proving an expression in the function body</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">incr</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ensures: Res &gt; x
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>In order to verify that the property to be ensured holds, we have to should that the result <code>Res</code> is larger than <code>x</code>. The result returned is <code>x + 1</code>. If we substitute <code>Res</code> by <code>x + 1</code> in <code>Res &gt; x</code>, we obtain <code>x + 1 &gt; x</code>. This is true. So, we have verified that the implementation of the function fulfils its contract. A caller of the function only knows of the contract <code>Res &gt; x</code> but not about the implementation, <code>Res = x + 1</code>. As a consequence, the function body could be changed to <code>x + 2</code> without affecting any correstness argument concerning function <code>incr</code>. This is why function contracts are often specified <em>loose</em>, permitting local changes to the implementation.</p>
+</li>
+<li>
+<p>Let&rsquo;s specify a contract for <code>divides</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">divides</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// requires: y != 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// ensures: Res == (x % y == 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>The contract of function <code>divides</code> contains a requires clause <code>y != 0</code>. This can be relied upon in the implementation. In the body and the ensures clause it can be assumed that <code>y != 0</code>. We see immediately that this is necessary for the post-condition in the ensures clause to be defined: The expression <code>x % y</code> requires <code>y</code> to be different from <code>0</code>. We can implement function <code>divides</code> in the obvious way</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">divides</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// requires: y != 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// ensures: Res == (x % y == 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">x</span> <span class="o">%</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Substituting <code>x % y == 0</code> for <code>Res</code> in the ensures clause yields <code>(x % y == 0) == (x % y == 0)</code> which holds trivially.</p>
+</li>
+</ul>
+<h2 id="logical-operators">Logical Operators</h2>
+<p>The formulas in the preceding section do not use any logical operators. In programming languages one has to pay attention to the meaning of logical operators because they come in two flavours:</p>
+<ul>
+<li>Classical operators correspond to the common logical operators known from high-school maths.</li>
+<li>Short-circuit operators are closely linked to (efficient) execution of programs.</li>
+</ul>
+<p>Slang use the symbols <code>&amp;</code> and <code>|</code> for classical conjunction and disjunction,
+and <code>&amp;&amp;</code> and <code>||</code> for short-circuit conjunction and disjunction. The short-circuit operators only evaluate the second argument when necessary: <code>a &amp;&amp; b</code> is true when <code>a</code> is true and <code>b</code> is true, and it is false when <code>a</code> is false whatever the value of <code>b</code>. The formula <code>a &amp;&amp; b</code> could also be written <code>if a then b else false</code>. If <code>a</code> is false, then <code>b</code> is not evaluated. So, if <code>a</code> is false, it&rsquo;s ok for <code>b</code> to be undefined. By contrast, the classical operators are always fully evaluated so that <code>a</code> and <code>b</code> must always be defined. Similarly, for disjunction.</p>
+<p>The difference between classical and short-circuit operators might not appear far-reaching but it has a profound effect on the admitted reasoning. For instance, the following commutative law holds for classical conjunction but not for short-circuit conjunction (unless we can prove that both terms are always defined)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span> <span class="o">==</span> <span class="n">b</span> <span class="o">&amp;</span> <span class="n">a</span>
+</span></span></code></pre></div><p>Slang permits the two symbols <code>~</code> and <code>!</code> for negation.</p>
+<h2 id="quantification">Quantification</h2>
+<p>There are two kinds of quantification in Slang: bounded and unbounded.
+Unbounded quantifiers correspond to the common (classical) logical operators.
+Bounded quantifiers are restricted to finite domains.</p>
+<h3 id="bounded-quantification">Bounded Quantification</h3>
+<p>Bounded universal and existential quantification are avaible using the syntax <code>All(range)(fn)</code> and <code>Exists(range)(fn)</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nc">All</span><span class="o">(</span><span class="n">range</span><span class="o">)(</span><span class="n">fn</span><span class="o">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span> <span class="o">==</span> <span class="n">b</span> <span class="o">&amp;</span> <span class="n">a</span>
+</span></span></code></pre></div><h3 id="unbounded-quantification">Unbounded Quantification</h3>
+<p>todo</p>
+<p>Introduce classical quantifiers</p>
+<h2 id="pure-and-strict-pure-functions">Pure and Strict Pure Functions</h2>
+<p>todo</p>
+<p>pure: functional programming (nearly)</p>
+<p>strictpure: permits defining predicates</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Course Materials</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Course: Software Correctness</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/contracts/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Contracts</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/contracts/contracts/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Contract Reasoning
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

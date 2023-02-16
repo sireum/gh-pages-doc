@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Immutable variables are declared by means of the keyword val. They are particularly easy to reason about. We consider two problems that we commonly encounter in programming:
+Programs that yield a wrong result Programs that abort because undefined behaviour Debugging a Simple Fragment: Wrong Result Let&amp;rsquo;s consider the following very simple program fragment consisting of three immutable assignments.
+1val x: Z = 1 2val y: Z = x &#43; x &#43; 1 3val z: Z = x &#43; y We can easily determine the values of the variables x, y and z at the different locations in the fragment: Executing line 1 assigns x the value 1; executing line 2 assigns y the value 3 because the value of x is 1; executing line 3 assigns z the value 4 because the value of x is 1 and the value of y is 3." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/basics/simple-immutable/" />
+
+
+    <title>
+        
+            Simple Immutable-Variable Programs :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Simple Immutable-Variable Programs">
+<meta itemprop="description" content="Immutable variables are declared by means of the keyword val. They are particularly easy to reason about. We consider two problems that we commonly encounter in programming:
+Programs that yield a wrong result Programs that abort because undefined behaviour Debugging a Simple Fragment: Wrong Result Let&rsquo;s consider the following very simple program fragment consisting of three immutable assignments.
+1val x: Z = 1 2val y: Z = x &#43; x &#43; 1 3val z: Z = x &#43; y We can easily determine the values of the variables x, y and z at the different locations in the fragment: Executing line 1 assigns x the value 1; executing line 2 assigns y the value 3 because the value of x is 1; executing line 3 assigns z the value 4 because the value of x is 1 and the value of y is 3."><meta itemprop="datePublished" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="dateModified" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="wordCount" content="2182"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Simple Immutable-Variable Programs"/>
+<meta name="twitter:description" content="Immutable variables are declared by means of the keyword val. They are particularly easy to reason about. We consider two problems that we commonly encounter in programming:
+Programs that yield a wrong result Programs that abort because undefined behaviour Debugging a Simple Fragment: Wrong Result Let&rsquo;s consider the following very simple program fragment consisting of three immutable assignments.
+1val x: Z = 1 2val y: Z = x &#43; x &#43; 1 3val z: Z = x &#43; y We can easily determine the values of the variables x, y and z at the different locations in the fragment: Executing line 1 assigns x the value 1; executing line 2 assigns y the value 3 because the value of x is 1; executing line 3 assigns z the value 4 because the value of x is 1 and the value of y is 3."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-11-24 17:01:09 &#43;0100 &#43;0100" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/basics/simple-immutable/">Simple Immutable-Variable Programs</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>Immutable variables are declared by means of the keyword <code>val</code>.
+They are particularly easy to reason about.
+We consider two problems that we commonly encounter in programming:</p>
+<ul>
+<li>Programs that yield a wrong result</li>
+<li>Programs that abort because undefined behaviour</li>
+</ul>
+<h2 id="debugging-a-simple-fragment-wrong-result">Debugging a Simple Fragment: Wrong Result</h2>
+<p>Let&rsquo;s consider the following very simple program fragment consisting of three immutable assignments.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span></code></pre></div><p>We can easily determine the values of the variables <code>x</code>, <code>y</code> and <code>z</code> at the different locations in the fragment:
+Executing line 1 assigns <code>x</code> the value <code>1</code>;
+executing line 2 assigns <code>y</code> the value <code>3</code> because the value of <code>x</code> is <code>1</code>;
+executing line 3 assigns <code>z</code> the value <code>4</code> because the value of <code>x</code> is <code>1</code> and the value of <code>y</code> is <code>3</code>.</p>
+<p>We perform this type of step-by-step &ldquo;mental evaluation&rdquo;, reasoning the value of each variable assignment, if we want to find an error in a program.
+For instance, if we expect the value of <code>z</code> above to be <code>3</code> after execution of line 3,
+then somewhere on the way of our mental execution we ought to be able to observe an &ldquo;unexpected value&rdquo;.</p>
+<p>We can make our expectations about the evaluation more explicit by inserting <code>assert</code> statements into the program.
+The <code>assert</code> statement does nothing
+if the condition stated as its parameter is true when the statement is executed &ndash; execution just continues past the assertion.
+Otherwise, execution is aborted.   This gives us a concise means to express &ldquo;continue program execution if my expectations about the program&rsquo;s meaning are correct; otherwise halt where my expectations are violated&rdquo;, e.g., so we can diagnose and fix the problem.
+The following fragment aborts at line 4.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line hl"><span class="ln">4</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span>
+</span></span></code></pre></div><p>We observe, that the assigment to variable <code>z</code> is wrong.  (John: According to the assert statement, we expected the value of z to be 3, but we executed the program and the assertion failed with a message that z actually has the value 4.)
+Suppose, taking the sum <code>x + y</code> is intended. (John: suppose calculating the value of <code>z</code> as the sum <code>x + y</code> is intended, thus the assignment to <code>z</code> is correct, but we must have made a mistake before that.)
+Thus, we need to have a look at the values of <code>x</code> and <code>y</code>.
+Further suppose, the value of <code>x</code> should be <code>1</code>. (John: Our intentions at this point are that <code>x</code> should have the value of <code>1</code> and <code>y</code> the value of <code>2</code>)
+Then the value of <code>y</code> must be <code>2</code>.
+Let&rsquo;s insert a corresponding <code>assert</code> statements into the fragment to express our intentions.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line hl"><span class="ln">4</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line hl"><span class="ln">6</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span>
+</span></span></code></pre></div><p>(John: explain that the assertion for x succeeds but the one for y fails.)
+We conclude that the assigment to <code>y</code> must be wrong (because we have determined that everything else is fine).
+We know that the value of <code>x</code> must be <code>1</code> when the assignment to <code>y</code> is executed.
+To fix the error we have to change the assignment to <code>y</code> like shown below, for instance.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span>
+</span></span></code></pre></div><p>(John: when running the program, all assertions succeed, and thus we know that &hellip; )
+This program assigns value <code>3</code> to variable <code>z</code>.</p>
+<p>We have approached the faulty fragment by a method of program debugging:
+<em>We have stated which result we expected and
+then traced values of variables occuring during the execution of the fragment
+until we have found the error</em>, e.g, the erroneous assigment to variable <code>y</code>.
+Note, that we have traced values forwards following the sequence of assigments
+but that have stated the expected values backwards starting from the result.
+This is a rather natural way to approach reasoning about programs
+as the information about the expected values propagates backwards from the result
+and the information about values propagates forward along the executed assignments.</p>
+<p>There is one serious problem with the approach we have just followed.
+We should have been explicit about the expected result <code>z == 3</code> of the fragment from the beginning of our coding activity.
+That is, we should have started with the second fragment (of which we state the fixed version below).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span>
+</span></span></code></pre></div><p>We shall do this systematically from now on.
+As we go on, we&rsquo;ll use additional techniques to specify expected results that offer better support for reasoning.</p>
+<p>(John: it seems like we should use phrases above like &ldquo;We state our intentions/expectations&rdquo; and also &ldquo;we consider the facts that must be true at/after each statement in the program&rdquo;, and &ldquo;when we try to reason about whether the assertion holds or not, we see if the facts at that point will cause the assertion to be true&rdquo;.)</p>
+<p>We&rsquo;ll also introduce techniques to specify expected input of a program.
+The following section provides a small example to motivate this.</p>
+<h2 id="debugging-a-simple-fragment-undefined-behaviour">Debugging a Simple Fragment: Undefined Behaviour</h2>
+<p>Consider the following program fragment.
+The assignment to <code>z</code> aborts because division by zero is undefined.
+That is, before the assignment is executed we expect the condition <code>y != 0</code> to hold.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line hl"><span class="ln">3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+</span></span></code></pre></div><p>Let&rsquo;s insert the corresponding <code>assert</code> statement.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line hl"><span class="ln">3</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+</span></span></code></pre></div><p>The condition <code>y != 0</code> no longer refers to a specific value of variable <code>y</code>.  That is, for the assertion to pass, <code>y</code> may be any value from the set of integers that are not <code>0</code>.  In terms of our desire for a successful program execution, the assertion describes the set of values for which <code>x / y</code> is defined.
+Thus, <code>y != 0</code> is a fact that we need to establish before evaluting <code>x / y</code>.
+Now, we can trace the value of <code>y</code> and check whether it satisfies the fact <code>y != 0</code>.
+Performing our mental execution of the program, we see that variable <code>y</code> is assigned the value <code>0</code>.
+Let&rsquo;s insert a corresponding assertion to capture our knowledge about the value of <code>y</code> at that point.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line hl"><span class="ln">4</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+</span></span></code></pre></div><p>Knowing <code>y == 0</code> (line 3), we can substitute <code>0</code> for <code>y</code> in the condition <code>y != 0</code>, obtaining <code>0 != 0</code>.
+Of course, this is false, and for this reason the program aborts when evaluating <code>assert(y != 0)</code>.
+If we change the value assigned to <code>y</code> to <code>2</code>, we get the following fragment.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span>
+</span></span><span class="line hl"><span class="ln">6</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+</span></span></code></pre></div><p>Evaluation succeeds for the assignment to <code>z</code> because <code>x / y</code> is defined for <code>y == 2</code>.
+Of course, the fragment still does not yield <code>z == 2</code>, and so the last assertion fails.   If we change the program so that variable <code>y</code> is assigned the value <code>1</code>, then the entire fragment executes without a run-time exception or assertion violation.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+</span></span></code></pre></div><p>In larger programs it becomes virtually impossible to keep in your head all the conditions and values
+that need to be traced and satisfied during a mental execution of a program.
+This is where software tools like Logika intervene.
+Logika provides support for this tracing and
+the derivation of new facts to manage the scale and complexity associated with reasoning about programs.
+We will see that such tools are most effective if we introduce some additional contracts focus solely on specification and automated reasoning.   Some of these constructs are unlike <code>assert</code> in that they are not executable (they are simply ignored during execution) and their entire purpose is to support reasoning (both mental and automated).
+Nevertheless, the <code>assert</code> statement remains useful for purposes linked to the execution of programs:</p>
+<ul>
+<li>We can use it to check runtime conditions in programs for faults beyond our control
+like random hardware faults.
+We will not follow up on this here. Our focus is on reasoning and those aspects that are under our control.</li>
+<li>We can use it or specialised variants for software testing.
+Software testing is closely related to reasoning about software programs in the way outlined above.
+Tracing values and relating them to facts provides valuable information for the creation of test cases.</li>
+</ul>
+<h2 id="tracing-facts">Tracing Facts</h2>
+<p>We have seen above that facts are used to specify conditions for defined behaviour (John: avoided run-time exceptions?), e.g., using an assertion, we stated that we needed the fact <code>y != 0</code> to hold before a division operation to avoid the operation throwing a run-time exception.
+But we haven&rsquo;t used them for more yet.
+Consider the following fragment (where function <code>randomInt</code> yields some arbitrary integer value)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></div><p>Can we still determine whether the assertion at the end holds even though we don&rsquo;t know the values of <code>m</code> and <code>n</code>?</p>
+<p>Let&rsquo;s trace the facts established by the assignments to the variables <code>x</code>, <code>y</code> and <code>z</code> through the fragment,
+and derive new facts by algebraic reasoning using laws of integer arithmetic.</p>
+<ul>
+<li>After the assignment to <code>z</code> in line 3, we obtain the fact <code>z == m + n</code>.
+This is just what the assignment says.</li>
+<li>After the assignment to <code>y</code> in line 4, we obtain additionally <code>y == z - n</code>.
+Using the equation <code>z == m + n</code> that still holds after the assignment to <code>y</code>,
+we can derive a new fact, namely, <code>y == (m + n) - n</code> by substituting <code>m + n</code> for <code>z</code> in <code>y == z - n</code>.
+We can simplify <code>y == (m + n) - n</code> to <code>y == m + (n - n)</code> and further to <code>y == m</code>.</li>
+<li>After the assignment to <code>x</code> in line 5, we obtain <code>x == z - y</code> as a new fact.
+We can make use of the two facts <code>z == m + n</code> and <code>y == m</code> that remain true after the assignment to <code>x</code>.
+We can substitute <code>z</code> and <code>y</code> in <code>x == z - y</code> to obtain <code>x == (m + n) - m</code>
+which we can simplify to <code>x == n</code>.</li>
+<li>Finally, we have two facts <code>x == n</code> and <code>y == m</code>.
+So, we can conclude <code>x == n &amp; y == m</code> and the assertion in line 6 must always be true,
+independently of the values of <code>m</code> and <code>n</code>.</li>
+</ul>
+<p>Note that because we didn&rsquo;t make any assumptions about the values of <code>m</code> and <code>n</code>, we have demonstrated (i.e., proved) that the assertion holds for all possible values of <code>m</code> and <code>n</code>.
+We are so confident in our reasoning that we might now view the use of the <code>assert</code> statement in line 6 appear redundant (we have clearly demonstrated that the assertion will always succeed).</p>
+<p>As we shift our perspective from <em>execution</em> to the <em>proof-based reasoning</em> illustrated above, we introduce some alternate notation to indicate the facts that we know to be true via our proof-based reasoning.  We&rsquo;ll use special proof notation instead of <code>assert</code> and intersperse proof information
+supporting reasoning such as just presented in the program text.</p>
+<p>Instead of the verbose reasoning narrative written out above, our new notation lets us state the proof more concisely
+by noting the most important facts as series of deductions as comments in the program fragment.
+We know how to read it according to our reasoning narrative above.
+An additional advantage of the short form is
+that one can grasp quickly the important steps and facts of a proof.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce z == m + n
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce y == z - n
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == (m + n) - n
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce x == z - y
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == (m + n) - m
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == n
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == n &amp; y == m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></div>
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Course Materials</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Course: Software Correctness</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/basics/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Basic Principles</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/basics/simple-informal/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Informal Reasoning about Simple Programs
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/basics/simple-mutable/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Simple Mutable-Variable Programs
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>
