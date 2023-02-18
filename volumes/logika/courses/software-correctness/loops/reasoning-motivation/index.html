@@ -354,7 +354,7 @@
 <li>then, after the loop, whenever we need knowledge about variables that are updated by the loop, we use the facts from the loop invariant.</li>
 </ul>
 <p>To motivate how loop invariants will be used in deductions, let us consider systematically the execution patterns associated with the <code>while</code> loop.</p>
-<p><img src="images/loops-concepts-path-scenarios.png" alt="Loop Invariant Concepts - Path Scenarios"></p>
+<p><img src="../images/loops-concepts-path-scenarios.png" alt="Loop Invariant Concepts - Path Scenarios"></p>
 <p>The figure provides a schema of execution paths associated with a while loop with test expression <code>e</code> and body <code>C</code>.   The schema illustrates that there are two ways for execution to enter the <code>while</code> loop:</p>
 <ul>
 <li>enter upon encountering the loop for the first time, and</li>
@@ -366,7 +366,7 @@
 <li>the loop is encountered, the test expression evaluates to true, and then the body of the loop is executed some number of times until the test expression is false.  Then execution moves to a statement after the loop.</li>
 </ul>
 <p>Consider that we will need to know some facts about the loop&rsquo;s effects at a statement after the loop.  If we embrace the loop invariant concept of a set of facts that summarize the behavior of the loop, that summary should cover the two completion scenarios above:  the invariant should hold (a) if we never executed the loop body and also (b) if we executed the loop body some number of times (note that it should hold regardless of the number of times the body was executed).  For this to work, in our verification activites, we have obligations to show that the loop invariant holds at two different points, as shown in the figure below.</p>
-<p><img src="images/loops-concepts-invariant-obligations.png" alt="Loop Invariant Concepts - Path Scenarios"></p>
+<p><img src="../images/loops-concepts-invariant-obligations.png" alt="Loop Invariant Concepts - Path Scenarios"></p>
 <ul>
 <li>To cover the scenario where the body is never executing, we need to show that the invariant holds when we first encounter the loop.</li>
 <li>To cover the case where the body is executed some number of times, we need to show that the invariant holds true at the end of the body.  In the event that we exit the loop, we will know that the invariant holds.</li>

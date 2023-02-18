@@ -334,17 +334,17 @@ and the information about values propagates forward along the executed assignmen
 </ul>
 <h4 id="immediate-fact-accumulation-and-display">Immediate Fact Accumulation and Display</h4>
 <p>As Logika processes a code, it collects facts that it discovers by moving forward step-by-step through the code.   Some of the accumulated facts are immediately apparent from the structure of each program statement (we will refer to these as <em>immediate facts</em>).  Others are the result of deductions that it has made by calling the underlying SMT solvers (we will refer to those as <em>deduced facts</em>).  Logika can display the facts that it has accumulated at any point in the program to provide <em>hints</em> about how to systematically reason about the program.  Hints can be viewed by clicking on the lightbulb icon in the IVE editor margin as shown in the figure above.</p>
-<p><img src="images/basics-logika-ex01-hints-02.png" alt="Logika - Example 01 - Hints (a)"></p>
+<p><img src="../images/basics-logika-ex01-hints-02.png" alt="Logika - Example 01 - Hints (a)"></p>
 <p>In the figure above, the developer has clicked on the lightbulb at <strong>Line 7</strong>, which causes the IVE to open the window panes on the right to display the accumulated facts at that point in the program.  Logika organizes its information in terms of the <em>pre-state</em> of a statement (the state of execution <em>immediately before</em> a statement) and a <em>post-state</em> (the state of execution <em>immediately after</em> a statement).</p>
 <p>At the point immediately before <strong>Line 7</strong>, only the assignment to <code>x</code> at <strong>Line 6</strong> has executed.  Thus, the only accumulated fact in the pre-state of <strong>Line 7</strong> is the immediate fact <code>x == 1</code>.</p>
-<p><img src="images/basics-logika-ex01-hints-01.png" alt="Logika - Example 01 - Hints (b)"></p>
+<p><img src="../images/basics-logika-ex01-hints-01.png" alt="Logika - Example 01 - Hints (b)"></p>
 <p>In contrast, clicking on the lightbulb at <strong>Line 6</strong> reveals that Logika has no knowledge about the program&rsquo;s variables, because none have been assigned yet.</p>
-<p><img src="images/basics-logika-ex01-hints-03.png" alt="Logika - Example 01 - Hints (c)"></p>
+<p><img src="../images/basics-logika-ex01-hints-03.png" alt="Logika - Example 01 - Hints (c)"></p>
 <p>Clicking on the lightbulb at <strong>Line 8</strong> shows the  facts known in the pre-state of <strong>Line 8</strong>  (i.e., before the assignment to <code>z</code> at <strong>Line 8</strong> and immediately after the assignment to <code>y</code> in <strong>Line 7</strong>).  The facts include both the immediate facts that we have from the assignment to <code>x</code> at <strong>Line 6</strong> as well as the assignment to <code>y</code> at <strong>Line 7</strong>.</p>
-<p><img src="images/basics-logika-ex01-hints-04.png" alt="Logika - Example 01 - Hints (d)"></p>
+<p><img src="../images/basics-logika-ex01-hints-04.png" alt="Logika - Example 01 - Hints (d)"></p>
 <p>At <strong>Line 10</strong>, the lightbulb information indicates that Logika has immediate facts from the the assignments to <code>x</code>, <code>y</code>, and <code>z</code>.</p>
 <h4 id="deductions-and-smt-interaction">Deductions and SMT Interaction</h4>
-<p><img src="images/basics-logika-ex01-summoning.png" alt="Logika - Example 01 - Summoning"></p>
+<p><img src="../images/basics-logika-ex01-summoning.png" alt="Logika - Example 01 - Summoning"></p>
 <p>At <strong>Line 10</strong>, we see two new margin annotations &ndash; a lightning bolt and an error marker.</p>
 <p>This indicates that Logika has made an automated deduction (in this case, trying to verify that the assertion holds) that requires interactions with its underlying SMT solvers.  Logika calls these interactions &ldquo;summonings&rdquo; because the power of SMT is being &ldquo;summoned&rdquo; to make a deduction that can&rsquo;t be carried out using simple syntactic manipulation of the  facts that it has accumulated about the program.   Clicking on the lightning bolt shows the details of the summoning.   The most useful information to the developer is the sequent:</p>
 <pre tabindex="0"><code>; Sequent:
@@ -374,7 +374,7 @@ The sequent is a traditional notation from logic that has the following structur
 (define-fun |B.unary_!| ((x B)) B (not x))
 ...
 </code></pre><p>is an encoding of Logika&rsquo;s knowledge about the program and the sequent into the standardized SMT2 language of the SMT solvers.  The display of the encoding is meant for tool experts.  We don&rsquo;t explain it here and we don&rsquo;t refer to it in these course notes, but an overview can be found in (XXXXX To be done XXXXXX).</p>
-<p><img src="images/basics-logika-ex04.png" alt="Logika - Example 04 - Program Verified"></p>
+<p><img src="../images/basics-logika-ex04.png" alt="Logika - Example 04 - Program Verified"></p>
 <p>If we correct the mistake in the assignment to <code>y</code>, the problem marker disappears and Logika pops up a message in the lower right corner reporting that it has verified our program.   In general, a<br>
 report of &ldquo;Logika Verified&rdquo; means that, for all possible executions of the program</p>
 <ul>
@@ -395,16 +395,16 @@ report of &ldquo;Logika Verified&rdquo; means that, for all possible executions 
 </span></span></code></pre></div><p>The assertions stated various facts that we believed to be the consequence of execution to that point.  In our mental reasoning, this gave us confidence that the execution was proceeding according to our intent, and we inferred that the execution resulted in additional properties such as <code>y == 2</code> and <code>y == 3</code> that were not immediately captured in the program text.</p>
 <p>There are several methodologies that we can follow with Logika to reason about the execution at intermediate program points and to confirm at those points that our expectations about the execution are met.</p>
 <p>The first approach is simply to let Logika process the interleaved assertions as in the code above.  It&rsquo;s good to understand this option, so we will start with it.  Later we&rsquo;ll consider another approach that is more flexible and that doesn&rsquo;t unnecessarily add executable assertions to our generated code.</p>
-<p><img src="images/basics-logika-ex03-assertion-holds.png" alt="Logika - Example 03 - Assertion Holds"></p>
+<p><img src="../images/basics-logika-ex03-assertion-holds.png" alt="Logika - Example 03 - Assertion Holds"></p>
 <p>The absence of error markers in the figure above illustrates that Logika verified our code.   The <code>assert(y == 2)</code> at <strong>Line 10</strong> is the first place where Logika had to prove a claim that wasn&rsquo;t immediately apparent from the code text.   Clicking on the lightning bolt at <strong>Line 10</strong> shows the sequent used to prove the claim:  the antecedents of the sequent include accumulated immediate facts, and the consequent is the expression that must be true for Logika to verify the assertion.</p>
 <p>Just as we gathered confidence from the result of interleaved assertions in our manual reasoning, Logika will add the deduced fact <code>y == 2</code> to its accumulated facts as it continues to the next line in the program.</p>
-<p><img src="images/basics-logika-ex03-deduced-fact.png" alt="Logika - Example 03 - Assertion Holds"></p>
+<p><img src="../images/basics-logika-ex03-deduced-fact.png" alt="Logika - Example 03 - Assertion Holds"></p>
 <p>The figure above shows the accumulated facts in the pre-state of <strong>Line 11</strong>, i.e., the point immediately after <code>assert(y == 2)</code>.  In addition to the immediate facts deduced from the program text, the accumulated facts include the deduced fact <code>y == 2</code>.</p>
 <h3 id="discovering-possible-run-time-exceptions">Discovering Possible Run-time Exceptions</h3>
 <p>In addition to checking the validity of assertions, Logika checks for possible run-time exceptions (see XXXX for a complete list).</p>
-<p><img src="images/basics-logika-ex05-divide-by-zero-error.png" alt="Logika - Example 03 - Divide by Zero Error"></p>
+<p><img src="../images/basics-logika-ex05-divide-by-zero-error.png" alt="Logika - Example 03 - Divide by Zero Error"></p>
 <p>Logika flags the divide-by-zero show above with a red error marker, and clicking on the marker indicates the error in the <code>Output</code> pane.</p>
-<p><img src="images/basics-logika-ex05-summoning.png" alt="Logika - Example 03 - Assertion Holds"></p>
+<p><img src="../images/basics-logika-ex05-summoning.png" alt="Logika - Example 03 - Assertion Holds"></p>
 <p>Clicking on the lightning bolt shows the sequent that Logika uses to try to prove the absence of the run-time exception, i.e., given the facts that have been accumulated so far, can it be proven that divisor argument is non-zero.</p>
 <p>** Possible Exercise: load the motivation-09.sc example (which fixes the divide by zero error) and click through margin annotations **.</p>
 <h3 id="representing-unknown-values">Representing Unknown Values</h3>
@@ -414,7 +414,7 @@ For example, at the end of the program fragment below,</p>
 </span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
 </span></span></code></pre></div><p>we know something about <code>z</code> (expressed in terms of the values of <code>m</code> and <code>n</code>).  However, we don&rsquo;t know anything about the values of <code>m</code> and <code>n</code>: because their values are random &ndash; they are completely unconstrained.</p>
-<p><img src="images/basics-logika-ex10-random-representation.png" alt="Logika - Random Representation"></p>
+<p><img src="../images/basics-logika-ex10-random-representation.png" alt="Logika - Random Representation"></p>
 <p>Clicking on the lightbulb at <strong>Line 9</strong> shows the facts that Logika knows immediately before the assignment to <code>y</code>.   The facts for <code>m</code> and &rsquo;n&rsquo; illustrate that Logika uses a special marker to represent values returned from its <code>random</code> functions.  For <code>m</code>, the <code>At[Z](&quot;.random&quot;, 0)</code> represents the value returned by the zero&rsquo;th occurence of <code>random</code> within the current program/method, whereas <code>At[Z](&quot;.random&quot;, 1)</code> represents the value returned by the first occurence.  Note that we wouldn&rsquo;t have sufficient information if just used a single marker <code>[Z](&quot;.random&quot;)</code> for all calls to <code>random</code>.   We need to keep track of the fact that the random value generated for <code>m</code> is not the same as the random value generated for <code>n</code>.  Using a single marker would cause Logika to treat the values for <code>m</code> and &lsquo;<code>n</code> as being identical.</p>
 <p>These markers are the user-facing representation of just one of several kinds of &ldquo;symbolic values&rdquo; (also called &ldquo;logic variables&rdquo;) that Logika uses for automated program reasoning.   The common concept that each of these different symbolic values share is that they each represent an arbitrary (unconstrained) value to which constraints can be applied.</p>
 <h3 id="checking-explicit-deductions-in-logikas-proof-language">Checking Explicit Deductions in Logika&rsquo;s Proof Language</h3>
@@ -429,14 +429,14 @@ For example, at the end of the program fragment below,</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == m
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="o">...</span>
 </span></span></code></pre></div><p>Instead of using informal comments, we can record such deductions as checkable claims using Logika&rsquo;s proof language as illustrated below.</p>
-<p><img src="images/basics-logika-ex10-deduce.png" alt="Logika - Deduce"></p>
+<p><img src="../images/basics-logika-ex10-deduce.png" alt="Logika - Deduce"></p>
 <p>Between each statement in the code, one can list multiple claims in a <code>Deduce</code> proof clause.   Each claim, e.g., <code>(y == z - n)</code> is followed by a justification, e.g., <code>by Premise</code> indicating why the claim should be true.  While the proof language contains many types of justifications, this example uses only two.</p>
 <ul>
 <li><code>Premise</code> indicates a claim that is true because (a) it is immediately derivable from the program text without a call to the underlying SMT solvers at the current point, or (b) it has already been explicitly claimed and proved by Logika previously.  In most cases, a claimed justified by <code>Premise</code> will appear in accumulated facts displayed by the lightbulb marker at that particular statement.  For example, the claim <code>(y == z - n)</code> at <strong>Line 20</strong> appears in the facts listed by the lightbulb annotation at <strong>Line 18</strong>.</li>
 <li><code>Auto</code> indicates that Logika can prove the claim by automated reasoning with calls to the underlying SMT solvers.</li>
 </ul>
 <p>A slight variation of the <code>Deduce</code> clauses above further clarifies the principles behind <code>Premise</code> and <code>Auto</code>.</p>
-<p><img src="images/basics-logika-ex10-deduce-subtleties.png" alt="Logika - Deduce"></p>
+<p><img src="../images/basics-logika-ex10-deduce-subtleties.png" alt="Logika - Deduce"></p>
 <p>Switching the justification from <code>Premise</code> to <code>Auto</code> at <strong>Line 10</strong> illustrates that every claim that can be proved using <code>Premise</code> can also be proved using <code>Auto</code>.  In fact, the implementation of <code>Auto</code> will first use the <em>implementation of <code>Premise</code></em> to see if the claim is already in the set of know facts, e.g., as revealed by the light bulb information, before making calls to the SMT solvers to try to prove the claim.</p>
 <p>The error marker at <strong>Line 16</strong> illustrates that the reverse does not hold: there are claims proved using SMT deductions via <code>Auto</code> that cannot be proved by <code>Premise</code>.</p>
 <p><strong>Line 26</strong> and <strong>Line 27</strong> illustrate that immediate facts also arise from other constructs such as correct assertions (not just assignment statements).   Clicking the light bulb annotation at <strong>Line 26</strong> illustrates how any assertion expression proved to hold by Logika will be added to the known facts (see the last fact in the known facts list).  Thus, a claim corresponding to the assertion expression can be proved by <code>Premise</code> at <strong>Line 27</strong>.</p>
@@ -444,15 +444,15 @@ For example, at the end of the program fragment below,</p>
 <h3 id="tracking-facts-about-mutable-variables">Tracking Facts about Mutable Variables</h3>
 <p>As discussed previously, reasoning about mutable variables is more difficult because a variable may have different values at different points in the program.  Thus, we are typically led to say things like &ldquo;the value of <code>x</code> at this point in the program&rdquo;.  From another point of view, we may consider that there are different &ldquo;versions&rdquo; of the variable &ndash; one version for each time the variable is assigned.  We now illustrate how Logika reflects this intuition as it tracks facts about mutable variables.</p>
 <p>The figure below illustrates the known facts at <strong>Line 12</strong> &ndash; <em>after</em> all the variables have been declared (assigned assigned a value once), but <em>before</em> any variables (e.g., <code>x</code> and <code>y</code>) have been updated.</p>
-<p><img src="images/basics-logika-ex11-variable-declarations.png" alt="Logika - Deduce"></p>
+<p><img src="../images/basics-logika-ex11-variable-declarations.png" alt="Logika - Deduce"></p>
 <p>At this point in the program, Logika uses a single name for each variable (the declared variable name).
 However, the figure below shows that after a variable is updated (e.g., after the update to <code>x</code> at <strong>Line 12</strong>), the notation for variable references changes.  The known facts display at <strong>Line 13</strong> illustrates that Logika uses the notation <code>At(x, 0)</code> to refer to the value associated from the zero&rsquo;th assignment of <code>x</code> at <strong>Line 9</strong> (i.e., the &ldquo;previous&rdquo; value of <code>x</code>) and then uses the &ldquo;regular&rdquo; name <code>x</code> to refer to the <em>most recent assignment</em> to <code>x</code> at <strong>Line 12</strong>.</p>
-<p><img src="images/basics-logika-ex11-old-x.png" alt="Logika - Deduce"></p>
+<p><img src="../images/basics-logika-ex11-old-x.png" alt="Logika - Deduce"></p>
 <p>To capture the effect of the assignment to <code>x</code> at <strong>Line 12</strong>, the known facts display at <strong>Line 13</strong> includes the constraint</p>
 <pre tabindex="0"><code>x == At(x, 0) + y
 </code></pre><p>which indicates that the &ldquo;new&rdquo; value of <code>x</code> (indicated by the direct use of <code>x</code> for the most recent version) is equal to the &ldquo;previous&rdquo; value of <code>x</code> (indicated by <code>At(x, 0)</code> &ndash; the zero&rsquo;th assignment to <code>x</code>) added to the current value of <code>y</code> (the only value, to this point).</p>
 <p>Continuing through the program, the known facts immediately before the execution of the assertion at <strong>Line 16</strong> include references to multiple versions of <code>x</code> and <code>y</code>.</p>
-<p><img src="images/basics-logika-ex11-assert-lightbulb.png" alt="Logika - Deduce"></p>
+<p><img src="../images/basics-logika-ex11-assert-lightbulb.png" alt="Logika - Deduce"></p>
 <p>Because we now have an assignment to <code>y</code> at <strong>Line 13</strong> and yet another assign to <code>x</code> at <strong>Line 14</strong>, the constraint presented as</p>
 <pre tabindex="0"><code>x == At(x, 0) + y
 </code></pre><p>in the known facts display at <strong>Line 13</strong> now is now presented as</p>
@@ -465,7 +465,7 @@ However, the figure below shows that after a variable is updated (e.g., after th
 </code></pre><p>captures the effect of the assignment at <strong>Line 14</strong> where the current value of <code>x</code> is computed from the previous version of <code>x</code> (the 1&rsquo;th version assigned at <strong>Line 12</strong>) and the current version of <code>y</code>.</p>
 <p>Note: there are other possible notations that Logika could use to keep track of different versions of variables.  For example, it could use line numbers where variables are assigned to keep track of different versions.   Because we sometimes want to use the <code>At(..,..)</code> notation to reference previous versions of variables in Logika proof blocks, referencing in terms of the &ldquo;0&rsquo;th&rdquo;, &ldquo;1&rsquo;th&rdquo;, etc. assignment is less brittle (less subject to change) when the program is subsequently edited (e.g., lines are inserted or deleted).</p>
 <p>In the figure below, the sequent displayed in the summoning for the assertion verification at <strong>Line 16</strong> (viewed by clicking on the light bulb at <strong>Line 16</strong>) illustrates that when Logika sends constraints to the SMT solver, it converts the <code>At(..,..)</code> into variable references based on line numbers.</p>
-<p><img src="images/basics-logika-ex11-assert-bolt.png" alt="Logika - Deduce"></p>
+<p><img src="../images/basics-logika-ex11-assert-bolt.png" alt="Logika - Deduce"></p>
 <p>For example, the constraint for the assignment at <strong>Line 12</strong> presented as</p>
 <pre tabindex="0"><code>At(x,1) == At(x, 0) + At(y, 0)
 </code></pre><p>in the known facts display becomes</p>

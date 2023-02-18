@@ -1,0 +1,4610 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Single-Assignment Form Consider the two program fragments below and suppose we only care about the values of variables m, n, x and y (where the declarations of m and n are not shown). Under this assumption we regard the two programs as equivalent: they compute identical values for x and y for any input values m and m.
+Immutable-Variable Program
+val p: Z = m val q: Z = n val z: Z = p &#43; q val y: Z = z - q val x: Z = z - y assert(x == n &amp;amp; y == m) Mutable-Variable Program" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/testing/from-implementation/" />
+
+
+    <title>
+        
+            Testing From Implementations :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Testing From Implementations">
+<meta itemprop="description" content="Single-Assignment Form Consider the two program fragments below and suppose we only care about the values of variables m, n, x and y (where the declarations of m and n are not shown). Under this assumption we regard the two programs as equivalent: they compute identical values for x and y for any input values m and m.
+Immutable-Variable Program
+val p: Z = m val q: Z = n val z: Z = p &#43; q val y: Z = z - q val x: Z = z - y assert(x == n &amp; y == m) Mutable-Variable Program"><meta itemprop="datePublished" content="2022-12-02T14:31:08+01:00" />
+<meta itemprop="dateModified" content="2022-12-02T14:31:08+01:00" />
+<meta itemprop="wordCount" content="1856"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Testing From Implementations"/>
+<meta name="twitter:description" content="Single-Assignment Form Consider the two program fragments below and suppose we only care about the values of variables m, n, x and y (where the declarations of m and n are not shown). Under this assumption we regard the two programs as equivalent: they compute identical values for x and y for any input values m and m.
+Immutable-Variable Program
+val p: Z = m val q: Z = n val z: Z = p &#43; q val y: Z = z - q val x: Z = z - y assert(x == n &amp; y == m) Mutable-Variable Program"/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-12-02 14:31:08 &#43;0100 &#43;0100" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/testing/from-implementation/">Testing From Implementations</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h2 id="single-assignment-form">Single-Assignment Form</h2>
+<p>Consider the two program fragments below and suppose we only care about the values of
+variables <code>m</code>, <code>n</code>, <code>x</code> and <code>y</code> (where the declarations of <code>m</code> and <code>n</code> are not shown).
+Under this assumption we regard the two programs as equivalent:
+they compute identical values for <code>x</code> and <code>y</code> for any input values <code>m</code> and <code>m</code>.</p>
+<ol>
+<li>
+<p>Immutable-Variable Program</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">p</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">q</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="n">q</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">q</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Mutable-Variable Program</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>We have no preference for one program fragment or the other.
+However, we have seen that proofs of immutable-variable programs appear to be more straightforward
+because each variable as it appears in the program is associated with a collection of facts that characterise it.
+In order to deal with mutable-variable programs we have to introduce fresh identifiers for variables
+as their prior values are overwritten. As a consequence, in proofs mutable-variable programs appear like immutable-variable programs.</p>
+<p>We can systematically transform mutable-variable programs into immutable-variable programs, e.g.,</p>
+<ol start="3">
+<li>Transformed Program
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x_At_0</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y_At_0</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x_At_1</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x_At_0</span> <span class="o">+</span> <span class="n">y_At_0</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x_At_1</span> <span class="o">-</span> <span class="n">y_At_0</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x_At_1</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>Instead of creatively inventing new identifiers (as in program 1), we count from <code>0</code> the n-th assignment to each variable. We could also rename the remaining <code>y</code> to <code>y_At_1</code> and <code>x</code> to <code>x_At_2</code> but we want to make clear that the
+final assertion <code>assert(x == n &amp; y == m)</code> is unchanged (without stating a side condition <code>x == x_At_2 &amp; y == y_At_1</code>). Having transformed program 2 into program 3, where each variable is assigned only once, we can interpret the program as a sequence of equations.</p>
+<ol start="4">
+<li>Program as Equations
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">x_At_0</span> <span class="o">==</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_At_0</span> <span class="o">==</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x_At_1</span> <span class="o">==</span> <span class="n">x_At_0</span> <span class="o">+</span> <span class="n">y_At_0</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">==</span> <span class="n">x_At_1</span> <span class="o">-</span> <span class="n">y_At_0</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="n">x_At_1</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>For the program to be correct with respect to the post-condition <code>x == n &amp; y == m</code>, the equations must imply the post-conditions.</p>
+<ol start="5">
+<li>Correctness Condition for the Program
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">  <span class="n">x_At_0</span> <span class="o">==</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y_At_0</span> <span class="o">==</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x_At_1</span> <span class="o">==</span> <span class="n">x_At_0</span> <span class="o">+</span> <span class="n">y_At_0</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="o">==</span> <span class="n">x_At_1</span> <span class="o">-</span> <span class="n">y_At_0</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="o">==</span> <span class="n">x_At_1</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">|-</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>Up to renaming this condition is very close to what we have used in our informal proof in <a href="https://doc.sireum.org/basics/Simple-Mutable.html">Chapter 1</a>. We only need to replace <code>v_At_i</code> (for variable <code>v</code> at <code>i</code>) by the operator notation <code>At(v, i)</code> using the <code>At</code>-operator.</p>
+<ol start="6">
+<li>Correctness Condition for the Program using Operator Notation
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">  <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">|-</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>This condition corresponds to the one shown by Logika when inspecting the facts belonging to the <code>assert(x == n &amp; y == m)</code> statement in the last line of program 2. Moving directly from program 2 to condition 6, we observe that programs themselves are facts. This is an interesting insight because we know how to reason about facts, and it is helpful for proving a program correct, for determining test cases and for searching counterexamples in case a program is not correct. An alternative view of programs considers them as transforming facts, tracing them from a pre-condition through a program to the program&rsquo;s post-condition. This approach is known as <em>symbolic execution</em>.</p>
+<h2 id="a-meta-notation-for-programs">A Meta-Notation for Programs</h2>
+<p>As we have just seen programs themselves are facts. Incidentally, we have used this insight from the beginning
+when reasoning about programs:
+we said after an assignment 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    val x = E
+</span>
+</samp>
+ for some expression 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    E
+</span>
+</samp>
+ we can use the equality 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    x == E
+</span>
+</samp>
+.
+We have just not been systematic about this. This is the purpose of the current section.</p>
+<p>In order to facilitate the discussion we use a notation, that we call <em>meta-notation</em>, distinct from Slang, so that we are always clear about whether we talk about programs in general or about concrete Slang programs. A statement in meta-notation denotes collections of Slang programs by means of <em>meta-variables</em> for which Slang expressions can be substituted. We distinguish meta-variables, say <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> "<samp>v</samp>" </span>, from other objects by printing them as 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    v
+</span>
+</samp>.
+In the table below we introduce the meta-notation for assignment and conditional and give an example for each.</p>
+<table>
+<thead>
+<tr>
+<th>Statement</th>
+<th>Meta-notation</th>
+<th>Slang example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Val-Declaration</td>
+<td><span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     val
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span></td>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    val m = n &#43; 1
+</span>
+</samp>
+</td>
+</tr>
+<tr>
+<td>Var-Declaration</td>
+<td><span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     var
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span></td>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    var m = n &#43; 1
+</span>
+</samp>
+</td>
+</tr>
+<tr>
+<td>Assignment</td>
+<td><span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span></td>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    m = m &#43; 1
+</span>
+</samp>
+</td>
+</tr>
+<tr>
+<td>Sequential</td>
+<td><span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S1
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S2
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ ... 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ;
+</span>
+</samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Sn
+ </span>
+ </samp> 
+</span></td>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    x = x &#43; y; y = x - y
+</span>
+</samp>
+</td>
+</tr>
+<tr>
+<td>Block</td>
+<td><span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     {
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S1
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S2
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ ... 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ;
+</span>
+</samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Sn
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     }
+ </span>
+ </samp>
+ 
+</span></td>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    { x = x &#43; y; y = x - y; x = x - y }
+</span>
+</samp>
+</td>
+</tr>
+<tr>
+<td>Conditional</td>
+<td><span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     if (
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     B
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     )
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     P
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     else
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Q
+ </span>
+ </samp> 
+</span></td>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    if (x &gt;= 0) { y = x } else { y = -x }
+</span>
+</samp>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="variable-conventions">Variable conventions</h3>
+<p>The meta-variables in the table above are intended to be instantiated by specific syntactic Slang objects like variables or expressions. We consistently use a set of meta-variable names as listed in the table below.</p>
+<table>
+<thead>
+<tr>
+<th>Meta-variable</th>
+<th>Intended instantiation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    y
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    z
+</span>
+</samp></td>
+<td>Slang variables</td>
+</tr>
+<tr>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    E
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    F
+</span>
+</samp></td>
+<td>Slang expressions</td>
+</tr>
+<tr>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    B
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    C
+</span>
+</samp></td>
+<td>Slang Boolean expressions</td>
+</tr>
+<tr>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    T
+</span>
+</samp></td>
+<td>Slang (non-sequential) statements</td>
+</tr>
+<tr>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S1
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S2
+</span>
+</samp>, &hellip;, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    Sn
+</span>
+</samp></td>
+<td><span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> <samp>n</samp> </span> Slang (non-sequential) statements, possible zero</td>
+</tr>
+<tr>
+<td>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    P
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    Q
+</span>
+</samp></td>
+<td>Slang Blocks</td>
+</tr>
+</tbody>
+</table>
+<h3 id="remarks">Remarks</h3>
+<ol>
+<li>
+<p>Also note, that we usually do not use 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ;
+</span>
+</samp>
+ to compose statements sequentially
+but write the statements in consecutive lines instead. For instance,
+<span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S1
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S2
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ ...
+   
+   <samp style="display: inline-block">
+   <span style="font-family: Consolas, menlo, monospace; 
+                font-size: 92%; 
+                border-radius: 2px; 
+                white-space: nowrap; 
+                color: #5e5e5e; 
+                background: #FFF7DD; 
+                border: 1px solid #fbf0cb; 
+                padding: 0;
+                margin: 0">
+       ;
+   </span>
+   </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Sn
+ </span>
+ </samp> 
+</span> is the same as</p>
+<div style="color: #5e5e5e; text-align: center">
+    <span style="width: max-content">
+   <div><div>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S1
+</span>
+</samp></div><div>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S2
+</span>
+</samp></div><div>&#8942;</div><div>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    Sn
+</span>
+</samp></div></div>
+   </span>
+</div>
+</li>
+<li>
+<p>Formally, we treat sequential composition 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ;
+</span>
+</samp>
+ like a binary associative operator. That is
+<div style="color: #5e5e5e; text-align: center">
+    <span style="width: max-content">
+   <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S1
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S2
+ </span>
+ </samp> 
+   
+   <samp style="display: inline-block">
+   <span style="font-family: Consolas, menlo, monospace; 
+                font-size: 92%; 
+                border-radius: 2px; 
+                white-space: nowrap; 
+                color: #5e5e5e; 
+                background: #FFF7DD; 
+                border: 1px solid #fbf0cb; 
+                padding: 0;
+                margin: 0">
+       ;
+   </span>
+   </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S3
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ ... 
+   
+   <samp style="display: inline-block">
+   <span style="font-family: Consolas, menlo, monospace; 
+                font-size: 92%; 
+                border-radius: 2px; 
+                white-space: nowrap; 
+                color: #5e5e5e; 
+                background: #FFF7DD; 
+                border: 1px solid #fbf0cb; 
+                padding: 0;
+                margin: 0">
+       ;
+   </span>
+   </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Sn
+ </span>
+ </samp> 
+</span> <span>&nbsp; = &nbsp;</span>
+   <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S1
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ (
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S2
+</span>
+</samp> 
+   
+   <samp style="display: inline-block">
+   <span style="font-family: Consolas, menlo, monospace; 
+                font-size: 92%; 
+                border-radius: 2px; 
+                white-space: nowrap; 
+                color: #5e5e5e; 
+                background: #FFF7DD; 
+                border: 1px solid #fbf0cb; 
+                padding: 0;
+                margin: 0">
+       ;
+   </span>
+   </samp>
+ (
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S3
+</span>
+</samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ ( ... 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ;
+</span>
+</samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Sn
+ </span>
+ </samp> ) ) ) 
+</span>
+   </span>
+</div>
+Of course, that parentheses are not part of the syntax. We write them emphasise the that when we analyse
+sequentials, we only consider pairs <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     T
+ </span>
+ </samp> 
+</span>,
+assuming that 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S
+</span>
+</samp> cannot be a sequential.</p>
+</li>
+<li>
+<p>Note, that a block is allowed to empty (for <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> <samp>n</samp> </span> = 0).
+An empty block does nothing. In case the else-block of a conditional is empty,
+we leave the else part of the conditional away. That is, we have the equality</p>
+<div style="color: #5e5e5e; text-align: center">
+    <span style="width: max-content">
+   <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     if (
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     B
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     )
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     P
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     else
+ </span>
+ </samp>
+ 
+   
+   <samp style="display: inline-block">
+   <span style="font-family: Consolas, menlo, monospace; 
+                font-size: 92%; 
+                border-radius: 2px; 
+                white-space: nowrap; 
+                color: #5e5e5e; 
+                background: #FFF7DD; 
+                border: 1px solid #fbf0cb; 
+                padding: 0;
+                margin: 0">
+       {
+   </span>
+   </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     }
+ </span>
+ </samp>
+ 
+</span> <span>&nbsp; = &nbsp;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     if (
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     B
+ </span>
+ </samp> 
+   
+   <samp style="display: inline-block">
+   <span style="font-family: Consolas, menlo, monospace; 
+                font-size: 92%; 
+                border-radius: 2px; 
+                white-space: nowrap; 
+                color: #5e5e5e; 
+                background: #FFF7DD; 
+                border: 1px solid #fbf0cb; 
+                padding: 0;
+                margin: 0">
+       )
+   </span>
+   </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     P
+ </span>
+ </samp> 
+</span>.
+   </span>
+</div>
+<p>We return to this later.</p>
+</li>
+</ol>
+<h3 id="example-instantiations-from-the-table">Example instantiations from the table</h3>
+<h4 id="val--and-var-declaration">Val- and Var-Declaration</h4>
+<p>Substituting 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    m
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> and 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    n &#43; 1
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    E
+</span>
+</samp> in the meta-declarations, both val and var,
+we obtain the concrete Slang declarations on the right-hand side.
+Each declaration contains an initial assignment of the newly declared variable.
+The declared Slang variable, here 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    m
+</span>
+</samp>
+, must not occur on the right-hand side of the assignment.
+It is not known before its declaration.</p>
+<h4 id="assignment">Assignment</h4>
+<p>Substituting 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    m
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> and 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    m &#43; 1
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    E
+</span>
+</samp> in the meta-assignment,
+we obtain the concrete Slang assignment on the right-hand side.
+The Slang variable 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    m
+</span>
+</samp>
+ occurs on both sides of the assignment.</p>
+<h4 id="sequential">Sequential</h4>
+<p>Substituting 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    x = x &#43; y
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S1
+</span>
+</samp> and 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    y = x - y
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S2
+</span>
+</samp>, with <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> <samp>n</samp> </span> = 2, in the meta-sequential,
+we obtain the concrete Slang sequential on the right-hand side.</p>
+<h4 id="block">Block</h4>
+<p>Substituting 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    x = x &#43; y
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S1
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    y = x - y
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S2
+</span>
+</samp>
+
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    x = x - y
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S3
+</span>
+</samp>, with <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> <samp>n</samp> </span> = 3, in the meta-block,
+we obtain the concrete Slang block on the right-hand side.</p>
+<h4 id="conditional">Conditional</h4>
+<p>Substituting 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    x &gt;= 0
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    B
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    { y = x }
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S
+</span>
+</samp> and 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    { y = -x }
+</span>
+</samp>
+ for 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    T
+</span>
+</samp> in the meta-conditional,
+we obtain the concrete Slang conditional on the right-hand side.</p>
+<h2 id="programs-are-facts">Programs are Facts</h2>
+<ul>
+<li>
+<p>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    E
+</span>
+</samp><span style="font-size: 110%">&#x27E8;</span>s<span style="font-size: 110%">&#x27E9;</span> subsitution of all 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> in 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    E
+</span>
+</samp> by 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    At(
+</span>
+</samp>
+
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ,
+</span>
+</samp>
+ <em>s</em>[ 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ] 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    )
+</span>
+</samp>
+</p>
+</li>
+<li>
+<p>(<em>a</em> + <em>b</em>)( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ) = <em>a</em>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ) + <em>b</em>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> )</p>
+</li>
+<li>
+<p>(<em>a</em> <span>&#x2190;</span> <em>b</em> | <em>c</em>)( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ) = <em>b</em>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ) <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> &nbsp; &nbsp; </span> if 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> <span>&#x2208;</span> <em>c</em></p>
+</li>
+<li>
+<p>(<em>a</em> <span>&#x2190;</span> <em>b</em> | <em>c</em>)( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ) = <em>a</em>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ) <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> &nbsp; &nbsp; </span> if 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> <span>&#x2209;</span> <em>c</em></p>
+</li>
+<li>
+<p>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> <span>&#x2208;</span> <strong>M</strong><span style="font-size: 120%">&#x27E6;</span> S <span style="font-size: 120%">&#x27E7;</span> if and only if <strong>N</strong><span style="font-size: 120%">&#x27E6;</span> S <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ) &gt; 0</p>
+</li>
+<li>
+<p><strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    y
+</span>
+</samp> ) = 1 <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> &nbsp; &nbsp; </span> if 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> = 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    y
+</span>
+</samp>, <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> &nbsp; &nbsp; </span>0 otherwise</p>
+</li>
+<li>
+<p><strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     val
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    y
+</span>
+</samp> )
+<span>&nbsp; = &nbsp;</span>
+<strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    y
+</span>
+</samp> )</p>
+</li>
+<li>
+<p><strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     T
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> )
+<span>&nbsp; = &nbsp;</span>
+<strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ) +
+<strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     T
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> )</p>
+</li>
+<li>
+<p><strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     if (
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     B
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     )
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     P
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     else
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Q
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>
+<span>&nbsp; = &nbsp;</span>
+max( <strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ),
+<strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     T
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ) )</p>
+</li>
+<li>
+<p><strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     {
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     }
+ </span>
+ </samp>
+ 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ) = 0</p>
+</li>
+<li>
+<p><strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     {
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S1
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S2
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ ... 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ;
+</span>
+</samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Sn
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     }
+ </span>
+ </samp>
+ 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> )
+<span>&nbsp; = &nbsp;</span>
+<strong>N</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S1
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S2
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ ... 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ;
+</span>
+</samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Sn
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> )
+<span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> &nbsp; &nbsp; </span> provided <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"><samp>n</samp></span> &gt; 0</p>
+</li>
+<li>
+<p><strong>eq</strong>(<em>a</em>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    S
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    T
+</span>
+</samp>) ) =
+<strong>V</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x1
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em> + <strong>N</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>)
+
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ==
+</span>
+</samp>
+
+<strong>V</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x1
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em> + <strong>N</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     T
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>)
+
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    &amp;
+</span>
+</samp>
+ &hellip; 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    &amp;
+</span>
+</samp>
+
+<strong>V</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     xk
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em> + <strong>N</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>)
+
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ==
+</span>
+</samp>
+
+<strong>V</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     xk
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em> + <strong>N</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     T
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>)
+<span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> &nbsp; &nbsp; </span> for all those <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"><samp>j</samp></span> between 1 and <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"><samp>k</samp></span> with
+<strong>N</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    xj
+</span>
+</samp> ) &lt;
+<strong>N</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     T
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    xj
+</span>
+</samp> )</p>
+</li>
+<li>
+<p><strong>V</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>)
+<span>&nbsp; = &nbsp;</span>
+
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    At(
+</span>
+</samp>
+
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp>
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ,
+</span>
+</samp>
+ <em>a</em>[ 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    x
+</span>
+</samp> ] 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    )
+</span>
+</samp>
+</p>
+</li>
+<li>
+<p><strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>)
+<span>&nbsp; = &nbsp;</span>
+<strong>V</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>) <span style="display: inline-block; word-spacing: 5px">
+    
+</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ==
+ </span>
+ </samp>
+ <span style="display: inline-block; word-spacing: 5px">
+     
+</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp><span style="font-size: 110%">&#x27E8;</span>s<span style="font-size: 110%">&#x27E9;</span></p>
+</li>
+<li>
+<p><strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     val
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>)
+<span>&nbsp; = &nbsp;</span>
+<strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>)</p>
+</li>
+<li>
+<p><strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     var
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>)
+<span>&nbsp; = &nbsp;</span>
+<strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     x
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     E
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>)</p>
+</li>
+<li>
+<p><strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     T
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>)
+<span>&nbsp; = &nbsp;</span>
+<strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>)
+<span style="display: inline-block; word-spacing: 5px">
+    
+</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     &amp;
+ </span>
+ </samp>
+ <span style="display: inline-block; word-spacing: 5px">
+     
+ </span>
+<strong>F</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     T
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em> + <strong>N</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>, <em>s</em> <span>&#x2190;</span> a | <strong>M</strong><span style="font-size: 120%">&#x27E6;</span> S <span style="font-size: 120%">&#x27E7;</span>)</p>
+</li>
+<li>
+<p><strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     {
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     }
+ </span>
+ </samp>
+ 
+</span> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>)
+<span>&nbsp; = &nbsp;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     true
+ </span>
+ </samp>
+</p>
+</li>
+<li>
+<p><strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     {
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S1
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S2
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ ... 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ;
+</span>
+</samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Sn
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     }
+ </span>
+ </samp>
+ 
+</span> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>)
+<span>&nbsp; = &nbsp;</span>
+<strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S1
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     S2
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     ;
+ </span>
+ </samp>
+ ... 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    ;
+</span>
+</samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Sn
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>)
+<span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"> &nbsp; &nbsp; </span> provided <span style="display: inline-block; color: #5e5e5e; margin: 0; padding: 0"><samp>n</samp></span> &gt; 0</p>
+</li>
+<li>
+<p><strong>F</strong><span style="font-size: 120%">&#x27E6;</span> <span style="display: inline-block; word-spacing: 5px">
+     
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     if (
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     B
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     )
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     P
+ </span>
+ </samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     else
+ </span>
+ </samp>
+ 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Q
+ </span>
+ </samp> 
+</span> <span style="font-size: 120%">&#x27E7;</span> (<em>a</em>, <em>s</em>)
+<span>&nbsp; = &nbsp;</span>
+( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    B
+</span>
+</samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =&gt;
+ </span>
+ </samp>
+ <strong>F</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     P
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>) 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    &amp;
+</span>
+</samp>
+ <strong>eq</strong>(<em>a</em>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    P
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    Q
+</span>
+</samp>) )
+
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    &amp;
+</span>
+</samp>
+
+( 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    !B
+</span>
+</samp> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #FFF7DD; 
+              border: 1px solid #fbf0cb; 
+              padding: 0;
+              margin: 0">
+     =&gt;
+ </span>
+ </samp>
+ <strong>F</strong><span style="font-size: 120%">&#x27E6;</span> 
+ <samp style="display: inline-block">
+ <span style="font-family: Consolas, menlo, monospace; 
+              font-size: 92%; 
+              border-radius: 2px; 
+              white-space: nowrap; 
+              color: #5e5e5e; 
+              background: #9FF7DD; 
+              border: 1px solid #9bf0cb;
+              padding: 0;
+              margin: 0">
+     Q
+ </span>
+ </samp> <span style="font-size: 120%">&#x27E7;</span>(<em>a</em>, <em>s</em>) 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #FFF7DD; 
+             border: 1px solid #fbf0cb; 
+             padding: 0;
+             margin: 0">
+    &amp;
+</span>
+</samp>
+ <strong>eq</strong>(<em>a</em>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    Q
+</span>
+</samp>, 
+<samp style="display: inline-block">
+<span style="font-family: Consolas, menlo, monospace; 
+             font-size: 92%; 
+             border-radius: 2px; 
+             white-space: nowrap; 
+             color: #5e5e5e; 
+             background: #9FF7DD; 
+             border: 1px solid #9bf0cb;
+             padding: 0;
+             margin: 0">
+    P
+</span>
+</samp>) )</p>
+</li>
+</ul>
+<h3 id="test-case-generation">Test Case Generation</h3>
+<h3 id="counterexample-generation">Counterexample Generation</h3>
+<h3 id="proof">Proof</h3>
+<h2 id="programs-are-fact-transformers">Programs are Fact Transformers</h2>
+<h3 id="symbolic-execution">Symbolic Execution</h3>
+<h3 id="strongest-postcondition-and-weakest-precondition">Strongest Postcondition and Weakest Precondition</h3>
+<h2 id="synthesis">Synthesis</h2>
+<h3 id="dynamic-and-static-perspectives">Dynamic and Static Perspectives</h3>
+<h3 id="questions-perspectives-and-answers">Questions, Perspectives and Answers</h3>
+<p>Often it is important to look at a problem from the right angle to be able to ask questions whose answers help solving the problem.</p>
+<h3 id="understanding">Understanding</h3>
+<p>Having multiple perspectives that provide consistent views on the same program greatly aids in analysing that program.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Course Materials</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Course: Software Correctness</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/testing/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Testing</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/testing/from-specification/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Testing From Specifications
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

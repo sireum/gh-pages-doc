@@ -322,14 +322,14 @@ checking the test expression: when Logika encounters an if statement, it will us
 </ul>
 <p>We now illustrate how this process is reflected in the IVE.</p>
 <p>First, consider the known facts at the top of the loop at <strong>Line 8</strong> (before the test expression is evaluated).</p>
-<p><img src="images/conditionals-01-top-of-if.png" alt="Logika - Conditionals Reasoning Before If"></p>
+<p><img src="../images/conditionals-01-top-of-if.png" alt="Logika - Conditionals Reasoning Before If"></p>
 <p>Here, we see only the basic facts about the variables <code>x</code>,<code>y</code>, and <code>z</code>.  In particular, since <code>x</code> and <code>y</code> are unconstrained, Logika is unable to determine if the test expression <code>x &gt; y</code> is true or false.  Therefore, it will explore both branches (and we can see that since lightbulb annotations appear in both branches at <strong>Line 9</strong> and <strong>Line 11</strong>).</p>
 <p>Now consider the known facts as we enter the <em>true</em> branch at <strong>Line 9</strong>.   Since we are inside the <em>true</em> branch, we are dealing with the case where the test expression must be <em>true</em>, and so Logika adds <code>x &gt; y</code> to the known facts, as illustrated below.</p>
-<p><img src="images/conditionals-01-true-branch.png" alt="Logika - Conditionals Reasoning Before If"></p>
+<p><img src="../images/conditionals-01-true-branch.png" alt="Logika - Conditionals Reasoning Before If"></p>
 <p>On the other hand, the following screen shot shows the known facts at <strong>Line 11</strong> as Logika explores the <em>false</em> branch &ndash; <code>!(x &gt; y)</code> has been added to the known facts, indicating that the test expression is false.</p>
-<p><img src="images/conditionals-01-false-branch.png" alt="Logika - Conditionals Reasoning Before If"></p>
+<p><img src="../images/conditionals-01-false-branch.png" alt="Logika - Conditionals Reasoning Before If"></p>
 <p>After the conclusion of the <code>if</code> statement, the known facts at <strong>Line 14</strong> show Logika has merged the knowledge from both branches:  the facts originating in each branch of the <code>if</code> are now conditioned (using implication <code>-&gt;:</code>) on the value of the test expression within the respective branch.</p>
-<p><img src="images/conditionals-01-assert.png" alt="Logika - Conditionals Reasoning Before If"></p>
+<p><img src="../images/conditionals-01-assert.png" alt="Logika - Conditionals Reasoning Before If"></p>
 <p>The aggregated known facts at this point are sufficient for the SMT solvers to prove that assertion at <strong>Line 14</strong> hold, which captures the correctness property of the &ldquo;find max&rdquo; calculation.</p>
 
             </div>

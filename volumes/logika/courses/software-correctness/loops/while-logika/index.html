@@ -309,13 +309,13 @@
 
             <div class="post-content">
                 <h2 id="logika-verification-of-while-loops">Logika Verification of While Loops</h2>
-<p><img src="images/loops-mult-top-of-loop-facts.png" alt="Loop Verification - Top of Loop - Facts"></p>
+<p><img src="../images/loops-mult-top-of-loop-facts.png" alt="Loop Verification - Top of Loop - Facts"></p>
 <p>Clicking on the bulb at the top of the <code>while</code> loop at <strong>line 9</strong> shows the facts that Logika has accumulated before evaluating the <code>while</code>.   At this point, as with <code>if</code> statements, Logika first has a verification obligation to show that the test expression <code>i &lt; n</code> as well as its negation is satisfiable given the current facts.   The bolt at <strong>line 9</strong> references this verification obligation.</p>
 <p>Of greater interest is the verification obligation to show that the loop invariant holds given the current facts.</p>
-<p><img src="images/loops-mult-invariant-top.png" alt="Loop Verification - Top of Loop - Invariant"></p>
+<p><img src="../images/loops-mult-invariant-top.png" alt="Loop Verification - Top of Loop - Invariant"></p>
 <p>As shown by the bolt margin annotations at <strong>lines 12-14</strong>, each invariant clause generates a corresponding verification obligation to prove that the clause holds.  The figure above shows the Logika display when clicking on the bolt for the clause <code>r == m * i</code> at <strong>line 14</strong>.  Following the verification structure for <code>while</code>, the invariant needs to be verified when first entering the loop and then at the bottom of the loop.  The Logika shows the information for both of these with two entries in the clause&rsquo;s bolt information, and in the figure above, the user has selected the verification of the invariant clause &ldquo;at the beginning of the <code>while</code> loop&rdquo;.</p>
 <p>We have annotated the display to indicate the origin of facts in the verification sequent. Some facts originate from the program statements occuring before the loop (e.g., in this case, derived from the variable initializations and <code>assume</code> statements).  In addition to these, at the point where Logika is trying to prove <code>r == m * i</code>, it has already proved the preceeding invariant clauses, so the corresponding facts are included.</p>
-<p><img src="images/loops-mult-body-of-loop-facts.png" alt="Loop Verification - Body of Loop - Facts"></p>
+<p><img src="../images/loops-mult-body-of-loop-facts.png" alt="Loop Verification - Body of Loop - Facts"></p>
 <p>The figure above, resulting from clicking the bulb at <strong>line 17</strong> shows how facts are managed during verification of the loop body.  The key points are:</p>
 <ul>
 <li>we can use facts from the loop invariant originating at the top of the loop body,</li>
@@ -324,7 +324,7 @@
 <li>for any variables modified in the loop, because we cannot statically predict how many times the loop will iterate, facts within the loop cannot reference (a) any variable occurrences <em>outside</em> loop before the loop started (which would only be approriate for the first iteration), or occurences <em>below</em> the current statement within the loop body (which would only be appropriate if there was a previous iteration) &ndash; the only fact references to variables in the <code>modifies</code> can be constraints from the invariant (indicating what we know will always be true at the top of the loop body &ndash; no matter how may iterations actually occur) and facts that are derived statements in the loop body up to the current point.</li>
 </ul>
 <p>Note that the sequent includes facts originating before the <code>while</code> loop.  From these, reasoning within the body can make use of those pertaining to variables not mentioned in the <code>Modifies</code> clause.   However, facts pertaining to variables in the <code>Modifies</code> cannot be utilized <strong>(TBD: Robby, why do these facts, e.g., At(i,0) == 0 show up?)</strong>.</p>
-<p><img src="images/loops-mult-invariant-bottom.png" alt="Loop Verification - Bottom of Loop - Invariant"></p>
+<p><img src="../images/loops-mult-invariant-bottom.png" alt="Loop Verification - Bottom of Loop - Invariant"></p>
 <p>Returning to the bolt on the invariant clause at <strong>line 14</strong>, we now examine the verification information for the invariant at the &ldquo;end of the <code>while</code> loop&rdquo;.  Following the verification structure for the <code>while</code> statement, as assumptions for verifying the invariant at the end of the loop body, we get to use:</p>
 <ul>
 <li>facts about non-<code>Modifies</code> variables occuring before the beginning of the <code>while</code>,</li>
@@ -333,7 +333,7 @@
 <li>facts generated from processing statements in the body, and</li>
 <li>facts corresponding to invariant clauses already verified.</li>
 </ul>
-<p><img src="images/loops-mult-assertion-facts.png" alt="Loop Verification - Assertion - Facts"></p>
+<p><img src="../images/loops-mult-assertion-facts.png" alt="Loop Verification - Assertion - Facts"></p>
 <p>As the verification process continues after the loop, the bulb display at <strong>line 19</strong> shows the facts that are available to verify the <code>assert</code> statement.   Following the verification structure of the <code>while</code>, the facts we can use are:</p>
 <ul>
 <li>facts from before the <code>while</code> loop that do not involve variables modified in the while loop (we can&rsquo;t use facts about modified variables because we don&rsquo;t know how many times the loop iterated &ndash; we can only rely on the invariant to summarize properties of the modified variables),</li>

@@ -395,7 +395,7 @@ satisfied.  The method&rsquo;s precondition <code>y &gt; 0</code> is stated in t
 parameter <code>y</code>.  For some intuition about how the precondition applies to the
 calling context, we can view the formal parameter <code>y</code> to be instantiated with the
 actual parameter <code>a</code> in the contract precondition to obtain the verification obligation <code>a &gt; 0</code> that must be met in the calling context immediately before the call.</p>
-<p><img src="images/contracts-incBy-client-pre.png" alt="Assume/Guarantee - Client - Pre-condition"></p>
+<p><img src="../images/contracts-incBy-client-pre.png" alt="Assume/Guarantee - Client - Pre-condition"></p>
 <p>Logika marks this verification obligation with a bolt at the call site at <strong>Line 26</strong> as shown in the figure above.   The verification obligation sequent shown in the right pane indicates that the Logika process is actually a bit less direct than the intuition presented above.</p>
 <pre tabindex="0"><code>; x@5 === 0,     // initialization of x
 ; x === 5,       // assignment to x
@@ -423,7 +423,7 @@ x == At(x, 1) + At[Z](&#34;incBy.y&#34;, 0) &amp; x &gt; At(x, 1) &amp;
 z == At[Z](&#34;incBy.Res&#34;, 0)  // binding of return value to context variable ``z`` receiving 
                             //   result of called method
 </code></pre><p>These facts, resulting from called method&rsquo;s contract, gives knowledge that the client can rely on after the call.</p>
-<p><img src="images/contracts-incBy-client-post-assertion.png" alt="Assume/Guarantee - Client - Assertion"></p>
+<p><img src="../images/contracts-incBy-client-post-assertion.png" alt="Assume/Guarantee - Client - Assertion"></p>
 <p>As shown in the bolt information for the assertion at <strong>Line 28</strong> in the figure above, this is sufficient information to verify that the updated value of <code>x</code> is greater than the value of <code>x</code> before the call (as reflected by the value of <code>temp</code>).</p>
 <h4 id="service-perspective">Service Perspective</h4>
 <p>We repeat the method code above, adding comments to indicate the reasoning
@@ -450,7 +450,7 @@ principles for the Assume/Guarantee paradigm from the service&rsquo;s perspectiv
 method will be checked by Logika to ensure that the pre-condition is
 satisfied, the service gets to assume (i.e., has the knowledge)
 that <code>y &gt; 0</code>.  Corresponding to the idea of &ldquo;getting to assume&rdquo;, within the Logika verification process, the presence of the pre-condition <code>Requires(y &gt; 0)</code> causes <code>y &gt; 0</code> to be added to the set of known facts at the beginning of the method body.</p>
-<p><img src="images/contracts-incBy-pre.png" alt="Assume/Guarantee - Service - Pre-condition"></p>
+<p><img src="../images/contracts-incBy-pre.png" alt="Assume/Guarantee - Service - Pre-condition"></p>
 <p>In the figure above, the developer has clicked on the lightbulb at the first line in the method (<strong>Line 13</strong>), and <code>y &gt; 0</code> appears in the known facts.</p>
 <p>At the end of the method body, the implementer of
 the service must guarantee that the post-condition has been met.
@@ -459,7 +459,7 @@ for the result of the method.  From the implementor&rsquo;s perspective,
 <code>Res</code> is computed by the expression used in the <code>return</code>
 statement, in this case by the variable <code>x</code> from <code>return x</code>.
 Corresponding to the idea of &ldquo;must guarantee&rdquo;, within the verification process, Logika will generate a verification obligation (corresponding to the presence of the lightning bolt at <strong>Line 11</strong>).</p>
-<p><img src="images/contracts-incBy-post.png" alt="Assume/Guarantee - Service - Post-condition"></p>
+<p><img src="../images/contracts-incBy-post.png" alt="Assume/Guarantee - Service - Post-condition"></p>
 <p>In the figure above, the developer has clicked on the bolt at the contract post-condition, the the Logika output panel shows the sequent that needs to be proven.   Essentially, it needs to be shown that from the known facts at the end of the method that the post-condition can be established.  The listing below presents an annotated version of the sequent.</p>
 <pre tabindex="0"><code>; Sequent:
 ;
@@ -483,7 +483,7 @@ Corresponding to the idea of &ldquo;must guarantee&rdquo;, within the verificati
 method implementation must also guarantee that only externally visible variables modified in the method are listed in the <code>Modifies</code> clause (in this case, only <code>x</code> is modified).  Conceptually, this is a property
 that is achieved throughout the method body&rsquo;s execution, not just at
 the end of the method.  Logika will check this property holds as part of its automated verification process.</p>
-<p><img src="images/contracts-assume-guarantee-concept.png" alt="Assume/Guarantee - Concepts"></p>
+<p><img src="../images/contracts-assume-guarantee-concept.png" alt="Assume/Guarantee - Concepts"></p>
 <p>The figure above summarizes the key concepts associated with the assume/guarantee pattern, including how the called method&rsquo;s (service&rsquo;s) contract gives rise to verification obligation and verification knowledge for both the service and client.</p>
 <p><strong>TBD: Insert exercises at this point</strong></p>
 <h3 id="omitting-sections-of-a-method-contract">Omitting Sections of a Method Contract</h3>
