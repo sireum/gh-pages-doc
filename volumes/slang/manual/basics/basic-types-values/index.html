@@ -35,7 +35,7 @@ Slang B Type Slang does not use the Scala Boolean type, but instead provides its
 
 
 
-<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
 
 
 
@@ -58,7 +58,7 @@ Floats
 Booleans Return to Topics
 Slang B Type Slang does not use the Scala Boolean type, but instead provides its own boolean type B and literals T for true and F for false values. Literals true and false are available as well. The primary motivation for this easier reading and writing of truth tables in the truth table sub-language part of Slang that are used in teaching Logical Foundations of Programming."><meta itemprop="datePublished" content="2022-07-09T18:15:47-05:00" />
 <meta itemprop="dateModified" content="2022-07-09T18:15:47-05:00" />
-<meta itemprop="wordCount" content="3208"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="wordCount" content="3230"><meta itemprop="image" content="https://doc.sireum.org"/>
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://doc.sireum.org"/>
@@ -420,9 +420,10 @@ reference for formatting vertical bars needed for OR operation symbols within ta
 </tr>
 </tbody>
 </table>
-<!-- notice note -->
-<p><strong>ShortCode</strong>: In general, Slang operator precedence follows <a href="https://docs.scala-lang.org/tour/operators.html">Scala&rsquo;s</a>.</p>
-<!-- end notice -->
+<style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}.notice.todo .notice-title{background:var(--warning-title)}.notice.todo{background:var(--warning-content)}</style>
+<div><svg width="0" height="0" display="none" xmlns="http://www.w3.org/2000/svg"><symbol id="tip-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"/></symbol><symbol id="note-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></symbol><symbol id="warning-notice" viewBox="0 0 576 512" preserveAspectRatio="xMidYMid meet"><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></symbol><symbol id="info-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></symbol><symbol id="todo-notice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></symbol></svg></div><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p><strong>ShortCode</strong>: In general, Slang operator precedence follows <a href="https://docs.scala-lang.org/tour/operators.html">Scala&rsquo;s</a>.</p></div>
+
 <h3 id="logical-vs-short-circuit-operators">Logical vs. Short-Circuit Operators</h3>
 <p>Conjunction, disjunction, and implication operations characterized as
 &ldquo;logical&rdquo; evaluate both operands, whereas &ldquo;short circuit&rdquo; operations
@@ -546,9 +547,9 @@ illustrated in the examples below:</p>
 </tr>
 </tbody>
 </table>
-<!-- notice todo -->
-<p><strong>ShortCode</strong>: To Gage: insert some technical remarks about the relationship between Scala integer literals <code>1</code> and the fact that the Slang front-end implicitly coerces these to Slang Z types, but sometimes the IVE can get confused and add error markers (even though the code is correct Slang.   Note the need to use <code>z&quot;1&quot;</code>, etc. in such cases.</p>
-<!-- end notice -->
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p><strong>ShortCode</strong>: To Gage: insert some technical remarks about the relationship between Scala integer literals <code>1</code> and the fact that the Slang front-end implicitly coerces these to Slang Z types, but sometimes the IVE can get confused and add error markers (even though the code is correct Slang.   Note the need to use <code>z&quot;1&quot;</code>, etc. in such cases.</p></div>
+
 <h3 id="the-z-data-types-relationship-to-scalas-integer">The Z Data Type&rsquo;s Relationship to Scala&rsquo;s Integer</h3>
 <p>Since Slang will implicitly understand literal integers  e.i. <code>1</code> to be of the Z data type, there are times where the front end of the slang or the IVE will confuse the typed literal. In this case, it will produce an error even though the program will still run correctly. However, this confusion can be easily corrected by adapting the literal <code>1</code> integer to <code>z&quot;1&quot;</code> an explicit definition of the literal.</p>
 <hr>
@@ -596,10 +597,10 @@ four-digit hex value (e.g., <code>\u003F</code> corresponds to <code>'?'</code>,
 <hr>
 <h2 id="strings"><strong>Strings</strong></h2>
 <p><a href="#section-topics">Return to Topics</a></p>
-<!-- notice todo -->
-<p><strong>ShortCode</strong>:
-To Gage: Try to draft this section.  First state the relationship between Strings in Scala and strings in Slang.  Then introduce examples of string literals and operators following the style above (look in Robby&rsquo;s examples for guidance).   For any new example snippets you make, add them to the example script files.</p>
-<!-- end notice -->
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p><strong>ShortCode</strong>:
+To Gage: Try to draft this section.  First state the relationship between Strings in Scala and strings in Slang.  Then introduce examples of string literals and operators following the style above (look in Robby&rsquo;s examples for guidance).   For any new example snippets you make, add them to the example script files.</p></div>
+
 <h3 id="basic-string-usage">Basic String Usage</h3>
 <h4 id="printing">Printing</h4>
 <p>In general, a string is just a list of characters. The following are common ways to interact with strings for output.</p>
@@ -728,9 +729,9 @@ To Gage: Try to draft this section.  First state the relationship between String
 </span></span></code></pre></div><p>Output:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">foobar
 </span></span></span><span class="line"><span class="cl"><span class="go">foo and bar
-</span></span></span></code></pre></div><!-- notice note -->
-<p><strong>ShortCode:</strong> For users accustom to languages that implemented a substring method that includes both a single and two agrument definition, Slang does not have a single argument version of substring&rsquo;s functionality defined. As such, the two agrument definition must be used. The above example demonstrates one way this can be done.</p>
-<!-- notice -->
+</span></span></span></code></pre></div><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p><strong>ShortCode:</strong> For users accustom to languages that implemented a substring method that includes both a single and two agrument definition, Slang does not have a single argument version of substring&rsquo;s functionality defined. As such, the two agrument definition must be used. The above example demonstrates one way this can be done.</p></div>
+
 <h4 id="string-operators-and-precedence">String Operators and Precedence</h4>
 <table>
 <thead>
@@ -754,28 +755,28 @@ To Gage: Try to draft this section.  First state the relationship between String
 </tr>
 </tbody>
 </table>
-<!-- notice note ShortCode -->
-<p>Slang does not denote a difference between the operators <code>==</code> and <code>===</code>. For users that are familiar with Scala, they may recall that the <code>===</code> checks not only for structural equality but ensures that the type of the objects match. In slang, both <code>==</code> and <code>===</code> check for structural equality only. Likewise, there is no difference between <code>!=</code> and <code>=!=</code> in Slang.</p>
-<!-- end notice ShortCode -->
-<!-- notice note ShortCode -->
-<p>Also, note that Slang&rsquo;s Strings are not able to be added or subtracted from one another with a <code>+</code> or <code>-</code> operation.</p>
-<!-- end notice ShortCode -->
+<div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>Slang does not denote a difference between the operators <code>==</code> and <code>===</code>. For users that are familiar with Scala, they may recall that the <code>===</code> checks not only for structural equality but ensures that the type of the objects match. In slang, both <code>==</code> and <code>===</code> check for structural equality only. Likewise, there is no difference between <code>!=</code> and <code>=!=</code> in Slang.</p></div>
+
+<div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>Also, note that Slang&rsquo;s Strings are not able to be added or subtracted from one another with a <code>+</code> or <code>-</code> operation.</p></div>
+
 <hr>
 <h2 id="reals">Reals</h2>
 <p><a href="#section-topics">Return to Topics</a></p>
-<!-- notice todo ShortCode -->
-<p>To Gage: Try to draft this section.  Note that reals are idealized, unbounded values, and give some intuition about their underlying representation (to be honest, I wouldn&rsquo;t know what to say here, so may need to look at the Kekinian source code or ask Robby).
-Then introduce examples of literals and operators following the style above (look in Robby&rsquo;s examples for guidance).   For any new example snippets you make, add them to the example script files.</p>
-<!-- notice end   ShortCode -->
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p>To Gage: Try to draft this section.  Note that reals are idealized, unbounded values, and give some intuition about their underlying representation (to be honest, I wouldn&rsquo;t know what to say here, so may need to look at the Kekinian source code or ask Robby).
+Then introduce examples of literals and operators following the style above (look in Robby&rsquo;s examples for guidance).   For any new example snippets you make, add them to the example script files.</p></div>
+
 <p>the Real data type or <code>R</code> represents an arbitrarily precise decimal number. While floating points (both 32 and 64 bit) have a fixed position, <code>R</code> does not.</p>
 <p>Initialization:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">example</span><span class="k">:</span> <span class="kt">R</span> <span class="o">=</span> <span class="n">r</span><span class="s">&#34;5.0&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// Using 5 or 5.0 instead of r&#34;5.0&#34; will not work as they are integer and double values respectively, and they will not be converted implicitly. The type of an R literal must be explicitly stated, even during instantiation. 
-</span></span></span></code></pre></div><!-- notice note ShortCode -->
-<p>When typing <code>R</code> literals, you must use the form <code>r&quot;0.0&quot;</code>. The forms <code>0</code> or <code>0.0</code> are not implicitly converted to an <code>R</code> value.</p>
-<!-- end notice ShortCode -->
+</span></span></span></code></pre></div><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>When typing <code>R</code> literals, you must use the form <code>r&quot;0.0&quot;</code>. The forms <code>0</code> or <code>0.0</code> are not implicitly converted to an <code>R</code> value.</p></div>
+
 <p>The following are examples of basic arithmetic utilizing <code>R</code> values.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">rVal1</span><span class="k">:</span> <span class="kt">R</span> <span class="o">=</span> <span class="n">r</span><span class="s">&#34;1.0&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">rVal2</span><span class="k">:</span> <span class="kt">R</span> <span class="o">=</span> <span class="n">r</span><span class="s">&#34;2.0&#34;</span>
@@ -823,19 +824,19 @@ Then introduce examples of literals and operators following the style above (loo
 </tr>
 </tbody>
 </table>
-<!-- notice note ShortCode -->
-<p>Both <code>==</code> and <code>===</code> only check for structural equality while both <code>!=</code> and <code>=!=</code> only check for structural inequality. Neither check for referential equality nor do they check for matching data types. This is because slang does not interact with pointer-type structures, and two unlike data types are not able to be directly equated in the first place.</p>
-<!-- end notice ShortCode -->
+<div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>Both <code>==</code> and <code>===</code> only check for structural equality while both <code>!=</code> and <code>=!=</code> only check for structural inequality. Neither check for referential equality nor do they check for matching data types. This is because slang does not interact with pointer-type structures, and two unlike data types are not able to be directly equated in the first place.</p></div>
+
 <hr>
 <h2 id="floats">Floats</h2>
 <p><a href="#section-topics">Return to Topics</a></p>
-<!-- notice todo ShortCode -->
-<p>To Gage: Try to draft this section.  Describe the difference between floats and reals.   Note the impact on specification and verification (to be honest, I would have to think about this myself some and discuss it with Robby.  Basically we need to consider underflow/overflow as well as loss of precision issues that do not occure with reals).
-Then introduce examples of literals and operators following the style above (look in Robby&rsquo;s examples for guidance).   For any new example snippets you make, add them to the example script files.</p>
-<!-- notice end   ShortCode -->
-<!-- notice todo   ShortCode -->
-<p>Going to begin by producing a baseline, and can introduce the more specific and difficult issues at another date.</p>
-<!-- end notice ShortCode -->
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p>To Gage: Try to draft this section.  Describe the difference between floats and reals.   Note the impact on specification and verification (to be honest, I would have to think about this myself some and discuss it with Robby.  Basically we need to consider underflow/overflow as well as loss of precision issues that do not occure with reals).
+Then introduce examples of literals and operators following the style above (look in Robby&rsquo;s examples for guidance).   For any new example snippets you make, add them to the example script files.</p></div>
+
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p>Going to begin by producing a baseline, and can introduce the more specific and difficult issues at another date.</p></div>
+
 <p>While Reals (<code>R</code>) have arbitrary precision, floats do not. Within Slang there are both 32-bit and 64-bit floats, <code>F32</code> and <code>F64</code> respectively.</p>
 <h3 id="initialization">Initialization:</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
@@ -858,9 +859,9 @@ Then introduce examples of literals and operators following the style above (loo
 </span></span></span><span class="line"><span class="cl"><span class="go">4.0
 </span></span></span><span class="line"><span class="cl"><span class="go">4.0
 </span></span></span><span class="line"><span class="cl"><span class="go">4.0
-</span></span></span></code></pre></div><!-- notice note ShortCode -->
-<p>Please note that you must be explicit about the values provided to types in Slang. The Option B statements for <code>F32</code> and <code>F64</code> only work as shown above. This is because the <code>F32</code> data type is constructed from a 32-bit float data type (which the literal is). Likewise, <code>F64</code>&rsquo;s option b works as its constructor looks for a double data type (which the literal is).</p>
-<!-- end notice ShortCode -->
+</span></span></span></code></pre></div><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>Please note that you must be explicit about the values provided to types in Slang. The Option B statements for <code>F32</code> and <code>F64</code> only work as shown above. This is because the <code>F32</code> data type is constructed from a 32-bit float data type (which the literal is). Likewise, <code>F64</code>&rsquo;s option b works as its constructor looks for a double data type (which the literal is).</p></div>
+
 <p>Float values that are 32-Bit, and float values that are 64-Bit are not able to be supplied to the other as Slang will not implicitly convert the value. Likewise, neither will accept an integer value (<code>4</code>).</p>
 <h3 id="example-of-f32-and-f64-arithmetic">Example of <code>F32</code> and <code>F64</code> Arithmetic:</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">a1</span><span class="k">:</span> <span class="kt">F32</span> <span class="o">=</span> <span class="mf">89.342f</span>
@@ -906,9 +907,9 @@ Then introduce examples of literals and operators following the style above (loo
 </span></span></span><span class="line"><span class="cl"><span class="go">887187.869809
 </span></span></span><span class="line"><span class="cl"><span class="go">y*b1-((40.65*b1*b1)/b2) == b3 :: true
 </span></span></span></code></pre></div><h3 id="underflowoverflow">Underflow/Overflow</h3>
-<!-- notice todo   ShortCode -->
-<p>Attempted, but need to verify my observations are true</p>
-<!-- end notice ShortCode -->
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p>Attempted, but need to verify my observations are true</p></div>
+
 <p>Underflow and overflow in Slang does not result in wrapping around as overflow does commonly with other data types (such as integers in many languages). Instead, the value is considered <code>F32.PInf</code> for overflow and <code>F32.NInf</code> for underflow if it is an F32 data type. F64 has its own equivalent in <code>F64.PInf</code> and <code>F64.NInf</code>. These values print to <code>Infinity</code> and <code>-Infinity</code> respectively.</p>
 <p>Operations that involve  the addition or subtraction of two infinities that approach opposite directions, result in <code>NaN</code> (<code>F32.NaN</code> and <code>F64.NaN</code> respectively). This is because infinity is not of a definite or inherently matching size in mathmetics, so the operation can not be accurately determined. This is the reason for the value NaN.</p>
 <h4 id="demonstration">Demonstration</h4>
@@ -932,9 +933,9 @@ Then introduce examples of literals and operators following the style above (loo
 </span></span></span><span class="line"><span class="cl"><span class="go">bigFloat - 1.0 : Infinity
 </span></span></span><span class="line"><span class="cl"><span class="go">bigFloat + 1.0 : Infinity
 </span></span></span></code></pre></div><h3 id="loss-of-precision">Loss of Precision</h3>
-<!-- notice todo   ShortCode -->
-<p>Attempted, but need to be checked.</p>
-<!-- end notice ShortCode -->
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p>Attempted, but need to be checked.</p></div>
+
 <p>The loss of precision of a float value can happen when a value is rounded due to float values having a fixed precision. For example, 32-bit float values (<code>F32</code>) have six significant values. Any digits after the sixth significant digit are not necessarily accurate. While converting in Slang is possible through the methods within the conversions package (<code>sireum.org.conversions</code>), like other aspects of conversion in Slang, it must be explicit. These conversions do not yet have a built in contract, meaning there is nothing that can be ensured by default from their use. In addition, since <code>F32</code> values take a Scala <code>float</code> value as the parameter for its constructor and <code>F64</code> values take a Scala <code>double</code> value as the parameter for its constructor, a valid float, and a valid double can be used to initialize or populate the appropriate types. Likewise, there is no restriction on the number of significant figures that are in the value being interpolated, meaning that if our input value is more significant figures than the maximum promised by the data type, there will be a loss of precision compared to the input value.</p>
 <h4 id="demonstration-1">Demonstration</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">println</span><span class="o">(</span><span class="s">&#34;4621346978291f\n&#34;</span><span class="o">)</span>
@@ -992,9 +993,9 @@ Then introduce examples of literals and operators following the style above (loo
 </tr>
 </tbody>
 </table>
-<!-- notice note ShortCode -->
-<p><code>==</code>, <code>===</code>, and <code>~~</code> all test for structural equality only. <code>!=</code>, <code>=!=</code>, and <code>!~</code> all test for structural equality only.</p>
-<!-- end notice ShortCode -->
+<div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p><code>==</code>, <code>===</code>, and <code>~~</code> all test for structural equality only. <code>!=</code>, <code>=!=</code>, and <code>!~</code> all test for structural equality only.</p></div>
+
 
             </div>
         </article>

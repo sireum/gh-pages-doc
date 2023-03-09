@@ -5,9 +5,10 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="Section Topics Getting Started Creating the Plugin File Initial Structure of Plugin File Template Plugin File Implementing Basic Functionality Adding and Recognizing Needed Justification Symbols to Kekinian Testing Plugin Functionality Getting Started Plugins that you write are not verified by Logika itself. Be careful what your plugin does and does not validate as it can not be checked.
+<meta name="description" content="Section Topics Getting Started Creating the Plugin File Initial Structure of Plugin File Template Plugin File Implementing Basic Functionality Adding and Recognizing Needed Justification Symbols to Kekinian Testing Plugin Functionality Getting Started Warning
+Plugins that you write are not verified by Logika itself. Be careful what your plugin does and does not validate as it can not be checked.
 Return to Topics
-Premilinaries Important Folders Basic Requirements (JH: Create a section that lists the pre-conditions and background info on how to set up for the plugin development process)" />
+Premilinaries Important Folders Basic Requirements To Do" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -30,7 +31,7 @@ Premilinaries Important Folders Basic Requirements (JH: Create a section that li
 
 
 
-<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
 
 
 
@@ -44,19 +45,21 @@ Premilinaries Important Folders Basic Requirements (JH: Create a section that li
 
 
 <meta itemprop="name" content="How to Create a Plugin">
-<meta itemprop="description" content="Section Topics Getting Started Creating the Plugin File Initial Structure of Plugin File Template Plugin File Implementing Basic Functionality Adding and Recognizing Needed Justification Symbols to Kekinian Testing Plugin Functionality Getting Started Plugins that you write are not verified by Logika itself. Be careful what your plugin does and does not validate as it can not be checked.
+<meta itemprop="description" content="Section Topics Getting Started Creating the Plugin File Initial Structure of Plugin File Template Plugin File Implementing Basic Functionality Adding and Recognizing Needed Justification Symbols to Kekinian Testing Plugin Functionality Getting Started Warning
+Plugins that you write are not verified by Logika itself. Be careful what your plugin does and does not validate as it can not be checked.
 Return to Topics
-Premilinaries Important Folders Basic Requirements (JH: Create a section that lists the pre-conditions and background info on how to set up for the plugin development process)">
+Premilinaries Important Folders Basic Requirements To Do">
 
-<meta itemprop="wordCount" content="3526"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="wordCount" content="3554"><meta itemprop="image" content="https://doc.sireum.org"/>
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://doc.sireum.org"/>
 
 <meta name="twitter:title" content="How to Create a Plugin"/>
-<meta name="twitter:description" content="Section Topics Getting Started Creating the Plugin File Initial Structure of Plugin File Template Plugin File Implementing Basic Functionality Adding and Recognizing Needed Justification Symbols to Kekinian Testing Plugin Functionality Getting Started Plugins that you write are not verified by Logika itself. Be careful what your plugin does and does not validate as it can not be checked.
+<meta name="twitter:description" content="Section Topics Getting Started Creating the Plugin File Initial Structure of Plugin File Template Plugin File Implementing Basic Functionality Adding and Recognizing Needed Justification Symbols to Kekinian Testing Plugin Functionality Getting Started Warning
+Plugins that you write are not verified by Logika itself. Be careful what your plugin does and does not validate as it can not be checked.
 Return to Topics
-Premilinaries Important Folders Basic Requirements (JH: Create a section that lists the pre-conditions and background info on how to set up for the plugin development process)"/>
+Premilinaries Important Folders Basic Requirements To Do"/>
 
 
 
@@ -329,17 +332,18 @@ Premilinaries Important Folders Basic Requirements (JH: Create a section that li
 <hr>
 <h2 id="getting-started"><strong>Getting Started</strong></h2>
 <hr>
-<!-- notice warning ShortCode -->
-<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
-<!-- notice end ShortCode -->
+<style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}.notice.todo .notice-title{background:var(--warning-title)}.notice.todo{background:var(--warning-content)}</style>
+<div><svg width="0" height="0" display="none" xmlns="http://www.w3.org/2000/svg"><symbol id="tip-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"/></symbol><symbol id="note-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></symbol><symbol id="warning-notice" viewBox="0 0 576 512" preserveAspectRatio="xMidYMid meet"><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></symbol><symbol id="info-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></symbol><symbol id="todo-notice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></symbol></svg></div><div class="notice warning" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#warning-notice"></use></svg></span>Warning</p><p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p></div>
+
 <p><a href="#section-topics">Return to Topics</a></p>
 <ol>
 <li><a href="#premilinaries">Premilinaries</a></li>
 <li><a href="#important-folders">Important Folders</a></li>
 <li><a href="#basic-requirements">Basic Requirements</a></li>
 </ol>
-<!-- notice todo   ShortCode -->
-<p>(JH: Create a section that lists the pre-conditions and background info on how to set up for the plugin development process)</p>
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p>(JH: Create a section that lists the pre-conditions and background info on how to set up for the plugin development process)</p>
 <ul>
 <li>
 <p><strong>RESOLVED?</strong>: list assumptions/pre-conditions about developer&rsquo;s environment - source version of kekinian installed, etc.,</p>
@@ -350,8 +354,8 @@ Premilinaries Important Folders Basic Requirements (JH: Create a section that li
 <li>
 <p><strong>RESOLVED</strong> identify important folders (like the plugin folder)</p>
 </li>
-</ul>
-<!-- notice end ShortCode -->
+</ul></div>
+
 <h3 id="premilinaries">Premilinaries</h3>
 <ol>
 <li>
@@ -386,20 +390,20 @@ Premilinaries Important Folders Basic Requirements (JH: Create a section that li
 <pre tabindex="0"><code>${SIREUM_HOME}/bin/build.cmd setup
 </code></pre><p>Windows:</p>
 <pre tabindex="0"><code>${SIREUM_HOME}\bin\build.cmd setup
-</code></pre><!-- notice note ShortCode -->
-<p>If this is not your first time running build, you are not required to include the argument <code>setup</code>.</p>
-<!-- notice end ShortCode -->
+</code></pre><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>If this is not your first time running build, you are not required to include the argument <code>setup</code>.</p></div>
+
 <p>From there, you are able to utilize a proper plugin.</p>
 <hr>
 <h2 id="creating-the-plugin-file"><strong>Creating the Plugin File</strong></h2>
 <hr>
 <p><a href="#section-topics">Return to Topics</a></p>
-<!-- notice warning ShortCode -->
-<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
-<!-- notice end ShortCode -->
-<!-- notice todo   ShortCode -->
-<p><strong>RESOLVED</strong> (JH: relocate some of this text as appropriate to the Set Up / Preliminaries section above)</p>
-<!-- notice end ShortCode --> 
+<div class="notice warning" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#warning-notice"></use></svg></span>Warning</p><p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p></div>
+
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p><strong>RESOLVED</strong> (JH: relocate some of this text as appropriate to the Set Up / Preliminaries section above)</p></div>
+
 <p>While a developer can adapt where their plugin source is located within the SIREUM_HOME codebase, it is best practice to put plugin sources in the standard plugin location (<code>/kekinian/logika/shared/src/main/scala/org.sireum.logika/plugin</code>).  The default plugins for Logika can be found in the <code>plugin</code> folder and may be studied as examples of how to code plugins. More important folders are listed <a href="#important-folders">below</a></p>
 <p><img src="https://doc.sireum.org/figures/slang/ref/logika-plugin-plugins-location.png" alt="Plugins-Folder-Image"></p>
 <p>To hold the source for a new plugin, create a scala file (<code>&lt;pluginName&gt;.sc</code>) in the plugin folder (/kekinian/logika/shared/src/main/scala/org.sireum.logika/plugin) (or copy an existing plugin file to adapt).   The file name should be distinct from those of other plugins.</p>
@@ -412,16 +416,16 @@ Premilinaries Important Folders Basic Requirements (JH: Create a section that li
 <p>Create a scala file with the appropriate name in the folder. The extension should be (file_name.scala)</p>
 </li>
 </ol>
-<!-- notice todo   ShortCode -->
-<p><strong>RESOLVED</strong> (JH: If the file has the extension <code>.sc</code>, I suggest we refer to it as a &ldquo;Scala script file&rdquo;.  Looking at the code base, it looks like the extension is actually <code>.scala</code></p>
-<!-- notice end ShortCode -->
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p><strong>RESOLVED</strong> (JH: If the file has the extension <code>.sc</code>, I suggest we refer to it as a &ldquo;Scala script file&rdquo;.  Looking at the code base, it looks like the extension is actually <code>.scala</code></p></div>
+
 <hr>
 <h2 id="initial-structure-of-plugin-file"><strong>Initial Structure of Plugin File</strong></h2>
 <hr>
 <p><a href="#section-topics">Return to Topics</a></p>
-<!-- notice warning ShortCode -->
-<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
-<!-- notice end ShortCode -->
+<div class="notice warning" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#warning-notice"></use></svg></span>Warning</p><p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p></div>
+
 <ul>
 <li><a href="#first-line">First Line</a></li>
 <li><a href="#packaging">Packaging</a></li>
@@ -446,9 +450,9 @@ import org.sireum.logika.Logika.Reporter
 </code></pre><p>The <code>import org.sireum._</code> must be listed first for the Slang compiler to work correctly (an error is reported if this import is not given first).</p>
 <p>The other imports come from those used in the plugin class that <a href="#plugin-definition">all plugins must extend in their definition</a>.  A summary of the purpose of each is given below.</p>
 <p>The <code>org.sireum.lang.{ast =&gt; AST}</code> import includes data types and methods for representing the abstract syntax of Slang &ndash; in particular, the syntax of boolean expressions, logical operators, identifiers, and proof language commands used by Slang contracts and Logika proofs.</p>
-<!-- notice todo   ShortCode -->
-<p><strong>RESOLVED</strong> Give a short description/intuition of why Logika, Smt2, etc. are needed.)</p>
-<!-- notice end ShortCode -->
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p><strong>RESOLVED</strong> Give a short description/intuition of why Logika, Smt2, etc. are needed.)</p></div>
+
 <p>The <code>org.sireum.logika.{Logika, Smt2, State, StepProofContext}</code> import brings in four seperate elements: the <code>Logika</code>, <code>Smt2</code>, <code>State</code>, and <code>StepProofContext</code> frameworks.</p>
 <ol>
 <li>
@@ -471,9 +475,9 @@ import org.sireum.logika.Logika.Reporter
 <pre tabindex="0"><code>@datatype class &lt;pluginName&gt; extends Plugin {
   ...
 }
-</code></pre><!-- notice todo   ShortCode -->
-<p><strong>RESOLVED</strong> What is the relationship between the name of the data type, the string in the field <code>name</code> below and the file name?  Just alignment by convention? Or do any of the names have to match exactly for a needed binding?</p>
-<!-- notice end ShortCode -->
+</code></pre><div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p><strong>RESOLVED</strong> What is the relationship between the name of the data type, the string in the field <code>name</code> below and the file name?  Just alignment by convention? Or do any of the names have to match exactly for a needed binding?</p></div>
+
 <p>The following fields must be defined within the <code>datatype</code> body:</p>
 <p><strong>Values:</strong></p>
 <p>The name (string) of the plugin used as an identifier, e.g., in the default plugin list. It is good practice for this string to match the plugin file name. It is not required that the name matches the name of the class, however, it is otherwise not evident what the name refers to.</p>
@@ -484,9 +488,9 @@ import org.sireum.logika.Logika.Reporter
 <h3 id="handle-method">handle Method</h3>
 <pre tabindex="0"><code>def handle(logika: Logika, smt2: Smt2, cache: Smt2.Cache, log: B, logDirOpt: Option[String], spcMap: HashMap[AST.ProofAst.StepId, StepProofContext], state: State, step: AST.ProofAst.Step.Regular, reporter: Reporter): Plugin.Result
 </code></pre><p>The handle method considers the details of the justification and its arguments along with the spcMap of previous steps in order to determine if the step is correct, and if it is, what it proves to the proof&rsquo;s known claims. More information on <a href="#implementing-handle-method">implementing the handle method</a> is detailed in a later section.</p>
-<!-- notice todo   ShortCode -->
-<p><strong>RESOLVED</strong> Describe the purpose of each of the methods above.</p>
-<!-- notice end ShortCode -->
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p><strong>RESOLVED</strong> Describe the purpose of each of the methods above.</p></div>
+
 <h3 id="step-summary-1">Step Summary</h3>
 <ol>
 <li>
@@ -512,9 +516,9 @@ import org.sireum.logika.Logika.Reporter
 <h2 id="template-plugin-file"><strong>Template Plugin File</strong></h2>
 <hr>
 <p><a href="#section-topics">Return to Topics</a></p>
-<!-- notice warning ShortCode -->
-<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
-<!-- notice end ShortCode -->
+<div class="notice warning" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#warning-notice"></use></svg></span>Warning</p><p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p></div>
+
 <p>The following Slang code can be used as a template for creating a Logika plugin.  The template is presented for a plugin named <code>MyPlugin</code>.  Replace occurrences of &ldquo;MyPlugin&rdquo; with a name for your plugin the identifies its function with the Logika proof language.</p>
 <p>[MyPlugin.scala]</p>
 <pre tabindex="0"><code>// #Sireum  // indicates the file is in the Slang subset of Scala
@@ -558,13 +562,13 @@ import org.sireum.logika.Logika.Reporter
     return Plugin.Result(F,0,null)
   }
 }
-</code></pre><!-- notice note ShortCode -->
-<p>Information on implementing the <a href="#implementing-canhandle-method">canHandle</a> and <a href="#implementing-handle-method">handle</a> can be found in the later sections over <a href="#implementing-basic-functionality">implementing the plugin methods</a>. This section is intended to provide the bare minimum of extending the plugin object as a framework and baseline.</p>
-<!-- notice end ShortCode -->
-<!-- notice todo   ShortCode -->
-<p><strong>RESOLVED</strong> May want to give some more specific comments related to how to code <code>canHandle</code> and what the specific fields in the argument to <code>handle</code> mean.</p>
-<p><strong>Gage</strong>: This is done done in the implementing <a href="#implementing-canhandle-method">canHandle</a> and <a href="#implementing-handle-method">handle</a>. This section is intended to provide the bare minimum of extending the plugin object.</p>
-<!-- notice end ShortCode -->
+</code></pre><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>Information on implementing the <a href="#implementing-canhandle-method">canHandle</a> and <a href="#implementing-handle-method">handle</a> can be found in the later sections over <a href="#implementing-basic-functionality">implementing the plugin methods</a>. This section is intended to provide the bare minimum of extending the plugin object as a framework and baseline.</p></div>
+
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p><strong>RESOLVED</strong> May want to give some more specific comments related to how to code <code>canHandle</code> and what the specific fields in the argument to <code>handle</code> mean.</p>
+<p><strong>Gage</strong>: This is done done in the implementing <a href="#implementing-canhandle-method">canHandle</a> and <a href="#implementing-handle-method">handle</a>. This section is intended to provide the bare minimum of extending the plugin object.</p></div>
+
 <p>The important elements of the example are:</p>
 <ul>
 <li><a href="#packaging">The Package</a></li>
@@ -576,9 +580,9 @@ import org.sireum.logika.Logika.Reporter
 <hr>
 <h2 id="implementing-basic-functionality"><strong>Implementing Basic Functionality</strong></h2>
 <hr>
-<!-- notice warning ShortCode -->
-<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
-<!-- notice end ShortCode -->
+<div class="notice warning" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#warning-notice"></use></svg></span>Warning</p><p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p></div>
+
 <p><a href="#section-topics">Return to Topics</a></p>
 <ul>
 <li><a href="#implementing-canhandle-method">Implementing canHandle Method</a>
@@ -645,9 +649,9 @@ val argsOpt = AST.Util.toStepIds(just.args, Logika.kind, reporter)
 <h2 id="adding-and-recognizing-needed-justification-symbols-to-kekinian"><strong>Adding and Recognizing Needed Justification Symbols to Kekinian</strong></h2>
 <hr>
 <p><a href="#section-topics">Return to Topics</a></p>
-<!-- notice warning ShortCode -->
-<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
-<!-- notice end ShortCode -->
+<div class="notice warning" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#warning-notice"></use></svg></span>Warning</p><p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p></div>
+
 <h3 id="adding-justifications-to-appropriate-location-within-kekinian">Adding Justifications to Appropriate Location Within Kekinian</h3>
 <p>the justifications that are meant to be handled by your plugin needs to be contained within the justification object at (<code>$SIREUM_HOME$/runtime/library/shared/src/main/scala/org/sireum/justification.scala</code>). The object can be structured like the following:</p>
 <p><img src="https://doc.sireum.org/figures/slang/ref/logika-plugin-logika-location.png" alt="LogikaFolderImage"></p>
@@ -664,19 +668,19 @@ val argsOpt = AST.Util.toStepIds(just.args, Logika.kind, reporter)
 </code></pre><p>Windows:</p>
 <pre tabindex="0"><code>${SIREUM_HOME}\bin\build.cmd
 </code></pre><p>From there, you are able to utilize a properly implemented plugin.</p>
-<!-- notice warning ShortCode -->
-<p>Make sure that when you run this command, that you have closed all instances of the Sireum IVE.</p>
-<!-- notice end ShortCode -->
-<!-- notice todo   ShortCode -->
-<p>GH: TODO Come back once symbol resolution details are available.</p>
-<!-- notice end ShortCode -->
+<div class="notice warning" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#warning-notice"></use></svg></span>Warning</p><p>Make sure that when you run this command, that you have closed all instances of the Sireum IVE.</p></div>
+
+<div class="notice todo" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#todo-notice"></use></svg></span>To Do</p><p>GH: TODO Come back once symbol resolution details are available.</p></div>
+
 <hr>
 <h2 id="testing-plugin-functionality"><strong>Testing Plugin Functionality</strong></h2>
 <hr>
 <p><a href="#section-topics">Return to Topics</a></p>
-<!-- notice warning ShortCode -->
-<p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p>
-<!-- notice end ShortCode -->
+<div class="notice warning" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#warning-notice"></use></svg></span>Warning</p><p>Plugins that you write are <strong>not</strong> verified by Logika itself. Be careful what your plugin does and does not validate as it can <strong>not</strong> be checked.</p></div>
+
 <p>A simple way for a developer to debug and test their plugin is through the use of calling Logika&rsquo;s verifier through the the command line (Logika&rsquo;s CLI). This can be done through the command line, however, it can also be ran through Sireum&rsquo;s IVE. The following steps describe this method:</p>
 <ol>
 <li>Locate the Sireum.scala file within cli. From your SIREUM_HOME installation, the directory is: (<code>cli/jvm/src/main/scala/org/sireum/Sireum.scala</code>).</li>
@@ -694,9 +698,9 @@ val argsOpt = AST.Util.toStepIds(just.args, Logika.kind, reporter)
 </li>
 </ol>
 <pre tabindex="0"><code>logika verifier absolute_file_path
-</code></pre><!-- notice note ShortCode -->
-<p>The file path should be a test file that you want logika to verify. The easiest way to accomplish this is to use a scala worksheet that utilizes your proof with the expected syntax.</p>
-<!-- notice end ShortCode -->
+</code></pre><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>The file path should be a test file that you want logika to verify. The easiest way to accomplish this is to use a scala worksheet that utilizes your proof with the expected syntax.</p></div>
+
 <ol start="5">
 <li>Apply your changes and now you should be able to run the <code>Sireum</code> configuration, which should be selected, by clicking on the green triangle next to the configuration.</li>
 </ol>
@@ -728,9 +732,9 @@ val argsOpt = AST.Util.toStepIds(just.args, Logika.kind, reporter)
 </span></span><span class="line"><span class="cl">    <span class="nd">@just</span> <span class="k">def</span> <span class="n">myJustification</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">$</span>
 </span></span><span class="line"><span class="cl">    <span class="nd">@just</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span> <span class="k">def</span> <span class="n">myJustWithArgs</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">StepId</span><span class="o">,</span> <span class="n">q</span><span class="k">:</span> <span class="kt">StepId</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">$</span>  
 </span></span><span class="line"><span class="cl">  <span class="o">}</span>
-</span></span></code></pre></div><!-- notice note ShortCode -->
-<p>This object should be within the <code>justification</code> object at the same file. You can notice that the other plugin categories such as <code>natded</code> (natural deduction rules) are within this same object.</p>
-<!-- notice end ShortCode -->
+</span></span></code></pre></div><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>This object should be within the <code>justification</code> object at the same file. You can notice that the other plugin categories such as <code>natded</code> (natural deduction rules) are within this same object.</p></div>
+
 <p>This process is describe in <a href="#adding-justifications-to-appropriate-location-within-kekinian">an earlier section</a>.</p>
 <ol start="4">
 <li>Finally, <a href="#rebuilding-sireum_home-with-plugin-and-justification-symbols-now-recognized">rebuild Kekinian</a> with any instance of the Sireum IVE closed.</li>

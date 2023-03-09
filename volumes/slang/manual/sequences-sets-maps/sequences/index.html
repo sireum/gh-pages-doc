@@ -31,7 +31,7 @@ I is the type of indices for the sequence &amp;ndash; it can be either Z or Slan
 
 
 
-<link rel="stylesheet" href="https://doc.sireum.org/main.0d78507e5a16d851bccbdc8be6fca41d9f760aed2c730cd7dcc2200ab3b8fc00.css" integrity="sha256-DXhQfloW2FG8y9yL5vykHZ92Cu0scwzX3MIgCrO4/AA=">
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
 
 
 
@@ -50,7 +50,7 @@ IS[I, E] // I is index type ; E is element type
 where
 I is the type of indices for the sequence &ndash; it can be either Z or Slang @bits or @range types, and E is the type of elements in the sequence &ndash; it can be any Slang type that is immutable (this ensures that immutable structures always have immutable elements (recursively))."><meta itemprop="datePublished" content="2022-07-09T21:58:37-05:00" />
 <meta itemprop="dateModified" content="2022-07-09T21:58:37-05:00" />
-<meta itemprop="wordCount" content="1531"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="wordCount" content="1534"><meta itemprop="image" content="https://doc.sireum.org"/>
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://doc.sireum.org"/>
@@ -404,12 +404,13 @@ always have immutable elements (recursively)).</li>
 <a href="#immutable-sequence-infix-operations">Immutable Sequence Infix Operations</a>
 summarize the methods and infix
 operations associated with immutable sequences</p>
-<!-- notice note  ShortCode -->
-<p><strong>ToDo, From John:</strong>
+<style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}.notice.todo .notice-title{background:var(--warning-title)}.notice.todo{background:var(--warning-content)}</style>
+<div><svg width="0" height="0" display="none" xmlns="http://www.w3.org/2000/svg"><symbol id="tip-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"/></symbol><symbol id="note-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></symbol><symbol id="warning-notice" viewBox="0 0 576 512" preserveAspectRatio="xMidYMid meet"><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></symbol><symbol id="info-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></symbol><symbol id="todo-notice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></symbol></svg></div><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p><strong>ToDo, From John:</strong>
 Fix table references and document how to do this in Sphinx documentation.
 <strong>Note From Gage</strong>
-Determine how to in Hugo&rsquo;s framework now. (RESOLVED)</p>
-<!-- notice end   ShortCode -->
+Determine how to in Hugo&rsquo;s framework now. (RESOLVED)</p></div>
+
 <p>Below are some examples of declaring an immutable sequence of strings
 indexed by integers.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
@@ -526,15 +527,15 @@ used produce a Slang <em>range</em> which can iterated over.</p>
 </span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="n">s08</span> <span class="o">==</span> <span class="nc">ISZ</span><span class="o">((</span><span class="mi">0</span><span class="o">,</span><span class="s">&#34;a&#34;</span><span class="o">),(</span><span class="mi">1</span><span class="o">,</span><span class="s">&#34;b&#34;</span><span class="o">),(</span><span class="mi">2</span><span class="o">,</span><span class="s">&#34;c&#34;</span><span class="o">),(</span><span class="mi">3</span><span class="o">,</span><span class="s">&#34;d&#34;</span><span class="o">)))</span>
 </span></span></code></pre></div><p>The implementation of Slang&rsquo;s immutable sequences can be found in
 <strong>IS.scala</strong> in Sirem runtime library.</p>
-<!-- notice note  ShortCode -->
-<p><strong>Todo, From John, To Robby:</strong></p>
+<div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p><strong>Todo, From John, To Robby:</strong></p>
 <p>Consider addressing the following advances topics in a concluding section.</p>
 <ul>
 <li>Point to and briefly describe the Slang implentation of sequences.</li>
 <li>Describe the use of the utility class ISZopstation?).</li>
 <li>Talk about using toSeq to convert to Scala sequences, e.g., as might be needed in a Scala extension of Slang that is working with Slang sequences.</li>
-</ul>
-<!-- notice end   ShortCode -->
+</ul></div>
+
 <h2 id="mutable-sequences">Mutable Sequences</h2>
 <p>Types for Mutable Sequences (MS) have a form essentially identical to
 that for Immutable Sequences (the only difference is that mutable
@@ -566,11 +567,11 @@ are not considered to be equal even though their contents are equal,</li>
 </span></span><span class="line"><span class="cl">  <span class="c1">// use .toMS and .toIS to convert between immutable and mutable sequences
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s01</span><span class="o">.</span><span class="n">toMS</span> <span class="o">==</span> <span class="n">s12</span><span class="o">)</span>  <span class="c1">// s01.toMS converts s01 from immutable sequence to mutable
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">assert</span><span class="o">(</span><span class="n">s01</span> <span class="o">==</span> <span class="n">s12</span><span class="o">.</span><span class="n">toIS</span><span class="o">)</span>  <span class="c1">// s12.toIS converts s12 from mutable to immutable sequence
-</span></span></span></code></pre></div><!-- notice note  ShortCode -->
-<p><strong>ToDo, From John, To Robby:</strong>
+</span></span></span></code></pre></div><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p><strong>ToDo, From John, To Robby:</strong>
 Add text providing the rationale for why &ldquo;immutable and mutable sequences
-are not considered to be equal even though their contents are equal&rdquo;.</p>
-  <!-- notice end   ShortCode -->
+are not considered to be equal even though their contents are equal&rdquo;.</p></div>
+
 <p>As expected, mutable and immutable sequences differ primarily in the
 notion of updating.   The assignment command form <code>ms(i) = e</code>
 destructively updates mutable sequence <code>ms</code> and index position <code>i</code>
