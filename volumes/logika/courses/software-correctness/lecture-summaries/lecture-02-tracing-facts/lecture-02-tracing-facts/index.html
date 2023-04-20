@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="Execution as Calculation A common way to consider a program is to trace its execution following the values that variables take at different times. We do this when debugging programs, where we predict the values of variables and observe deviations. In other words, we calculate &amp;ldquo;in our heads&amp;rdquo; expected values and compare them to those produced by program execution. We can follow a similar approach directly without executing a program: we can state expected values by asserting them and compare them to those produced by calculation." />
+<meta name="description" content="Tracing Values Execution as Calculation A common way to consider a program is to trace its execution following the values that variables take at different times. We do this when debugging programs, where we predict the values of variables and observe deviations. In other words, we calculate &amp;ldquo;in our heads&amp;rdquo; expected values and compare them to those produced by program execution. We can follow a similar approach directly without executing a program: we can state expected values by asserting them and compare them to those produced by calculation." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -42,15 +42,15 @@
 
 
 <meta itemprop="name" content="Lecture Summary: Tracing Facts">
-<meta itemprop="description" content="Execution as Calculation A common way to consider a program is to trace its execution following the values that variables take at different times. We do this when debugging programs, where we predict the values of variables and observe deviations. In other words, we calculate &ldquo;in our heads&rdquo; expected values and compare them to those produced by program execution. We can follow a similar approach directly without executing a program: we can state expected values by asserting them and compare them to those produced by calculation."><meta itemprop="datePublished" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="description" content="Tracing Values Execution as Calculation A common way to consider a program is to trace its execution following the values that variables take at different times. We do this when debugging programs, where we predict the values of variables and observe deviations. In other words, we calculate &ldquo;in our heads&rdquo; expected values and compare them to those produced by program execution. We can follow a similar approach directly without executing a program: we can state expected values by asserting them and compare them to those produced by calculation."><meta itemprop="datePublished" content="2022-11-24T17:01:09+01:00" />
 <meta itemprop="dateModified" content="2022-11-24T17:01:09+01:00" />
-<meta itemprop="wordCount" content="2539"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="wordCount" content="4033"><meta itemprop="image" content="https://doc.sireum.org"/>
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://doc.sireum.org"/>
 
 <meta name="twitter:title" content="Lecture Summary: Tracing Facts"/>
-<meta name="twitter:description" content="Execution as Calculation A common way to consider a program is to trace its execution following the values that variables take at different times. We do this when debugging programs, where we predict the values of variables and observe deviations. In other words, we calculate &ldquo;in our heads&rdquo; expected values and compare them to those produced by program execution. We can follow a similar approach directly without executing a program: we can state expected values by asserting them and compare them to those produced by calculation."/>
+<meta name="twitter:description" content="Tracing Values Execution as Calculation A common way to consider a program is to trace its execution following the values that variables take at different times. We do this when debugging programs, where we predict the values of variables and observe deviations. In other words, we calculate &ldquo;in our heads&rdquo; expected values and compare them to those produced by program execution. We can follow a similar approach directly without executing a program: we can state expected values by asserting them and compare them to those produced by calculation."/>
 
 
 
@@ -308,9 +308,66 @@
             
             
             
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#tracing-values">Tracing Values</a>
+      <ul>
+        <li><a href="#execution-as-calculation">Execution as Calculation</a></li>
+        <li><a href="#example-execution-as-calculation">Example: Execution as Calculation</a></li>
+        <li><a href="#discussion">Discussion</a></li>
+        <li><a href="#execution-as-calculation-limitations">Execution as Calculation Limitations</a></li>
+      </ul>
+    </li>
+    <li><a href="#tracing-facts">Tracing Facts</a>
+      <ul>
+        <li><a href="#example-deducing-facts-for-immutable-variables">Example: Deducing Facts for Immutable Variables</a></li>
+        <li><a href="#discussion-1">Discussion</a></li>
+      </ul>
+    </li>
+    <li><a href="#tracing-facts-with-logika">Tracing Facts with Logika</a>
+      <ul>
+        <li><a href="#restating-the-program-with-ddeductions-in-logika">Restating the Program with dDeductions in Logika</a></li>
+        <li><a href="#logika">Logika</a></li>
+      </ul>
+    </li>
+    <li><a href="#mutable-variables">Mutable Variables</a>
+      <ul>
+        <li><a href="#from-immutable-to-mutable-variables">From Immutable to Mutable Variables</a></li>
+        <li><a href="#example-mutable-swapping">Example: Mutable Swapping</a></li>
+        <li><a href="#logika-1">Logika</a></li>
+        <li><a href="#example-mutable-swapping-1">Example: Mutable Swapping</a></li>
+      </ul>
+    </li>
+    <li><a href="#programs-as-facts">Programs as Facts</a>
+      <ul>
+        <li><a href="#facts-from-assignments">Facts from Assignments</a></li>
+        <li><a href="#example-mutable-swapping-2">Example: Mutable Swapping</a></li>
+        <li><a href="#analysing-programs">Analysing Programs</a></li>
+      </ul>
+    </li>
+    <li><a href="#test-case-derivation">Test Case Derivation</a>
+      <ul>
+        <li><a href="#example-mutable-swapping-3">Example: Mutable Swapping</a></li>
+      </ul>
+    </li>
+    <li><a href="#symbolic-execution">Symbolic Execution</a>
+      <ul>
+        <li><a href="#using-facts-as-values">Using Facts as Values</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+            
 
             <div class="post-content">
-                <h3 id="execution-as-calculation">Execution as Calculation</h3>
+                <h3 id="tracing-values">Tracing Values</h3>
+<h4 id="execution-as-calculation">Execution as Calculation</h4>
 <p>A common way to consider a program is to trace its execution following the values that variables take at different times.  We do this when debugging programs, where we predict the values of variables and observe deviations.
 In other words, we calculate &ldquo;in our heads&rdquo; expected values and compare them to those produced by program execution.   We can follow a similar approach directly without executing a program: we can state expected values by asserting them and compare them to those produced by calculation. Let&rsquo;s look at an example.</p>
 <h4 id="example-execution-as-calculation">Example: Execution as Calculation</h4>
@@ -347,7 +404,7 @@ What if we wouldn&rsquo;t know the initial values of variables <code>m</code> an
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span></code></pre></div><p>Function <code>randomInt()</code> specifies that an arbitrary integer value is chosen.</p>
-<h3 id="execution-as-calculation-limitations">Execution as Calculation Limitations</h3>
+<h4 id="execution-as-calculation-limitations">Execution as Calculation Limitations</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
@@ -359,6 +416,7 @@ It is also not enough to limit deductions to specific variable values.
 We need to trace more general kinds of <strong>facts</strong> that constrain possible values of variables.
 A specific variable value is just a special kind of fact that constrains a variable to one value.
 Let&rsquo;s consider this example in more detail.</p>
+<h3 id="tracing-facts">Tracing Facts</h3>
 <h4 id="example-deducing-facts-for-immutable-variables">Example: Deducing Facts for Immutable Variables</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
@@ -470,7 +528,7 @@ Without much difficulty we have attained a much more powerful method to verify p
 We would expect that the maths that we have applied could also be carried out <strong>automatically</strong>.
 Let&rsquo;s look at the program in Logika.</p>
 <h3 id="tracing-facts-with-logika">Tracing Facts with Logika</h3>
-<h3 id="restating-the-program-with-ddeductions-in-logika">Restating the Program with dDeductions in Logika</h3>
+<h4 id="restating-the-program-with-ddeductions-in-logika">Restating the Program with dDeductions in Logika</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
@@ -540,7 +598,7 @@ This was helpful</p>
 <p>Next, we consider <strong>mutable</strong> variables that can be assigned a new value repeatedly.
 As a consequence, we need to distinguish <strong>old</strong> values from <strong>new</strong> values for the <strong>same</strong> variable.
 Let&rsquo;s have a closer look.</p>
-<h3 id="from-immutable-to-mutable-variables">From Immutable to Mutable Variables</h3>
+<h4 id="from-immutable-to-mutable-variables">From Immutable to Mutable Variables</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -591,7 +649,7 @@ Let&rsquo;s try our method for immutable variables.</p>
 <li>After the first assignment to <code>x</code> we would obtain the fact <code>x == m</code></li>
 <li>After the second assignment to <code>x</code> we would obtain the fact <code>x == x + y</code></li>
 <li>This is not right!</li>
-<li>The second assignment refers to the old value of <code>x</code> on the right-hand side, relating to the fact <code>x == m</code> <!-- Nested lists aren't working?--></li>
+<li>The second assignment refers to the old value of <code>x</code> on the right-hand side, relating to the fact <code>x == m</code></li>
 <li>The left-hand side of that assignment refers to the new value</li>
 </ul>
 <div class="highlight"><div class="chroma">
@@ -643,7 +701,19 @@ Let&rsquo;s try our method for immutable variables.</p>
 We can refer to variables $v$ labelled by <em>n</em> by means of the expression <code>At(v, n)</code>.
 For the last assignment (with the largest label) we let <code>At(v, n) == v</code>.
 Now, we can write in the comment behind each assignment the fact we deduce from it.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>   <span class="c1">// deduce At(x, 0) == m
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>   <span class="c1">// deduce At(y, 0) == n
@@ -651,7 +721,9 @@ Now, we can write in the comment behind each assignment the fact we deduce from 
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>      <span class="c1">// deduce y == At(x, 1) - At(y, 0)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>      <span class="c1">// deduce x == At(x, 1) - y
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
-</span></span></code></pre></div><p>Let&rsquo;s label the mutable variables according to the order in which they are assigned.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s label the mutable variables according to the order in which they are assigned.
 We can refer to variables $v$ labelled by $n$ by means of the expression <code>At(v, n)</code>.
 For the last assignment (with the largest label) we let <code>At(v, n) == v</code>.
 Now, we can write in the comment behind each assignment the fact we deduce from it.
@@ -659,6 +731,366 @@ The problem has disappeared and we can reason about the program as before.
 We can apply this method to any location in a program, replacing variable up to that point.
 Let&rsquo;s see how this looks in Logika.</p>
 <h4 id="logika-1">Logika</h4>
+<p><img src="../images/Logika-Mutable-1.png" alt="Logika-Mutable-1">
+Before the second assignment to <code>x</code> all variables are referred to by their original name</p>
+<p><img src="../images/Logika-Mutable-2.png" alt="Logika-Mutable-2">
+After the second assignment to <code>x</code> the &ldquo;old&rdquo; <code>x</code> is referred to by <code>At(x, 0)</code></p>
+<p><img src="../images/Logika-Mutable-3.png" alt="Logika-Mutable-3">
+Continuing in this way all &ldquo;old&rdquo; variables are replaced &hellip;</p>
+<p><img src="../images/Logika-Mutable-4.png" alt="Logika-Mutable-4">
+&hellip; until we reach the final assertion</p>
+<h4 id="example-mutable-swapping-1">Example: Mutable Swapping</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><!-- These two should be next to eachother -->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">x</span> <span class="o">-</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="programs-as-facts">Programs as Facts</h3>
+<h4 id="facts-from-assignments">Facts from Assignments</h4>
+<p>We have observed that each assignment of the shape <code>v = e</code> for a variable <code>v</code> and expression <code>e</code>gives rise to a fact <strong>At(v, n) == e<sub>old</sub></strong>, for some <code>n</code>, where e<sub>old</sub> is <code>e</code> with all variables <code>w</code> replaced by their &ldquo;old&rdquo; values <code>At(w,m)</code>.
+Thus, a program <code>P</code> corresponds to the conjunction of the facts originating from the sequence of assignments.
+This means the program <code>P</code> itself is also just fact <strong>P<sub>fact</sub></strong> about which we can reason.
+The components of <strong>P<sub>fact</sub></strong> have a one-to-one correspondence with the assignments of <code>P</code>.</p>
+<h4 id="example-mutable-swapping-2">Example: Mutable Swapping</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><!-- These two should be next to eachother -->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">m</span> <span class="o">==</span> <span class="nc">At</span><span class="o">[</span><span class="kt">Z</span><span class="o">](</span><span class="s">&#34;.random&#34;</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>        <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">n</span> <span class="o">==</span> <span class="nc">At</span><span class="o">[</span><span class="kt">Z</span><span class="o">](</span><span class="s">&#34;.random&#34;</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>        <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>        <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Each line of the program <code>P</code> corresponds to a fact and the program itself is the conjunction <strong>P<sub>fact</sub></strong> of those facts.
+The assertion <code>assert(x == n &amp; y == m)</code> corresponds to a fact <code>a</code>, namely, <code>x == n &amp; y == m</code>.
+We can use it to ask different questions about the program.</p>
+<h4 id="analysing-programs">Analysing Programs</h4>
+<p>We have three ways in which we can use <strong>P<sub>fact</sub></strong> to analyse program <code>P</code>.</p>
+<p>Using <strong>P<sub>fact</sub></strong> <code>|- a</code>, we can <strong>prove</strong> that assertion <code>a</code> is true for all executions of <code>P</code>.
+This is what we have done in Logika.</p>
+<p>Using <strong>P<sub>fact</sub></strong> <code>&amp; a</code>, we can search for values for which <code>a</code> is true.
+This is the basis for generating <strong>tests</strong> (We have to remove assignments from <code>randomInt()</code> first).</p>
+<p>Using <strong>P<sub>fact</sub></strong> <code>&amp; !a</code>, we can search for values for which <code>a</code> is false.
+This yields <strong>counterexamples</strong>, i.e., specific values for the variables of <code>P</code> that violate <code>a</code>.
+If no such value can be found among all possible values of all variables, then <strong>P<sub>fact</sub></strong> <code>|- a</code> must be true.
+This technique is referred to as (bounded) <strong>model checking</strong>.</p>
+<h3 id="test-case-derivation">Test Case Derivation</h3>
+<h4 id="example-mutable-swapping-3">Example: Mutable Swapping</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><!-- These two should be next to eachother -->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nc">\begin</span><span class="o">{</span><span class="n">lstlisting</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>        <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span>               <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We bracket the program in an <code>assume-assert</code> contract.
+Assuming the condition <code>m &gt; 0 &amp; y &gt; 0</code> is true initially, the condition <code>x == n &amp; y == m</code> must be true finally.
+We search for values of <code>m</code>, <code>n</code>, <code>x</code> and <code>y</code> that achieve this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><!-- These two should be next to eachother -->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>        <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span>               <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We bracket the program in an <code>assume-assert</code> contract.
+Assuming the condition <code>m &gt; 0 &amp; y &gt; 0</code> is true initially, the condition <code>x == n &amp; y == m</code> must be true finally.
+We search for values of <code>m</code>, <code>n</code>, <code>x</code> and <code>y</code> that achieve this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><!-- These two should be next to eachother -->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span>                   <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>        <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span>               <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We search for values of <code>m</code>, <code>n</code>, <code>x</code> and <code>y</code> that can be used for testing.
+E.g.,
+input: <code>m == 1</code>, <code>n == 2</code>
+output: <code>m == 1</code>, <code>n == 2</code>, <code>x == 2</code> and <code>y == 1</code>
+We will see more interesting uses of this during the course.</p>
+<h3 id="symbolic-execution">Symbolic Execution</h3>
+<h4 id="using-facts-as-values">Using Facts as Values</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>There&rsquo;s yet another way we can reason about this program.
+We execute the program abstractly with <strong>symbolic values</strong> and <strong>path conditions</strong>.
+Symbolic values record the modifications of the variables.
+Path conditions record the conditions that must be true to reach locations in the program.
+We record symbolic values in the tuple (<code>m</code>, <code>n</code>, <code>x</code>, <code>y</code>) and the path condition as (PC:&hellip;).
+Let&rsquo;s do this with the value swapping example.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Executing <code>assume(m &gt; 0 &amp; n &gt; 0)</code> yields (<code>m: M, n: N</code>), (PC: <code>M &gt; 0 &amp; N &gt; 0</code>)</li>
+<li>Executing <code>var x: Z = m</code> yields (<code>m: M, n: N, x: M</code>), (PC: <code>M &gt; 0 &amp; N &gt; 0</code>)</li>
+<li>Executing <code>var y: Z = n</code> yields (<code>m: M, n: N, x: M, y: N</code>), (PC:<code> M &gt; 0 &amp; N &gt; 0</code>)</li>
+<li>Executing <code>x = x + y</code> yields (<code>m: M, n: N, x: M + N, y: N</code>), (PC: <code>M &gt; 0 &amp; N &gt; 0</code>)</li>
+<li>Executing <code>y = x - y</code> yields (<code>m: M, n: N, x: M + N, y: M</code>), (PC: <code>M &gt; 0 &amp; N &gt; 0</code>)</li>
+<li>Executing <code>x = x - y</code> yields (<code>m: M, n: N, x: N, y: M</code>), (PC: <code>M &gt; 0 &amp; N &gt; 0</code>)</li>
+<li>Executing <code>assert(x == n &amp; y == m)</code> yields</li>
+<li>(<code>m: M, n: N, x: N, y: M</code>), (PC: <code>M &gt; 0 &amp; N &gt; 0, N == N &amp; M == M</code>)</li>
+</ul>
+<p>The expression <code>M + N</code> cannot be further simplified at this stage because <code>M</code> and <code>N</code> are uninterpreted symbolic constants.</p>
+<h3 id="summary">Summary</h3>
+<p>We have looked at various ways of reasoning about programs:</p>
+<ul>
+<li>by tracing facts through programs</li>
+<li>by considering programs as facts</li>
+<li>by symbolic execution</li>
+</ul>
+<p>We have seen how this can be used to reason in different ways about programs:</p>
+<ul>
+<li>to prove assertions</li>
+<li>to find counterexamples</li>
+<li>to generate tests</li>
+</ul>
+<p>We will discuss this continually during the course as the programs become more and more challenging.</p>
 
             </div>
         </article>

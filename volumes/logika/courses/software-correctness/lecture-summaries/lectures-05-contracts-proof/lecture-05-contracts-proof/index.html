@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Slang Functions and Contracts A Proof From Linear Algebra 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 // linmap yields a * x &#43; b for any a, x, and b def linmap(a: Z, x: Z, b: Z): Z = { ... } // given (x - b) % a == 0 revmap yields (x - b) / a for any a, x, and b def revmap(a: Z, x: Z, b: Z): Z = { ." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-05-contracts-proof/lecture-05-contracts-proof/" />
+
+
+    <title>
+        
+            Lecture Summary: Contracts Proof :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Lecture Summary: Contracts Proof">
+<meta itemprop="description" content="Slang Functions and Contracts A Proof From Linear Algebra 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 // linmap yields a * x &#43; b for any a, x, and b def linmap(a: Z, x: Z, b: Z): Z = { ... } // given (x - b) % a == 0 revmap yields (x - b) / a for any a, x, and b def revmap(a: Z, x: Z, b: Z): Z = { ."><meta itemprop="datePublished" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="dateModified" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="wordCount" content="4172"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Lecture Summary: Contracts Proof"/>
+<meta name="twitter:description" content="Slang Functions and Contracts A Proof From Linear Algebra 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 // linmap yields a * x &#43; b for any a, x, and b def linmap(a: Z, x: Z, b: Z): Z = { ... } // given (x - b) % a == 0 revmap yields (x - b) / a for any a, x, and b def revmap(a: Z, x: Z, b: Z): Z = { ."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-11-24 17:01:09 &#43;0100 &#43;0100" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-05-contracts-proof/lecture-05-contracts-proof/">Lecture Summary: Contracts Proof</a></h2>
+
+            
+            
+            
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#slang-functions-and-contracts">Slang Functions and Contracts</a>
+      <ul>
+        <li><a href="#a-proof-from-linear-algebra">A Proof From Linear Algebra</a></li>
+        <li><a href="#a-proof-from-linear-algebra-linmap">A Proof From Linear Algebra (linmap)</a></li>
+        <li><a href="#a-proof-from-linear-algebra-revamp">A Proof From Linear Algebra (revamp)</a></li>
+        <li><a href="#a-proof-from-linear-algebra-compose">A Proof From Linear Algebra (compose)</a></li>
+        <li><a href="#a-proof-from-linear-algebra-summary">A Proof From Linear Algebra (Summary)</a></li>
+        <li><a href="#exercise-1">Exercise 1</a></li>
+        <li><a href="#exercise-2">Exercise 2</a></li>
+      </ul>
+    </li>
+    <li><a href="#slang-functions-and-frames">Slang Functions and Frames</a>
+      <ul>
+        <li><a href="#example-mutable-swapping-with-frames">Example: Mutable Swapping with Frames</a></li>
+        <li><a href="#statements-and-contracts">Statements and Contracts</a></li>
+        <li><a href="#example-mutable-swapping-with-frames-1">Example: Mutable Swapping with Frames</a></li>
+        <li><a href="#example-mutable-swapping-function">Example: Mutable Swapping Function</a></li>
+        <li><a href="#exercise-3">Exercise 3</a></li>
+        <li><a href="#exercise-4">Exercise 4</a></li>
+      </ul>
+    </li>
+    <li><a href="#slang-functions-as-facts">Slang Functions as Facts</a>
+      <ul>
+        <li><a href="#example-mutable-swapping-function-swapa">Example: Mutable Swapping Function (SwapA)</a></li>
+        <li><a href="#example-mutable-swapping-function-swapa-as-fact">Example: Mutable Swapping Function (SwapA) as Fact</a></li>
+        <li><a href="#example-mutable-swapping-function-swapb">Example: Mutable Swapping Function (SwapB)</a></li>
+        <li><a href="#example-mutable-swapping-function-swapb-as-fact">Example: Mutable Swapping Function (SwapB) as Fact</a></li>
+      </ul>
+    </li>
+    <li><a href="#slang-functions-and-symbolic-execution">Slang Functions and Symbolic Execution</a>
+      <ul>
+        <li><a href="#problems">Problems</a></li>
+        <li><a href="#variable-names">Variable Names</a></li>
+        <li><a href="#initial-values-of-global-variables">Initial Values of Global Variables</a></li>
+        <li><a href="#return-values">Return Values</a></li>
+        <li><a href="#symbolic-execution-of-the-program">Symbolic Execution of the Program</a></li>
+        <li><a href="#exercise-5">Exercise 5</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+            
+
+            <div class="post-content">
+                <h3 id="slang-functions-and-contracts">Slang Functions and Contracts</h3>
+<h4 id="a-proof-from-linear-algebra">A Proof From Linear Algebra</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// linmap yields a * x + b for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// given (x - b) % a == 0 revmap yields (x - b) / a for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// compose yields x for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">compose</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="o">...</span> <span class="c1">// use function revmap
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The listing above shows three incompletely implemented functions <code>linmap</code>, <code>revmap</code>, and <code>compose</code>.
+Suggested implementations are provided in the comments.
+Let&rsquo;s implement the functions step by step.</p>
+<h4 id="a-proof-from-linear-algebra-linmap">A Proof From Linear Algebra (linmap)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// linmap yields a * x + b for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The implementation of <code>linmap</code> is easiest.
+We can simply copy the expression from the comment into a <code>return</code> statement.
+Let&rsquo;s leave it there for now.</p>
+<h4 id="a-proof-from-linear-algebra-revamp">A Proof From Linear Algebra (revamp)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// given (x - b) % a == 0 revmap yields (x - b) / a for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">/</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The implementation of <code>revmap</code> does not look challenging either.
+Variable <code>a</code> referred to in the <code>return</code> statement might be zero.
+We must add a requires clause to ensure the second operand of <code>/</code> is not zero.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Requires</span><span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// given (x - b) % a == 0 revmap yields (x - b) / a for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">/</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="col">
+<p><img src="../images/revmap_zero_operand.png" alt="revmap_zero_operand"></p>
+</div>
+</div>
+<p>In fact we should also add <code>(x - b) % a == 0</code> there as stated in the comment.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// given (x - b) % a == 0 revmap yields (x - b) / a for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">,</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">%</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">/</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>That&rsquo;s it for now. Let&rsquo;s turn to function <code>compose</code>.</p>
+<h4 id="a-proof-from-linear-algebra-compose">A Proof From Linear Algebra (compose)</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// compose yields x for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">compose</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="o">...</span> <span class="c1">// use function revmap
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Observe, <code>z == linmap(a, x, b) &amp;&amp; y == revmap(a, z, b)</code></li>
+<li>implies <code>z == a * x + b &amp;&amp; y == (z - b) / a</code></li>
+<li>implies <code>y == (a * x + b - b) / a</code></li>
+<li>implies <code>y == (a * x) / a</code></li>
+<li>implies <code>y == x</code></li>
+<li>So, the missing function call is <code>revmap(a, y, b)</code></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// compose yields x for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">compose</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>There&rsquo;s a problem with function <code>compose</code>.
+The pre-condition <code>a != 0</code> of function <code>revmap</code> is not met.
+Because <code>a</code> is not modified in the function body, <code>a != 0</code> can only be enforced by a pre-condition.
+We need to add a contract with the corresponding requires clause.
+<img src="../images/compose_invalid_recond.png" alt="compose_invalid_recond"></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// compose yields x for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">compose</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>There&rsquo;s a problem with function <code>compose</code>.
+The pre-condition <code>a != 0</code> of function <code>revmap</code> is not met
+Because <code>a</code> is not modified in the function body, <code>a != 0</code> can only be enforced by a pre-condition.
+We need to add a contract with the corresponding requires clause.
+<img src="../images/compose_invalid_recond.png" alt="compose_invalid_recond"></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// compose yields x for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">compose</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>There&rsquo;s another problem with function <code>compose</code>!
+The pre-condition <code>(At(y, 0) - b) % a == 0</code> of function <code>revmap</code> is not met.
+(We&rsquo;ve replaced <code>x</code> by <code>At(y, 0)</code> in the pre-condition according to the actual parameters.)
+Because <code>y</code> is assigned in <code>var y: Z = linmap(a, x, b)</code>, the pre-condition will have to established by the result of function <code>linmap</code>.
+However, function <code>linmap</code> does not specify a post-condition.
+We need to add a contract with the corresponding ensures clause to <code>linmap</code>.
+The post-condition <code>At(y, 0) == a * x + b</code> implies the pre-condition <code>(At(y, 0) - b) % a == 0</code>  of <code>revmap</code>.
+Now let&rsquo;s add the post-condition <code>Res == x</code> to <code>compose</code>.
+<img src="../images/compose_invalid_recond.png" alt="compose_invalid_recond">
+<img src="../images/linmap_with_contract.pdf" alt="linmap_with_contract"></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// compose yields x for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">compose</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can&rsquo;t verify the function. The postcondition is invalid!
+We don&rsquo;t have enough information to prove it.
+We&rsquo;ve reasoned informally above that the postcondition should be true.
+However, we&rsquo;ve not specified a postcondition for <code>revmap</code> yet.
+Let&rsquo;s do this.
+Now it&rsquo;s proved!
+We can summarise and document our reasoning in Slang by providing deduce commands (relying on the contracts).
+<img src="../images/invalid_postcondition.png" alt="invalid_postcondition">
+<img src="../images/revmap_with_contract.pdf" alt="revmap_with_contract">
+<img src="../images/Logika_proved.png" alt="Logika_proved"></p>
+<h4 id="a-proof-from-linear-algebra-summary">A Proof From Linear Algebra (Summary)</h4>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// linmap yields a * x + b for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// given (x - b) % a == 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// revmap yields (x - b) / a for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">,</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">%</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">/</span> <span class="n">a</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">/</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// compose yields x for any a, x, and b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">def</span> <span class="n">compose1</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">((</span><span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">%</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="o">((</span><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">/</span> <span class="n">a</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="o">((</span><span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">/</span> <span class="n">a</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<h4 id="exercise-1">Exercise 1</h4>
+<p>Provide functions <code>linmap_spec</code>, <code>revmap_spec</code> and <code>compose_spec</code> completing the Slang program below where <code>x == compose_spec(a, x, b)</code>.</p>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">linmap_spec</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">,</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">%</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">revmap_spec</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">/</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">compose</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">compose_spec</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">linmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">linmap_spec</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">revmap</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">((</span><span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">b</span><span class="o">)</span> <span class="o">%</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">linmap_spec</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">revmap_spec</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">),</span> <span class="n">b</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">revmap_spec</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">linmap_spec</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">),</span> <span class="n">b</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">compose_spec</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">b</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<h4 id="exercise-2">Exercise 2</h4>
+<p>Provide a function <code>inverse</code> with signature.
+<code>def inverse(a: Z, x: Z, b: Z)</code>                     (No return value!)
+that ensures:
+<code>revmap_spec(a, linmap_spec(a, x, b), b) == x</code></p>
+<p><em>Aside</em>. This function corresponds to a mathematical theorem in Slang</p>
+<h3 id="slang-functions-and-frames">Slang Functions and Frames</h3>
+<h4 id="example-mutable-swapping-with-frames">Example: Mutable Swapping with Frames</h4>
+<p>Recall the mutable swapping program.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We&rsquo;ve replaced the final <code>assert</code> statement with a <code>Deduce</code> command.
+Our intention is to <strong>prove</strong> this property of the swap program.</p>
+<p>Recall the mutable swapping program.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We&rsquo;ve replaced the final <code>assert</code> statement with a <code>Deduce</code> command.
+Our intention is to <strong>prove</strong> this property of the swap program.
+Using what we&rsquo;ve learned about programs and facts, we can express this without using variables <code>m</code> and <code>n</code>.</p>
+<p>The simplifies the mutable swapping program</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="c1">// At(x, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="c1">// At(y, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>For the sake of this example let&rsquo;s restrict the values of the variables to positive integers.</p>
+<p>Now, our example program looks as follows.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="hl"><span class="lnt"> 8
+</span></span><span class="hl"><span class="lnt"> 9
+</span></span><span class="hl"><span class="lnt">10
+</span></span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="c1">// At(x, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assume</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="c1">// At(y, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assume</span><span class="o">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line hl"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line hl"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line hl"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With our example program in place, let&rsquo;s focus on the three assignments.</p>
+<p>They contain different assignments to variables <code>x</code> and <code>y</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="hl"><span class="lnt">1
+</span></span><span class="hl"><span class="lnt">2
+</span></span><span class="hl"><span class="lnt">3
+</span></span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line hl"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line hl"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line hl"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We&rsquo;re interested in the contracts governing these assignments.
+Each of them:</p>
+<ul>
+<li>modifies a variable</li>
+<li>has a post-condition</li>
+<li>(and, possibly, a pre-condition depending on the expression on its right-hand side)</li>
+</ul>
+<p>Let&rsquo;s consider one assignment after the other.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies x
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures x == At(x, 0) + y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The first assignment modifies <code>x</code>.
+The value <code>At(x, 0)</code> stems from the initial assignment.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies x
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures x == At(x, 0) + y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies y
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures y == x - At(y, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The second assignment modifies <code>y</code>.
+The value <code>At(y, 0)</code> stems from the initial assignment.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="hl"><span class="lnt"> 4
+</span></span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies x
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures x == At(x, 0) + y
+</span></span></span><span class="line hl"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>                      <span class="c1">// At(x, 1)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies y
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures y == x - At(y, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies x
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures x == At(x, 1) - y)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The first assignment modifies <code>x</code>.
+The value <code>At(x, 1)</code> stems from the indicated assignment.</p>
+<h4 id="statements-and-contracts">Statements and Contracts</h4>
+<p>Not only assignments have contracts.
+Every Slang statement has a contract.
+As if each statement was a function with a contract specification.
+The contract reasoning for statements is built into Slang.
+Let&rsquo;s make this explicit for the mutable swap program.
+We define a function for each assignment.</p>
+<h4 id="example-mutable-swapping-with-frames-1">Example: Mutable Swapping with Frames</h4>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<p>In a function contract we cannot refer to old values such as <code>At(x, 0)</code>.</p>
+<p>In a contract post-condition the old value is referred to <code>In(x)</code>.</p>
+<p>So, instead of writing</p>
+<p><code>ensures x == At(x, 0) + y</code>,</p>
+<p>we write</p>
+<p><code>ensures x == In(x) + y</code></p>
+</div>
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies x
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures x == At(x, 0) + y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies y
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures y == x - At(y, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies x
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures x == At(x, 1) - y)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<p>We name the function for the first assignment <code>xplus</code>.</p>
+<p>It encapsulates the assignment <code>x = x + y</code> with a contract.</p>
+</div>
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">xplus</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies y
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures y == x - At(y, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies x
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures x == At(x, 1) - y)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<p>We name the function for the second assignment <code>yminus</code>.</p>
+<p>It encapsulates the assignment <code>y = x - y</code> with a contract.</p>
+<p>We treat this similar to the way we have dealt with the first assignment.</p>
+<p>The last assignment is a little different.</p>
+<p>It refers to the &ldquo;different&rdquo; old value <code>At(x, 1)</code>.</p>
+</div>
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">xplus</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">yminus</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">y</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">x</span> <span class="o">-</span> <span class="nc">In</span><span class="o">(</span><span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// contract
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   modifies x
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   ensures x == At(x, 1) - y)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<p>The old value <code>At(x, 1)</code> must be provided by the context in which function <code>xminus</code> is called.</p>
+<p>This was already the case <code>At(x, 0)</code> and <code>At(y, 0)</code>.</p>
+<p>But now it becomes apparent that <code>In(x)</code> might refer to either depending on at which point in a program the function is called.</p>
+<p>Instead of:</p>
+<ul>
+<li><code>x = x + y</code></li>
+<li><code>y = x - y</code></li>
+<li><code>x = x - y</code></li>
+</ul>
+<p>We can write:</p>
+<ul>
+<li><code>xplus()</code></li>
+<li><code>yminus()</code></li>
+<li><code>xminus()</code></li>
+</ul>
+</div>
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">xplus</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">yminus</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">y</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">x</span> <span class="o">-</span> <span class="nc">In</span><span class="o">(</span><span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">xminus</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<h4 id="example-mutable-swapping-function">Example: Mutable Swapping Function</h4>
+<p>Suppose we have defined a mutable swapping function <code>swapA</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">swapA</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">y</span><span class="o">),</span> <span class="n">y</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can replace the three assignments by the newly defined functions.
+We get the function <code>swapB</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">swapB</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">y</span><span class="o">),</span> <span class="n">y</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">xplus</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="n">yminus</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="n">xminus</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It has the same functionality as function <code>swapA</code>.</p>
+<h4 id="exercise-3">Exercise 3</h4>
+<p>Prove</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="c1">// At(x, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assume</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="c1">// At(y, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assume</span><span class="o">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">swapA</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Where you insert the definition of <code>swapA</code> for <code>...</code>.
+Prove that all intermediate values occurring in the body of function <code>swapA</code> are positive.</p>
+<h4 id="exercise-4">Exercise 4</h4>
+<p>Prove</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="c1">// At(x, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assume</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="c1">// At(y, 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assume</span><span class="o">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">swapB</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Where you insert the definition of <code>swapB</code> and the supporting functions for <code>...</code>.
+Prove that all intermediate values occurring in the body of function <code>swapB</code> are positive.</p>
+<h3 id="slang-functions-as-facts">Slang Functions as Facts</h3>
+<h4 id="example-mutable-swapping-function-swapa">Example: Mutable Swapping Function (SwapA)</h4>
+<p>Consider function <code>swapA</code> once more.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">swapA</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">y</span><span class="o">),</span> <span class="n">y</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The fact corresponding to the three assignments is just like what we&rsquo;ve seen before.
+We can look at it in Logika.</p>
+<h4 id="example-mutable-swapping-function-swapa-as-fact">Example: Mutable Swapping Function (SwapA) as Fact</h4>
+<p>The fact for the function body of <code>swapA</code> is just as expected.
+Identifying <code>At(x, 0)</code> with <code>In(x)</code> and <code>At(y, 0)</code> with <code>In(y)</code> it is easy to see how the post-condition is established.
+This provides a view from the inside of the function.
+From the outside it is seen in a function call to <code>swapA</code>.
+<img src="../images/Function_SwapA_Fact.png" alt="Function_SwapA_Fact">
+From the outside only the contract of <code>swapA</code> is seen.
+The post-condition <code>x == In(y), y == In(x)</code> of <code>swapA</code> provides directly the facts needed to prove the deduction.
+The modifies clause <code>Modifies(x, y)</code> specifies which variables need to be renamed using the <code>At</code>-notation
+<img src="../images/Function_SwapA_Call.png" alt="Function_SwapA_Call"></p>
+<h4 id="example-mutable-swapping-function-swapb">Example: Mutable Swapping Function (SwapB)</h4>
+<p>Consider function <code>swapB</code> with the function calls in the body.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">swapB</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">y</span><span class="o">),</span> <span class="n">y</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">xplus</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="n">yminus</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="n">xminus</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The contracts for the three functions called in the body model the assignments closely.</p>
+<h4 id="example-mutable-swapping-function-swapb-as-fact">Example: Mutable Swapping Function (SwapB) as Fact</h4>
+<p>The fact for the function body of <code>swapB</code> is the same as <code>swapA</code>.
+The contracts we&rsquo;ve specified express the implicit contracts that govern assignments.
+Seen from the outside by way of a call <code>swapA</code> and <code>swapB</code> are indistinguishable:
+They have identical contracts.
+We can regard functions like theorem where the body is a proof.
+Using the theorem does not require knowledge of its proof.
+<img src="../images/Function_SwapB_Fact.png" alt="Function_SwapB_Fact"></p>
+<h3 id="slang-functions-and-symbolic-execution">Slang Functions and Symbolic Execution</h3>
+<h4 id="problems">Problems</h4>
+<p>Function calls pose several challenges concerning symbolic execution.</p>
+<ol>
+<li>Function parameters introduce new temporary variables</li>
+<li>The same parameter name may be used in different functions</li>
+<li>Functions may call other functions</li>
+<li>Functions may contain recursive calls</li>
+<li>Functions may be nested</li>
+<li>Function calls may be nested</li>
+</ol>
+<p>In fact, some of these problem already appear when dealing with loops.
+We will deal with (1) and (2) disallowing (3) to (6) for now.</p>
+<h4 id="variable-names">Variable Names</h4>
+<p>Consider function <code>shift</code> below.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">shift</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">N</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">q</span> <span class="o">==</span> <span class="n">N</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">q</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">q</span> <span class="o">==</span> <span class="n">N</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">q</span> <span class="k">=</span> <span class="n">q</span> <span class="o">+</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The function has the parameters <code>p</code>, <code>y</code> and <code>N</code>
+It refers to global variables <code>q</code>, <code>x</code>
+We need to rename <code>p</code>, <code>y</code> and <code>N</code>, the other two remain unchanged.
+Let&rsquo;s prefix each of the three names with the name of the function <code>shift_</code>: <code>shift_p</code>, <code>shift_y</code> and <code>shift_N</code></p>
+<p>Consider function <code>shift</code> below.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">shift</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">N</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">q</span> <span class="o">==</span> <span class="n">N</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">q</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">q</span> <span class="o">==</span> <span class="n">N</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">q</span> <span class="k">=</span> <span class="n">q</span> <span class="o">+</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As it were:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">shift</span><span class="o">(</span><span class="n">shift_p</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">shift_y</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">shift_N</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">shift_p</span> <span class="o">+</span> <span class="n">shift_y</span> <span class="o">*</span> <span class="n">q</span> <span class="o">==</span> <span class="n">shift_N</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">q</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">shift_p</span> <span class="o">+</span> <span class="n">shift_y</span> <span class="o">*</span> <span class="n">q</span> <span class="o">==</span> <span class="n">shift_N</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">shift_y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">q</span> <span class="k">=</span> <span class="n">q</span> <span class="o">+</span> <span class="n">shift_p</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We symbolically execute the function</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">shift</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">N</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>A call to the function now assigns values to the parameters</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">shift_p</span> <span class="k">=</span> <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="n">shift_y</span> <span class="k">=</span> <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="n">shift_N</span> <span class="k">=</span> <span class="o">...</span>
+</span></span></code></pre></div><p>This approach does not generalise to arbitrary programs.
+Permitting (3) to (6) and (5) from slide (problem) makes this method <strong>unsound</strong>.
+Being unsound means that the symbolic execution would not describe the program behaviour accurately.
+We&rsquo;re interested in sound symbolic execution that permits us to make predictions about program behaviour.</p>
+<h4 id="initial-values-of-global-variables">Initial Values of Global Variables</h4>
+<p>Consider function <code>addy</code> below.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">addy</span><span class="o">(</span><span class="n">y</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>To deal with the value <code>!In(x)</code> we introduce an implicit parameter <code>addy_In(x)</code>.
+The parameter <code>addy_In(x)</code> is assigned the value of variable <code>x</code> when the other parameters receive their value <code>addy_In(x) = x</code></p>
+<h4 id="return-values">Return Values</h4>
+<p>Consider function <code>add</code> below</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">add</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because calls are not nested <code>add</code> may only occur in assignments <code>z = add(x, y)</code>.
+Symbolic execution of <code>x + y</code> is then simply subsumed by the assignment to <code>z</code>.</p>
+<h4 id="symbolic-execution-of-the-program">Symbolic Execution of the Program</h4>
+<p>Using function <code>shift</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">shift</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">N</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">q</span> <span class="o">==</span> <span class="n">N</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">q</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">q</span> <span class="o">==</span> <span class="n">N</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">q</span> <span class="k">=</span> <span class="n">q</span> <span class="o">+</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s symbolically execute:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">q</span> <span class="o">==</span> <span class="n">N</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">shift</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">N</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">q</span> <span class="o">==</span> <span class="n">N</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="../ProcSymExe/00.pdf" alt="ProSymExe_00"></p>
+<p>(<code>x: X, q: Q, n: M</code>), (<code>PC: X + Q = M</code>)</p>
+<p><img src="../ProcSymExe/01.pdf" alt="ProSymExe_01"></p>
+<p>&ndash;
+<img src="../ProcSymExe/02.pdf" alt="ProSymExe_02"></p>
+<p>(<code>x: X, q: Q, n: M, shift_p: 1, shift_y: 1, shift_N: 1, shift_In(x): X, shift_In(q): Q</code>),
+(PC: <code>X + Q = M</code>)</p>
+<p><img src="../ProcSymExe/03.pdf" alt="ProSymExe_03"></p>
+<p>(<code>x: X, q: Q, n: M, . . . </code>),
+(PC: <code>X + Q = M, X * 1 + 1 * Q = M</code>)</p>
+<p><img src="../ProcSymExe/04.pdf" alt="ProSymExe_04"></p>
+<p>(<code>x: X - 1, q: Q, n: M, . . . </code>),
+(PC: <code>X + Q = M, X * 1 + 1 * Q = M</code>)</p>
+<p><img src="../ProcSymExe/05.pdf" alt="ProSymExe_05"></p>
+<p>(<code>x: X - 1, q: Q + 1, n: M, . . . </code>),
+(PC: <code>X + Q = M, X * 1 + 1 * Q = M</code>)</p>
+<p><img src="../ProcSymExe/06.pdf" alt="ProSymExe_06"></p>
+<p>(<code>x: X - 1, q: Q + 1, n: M, . . . </code>),
+(PC: <code>X + Q = M, X * 1 + 1 * Q = M</code>,
+<code>(X - 1) * 1 + 1 * (Q + 1) = M)</code></p>
+<p><img src="../ProcSymExe/07.pdf" alt="ProSymExe_07"></p>
+<p>&ndash;</p>
+<p><img src="../ProcSymExe/08.pdf" alt="ProSymExe_08"></p>
+<p>(<code>x: X - 1, q: Q + 1, n: M, . . . </code>),
+(<code>PC: X + Q = M, X * 1 + 1 * Q = M</code>,
+<code>(X - 1) * 1 + 1 * (Q + 1) = M</code>,</p>
+<h4 id="exercise-5">Exercise 5</h4>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<p>Using</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">xplus</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">yminus</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">y</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">x</span> <span class="o">-</span> <span class="nc">In</span><span class="o">(</span><span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">xminus</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="col">
+<p>Symbolically execute</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x0</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y0</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">xplus</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">yminus</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">xminus</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">y0</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="k">=</span> <span class="n">x0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<h3 id="summary">Summary</h3>
+<ul>
+<li>We have looked at Slang functions in more detail</li>
+<li>We have focussed on the notion on contract and proof</li>
+<li>Considering assignments as a starting point we&rsquo;ve analysed frames</li>
+<li>We&rsquo;ve looked at symbolic execution of a simplified version of Slang</li>
+</ul>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Course Materials</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Course: Software Correctness</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Lecture Summaries</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-05-contracts-proof/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Contracts Proof</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+  </div>
+  <div style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

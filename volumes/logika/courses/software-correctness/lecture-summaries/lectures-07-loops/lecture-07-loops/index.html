@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Repetition The Natural Numbers (A Refresher on Induction) Counting is a repetitive task. We count: 0, 1, 2, 3, 4, 5, ... It is not possible enumerate all numbers (because there are infinitely many of them). Instead, we use rules to describe the entirety of natural numbers. Finitely many rules are sufficient to describe infinitely many objects. Define,
+0 is a natural number If n is a natural number, then the successor n&#39; is a natural number For any predicate Φ, if Φ is true, and Φ is true implies Φ(n&#39;) is true, for any natural number n, then Φ(n) is true for all natural numbers n." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-07-loops/lecture-07-loops/" />
+
+
+    <title>
+        
+            Lecture Summary: Loops :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Lecture Summary: Loops">
+<meta itemprop="description" content="Repetition The Natural Numbers (A Refresher on Induction) Counting is a repetitive task. We count: 0, 1, 2, 3, 4, 5, ... It is not possible enumerate all numbers (because there are infinitely many of them). Instead, we use rules to describe the entirety of natural numbers. Finitely many rules are sufficient to describe infinitely many objects. Define,
+0 is a natural number If n is a natural number, then the successor n&#39; is a natural number For any predicate Φ, if Φ is true, and Φ is true implies Φ(n&#39;) is true, for any natural number n, then Φ(n) is true for all natural numbers n."><meta itemprop="datePublished" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="dateModified" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="wordCount" content="4184"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Lecture Summary: Loops"/>
+<meta name="twitter:description" content="Repetition The Natural Numbers (A Refresher on Induction) Counting is a repetitive task. We count: 0, 1, 2, 3, 4, 5, ... It is not possible enumerate all numbers (because there are infinitely many of them). Instead, we use rules to describe the entirety of natural numbers. Finitely many rules are sufficient to describe infinitely many objects. Define,
+0 is a natural number If n is a natural number, then the successor n&#39; is a natural number For any predicate Φ, if Φ is true, and Φ is true implies Φ(n&#39;) is true, for any natural number n, then Φ(n) is true for all natural numbers n."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-11-24 17:01:09 &#43;0100 &#43;0100" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-07-loops/lecture-07-loops/">Lecture Summary: Loops</a></h2>
+
+            
+            
+            
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#repetition">Repetition</a>
+      <ul>
+        <li><a href="#the-natural-numbers-a-refresher-on-induction">The Natural Numbers (A Refresher on Induction)</a></li>
+        <li><a href="#addition-of-natural-numbers-a-refresher-on-recursion">Addition of Natural Numbers (A Refresher on Recursion)</a></li>
+        <li><a href="#addition-of-natural-numbers-a-refresher-on-iteration">Addition of Natural Numbers (A Refresher on Iteration)</a></li>
+        <li><a href="#addition-of-natural-numbers-a-refresher-on-tail-recursion">Addition of Natural Numbers (A Refresher on Tail Recursion)</a></li>
+      </ul>
+    </li>
+    <li><a href="#counting-down-by-iteration">Counting Down by Iteration</a>
+      <ul>
+        <li><a href="#example-iteratively-counting-down-to-zero">Example: Iteratively Counting Down to Zero</a></li>
+        <li><a href="#tracing-facts-by-looking-forward">Tracing Facts by Looking Forward</a></li>
+        <li><a href="#tracing-facts-by-looking-backward">Tracing Facts by Looking Backward</a></li>
+        <li><a href="#tracing-facts-by-looking-forward-again">Tracing Facts by Looking Forward (Again)</a></li>
+        <li><a href="#tracing-facts-summary">Tracing Facts Summary</a></li>
+        <li><a href="#invariant-rule-for-proving-loops-correct">Invariant Rule for Proving Loops Correct</a></li>
+        <li><a href="#example-iteratively-counting-down-to-zero-in-logika">Example: Iteratively Counting Down to Zero in Logika</a></li>
+      </ul>
+    </li>
+    <li><a href="#termination">Termination</a>
+      <ul>
+        <li><a href="#termination-1">Termination</a></li>
+        <li><a href="#termination-of-a-loop">Termination of a Loop</a></li>
+        <li><a href="#measuring-termination-of-a-loop">Measuring Termination of a Loop</a></li>
+        <li><a href="#a-measure-for-the-iterative-count-down-function">A Measure for the Iterative Count-Down Function</a></li>
+        <li><a href="#a-recursive-count-down-function">A Recursive Count-Down Function</a></li>
+        <li><a href="#a-measure-for-the-recursive-count-down-function">A Measure for the Recursive Count-Down Function</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-factorial-function">The Factorial Function</a>
+      <ul>
+        <li><a href="#the-factorial-function-1">The Factorial Function</a></li>
+        <li><a href="#mathematical-specification-of-the-factorial">Mathematical Specification of the Factorial</a></li>
+        <li><a href="#induction-rules-the-factorial">Induction Rules the Factorial</a></li>
+        <li><a href="#recursive-implementation-of-the-factorial">Recursive Implementation of the Factorial</a></li>
+        <li><a href="#iterative-implementation-of-the-factorial">Iterative Implementation of the Factorial</a></li>
+        <li><a href="#recursive-implementation-of-the-factorial-1">Recursive Implementation of the Factorial</a></li>
+        <li><a href="#exercise-1">Exercise 1</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-fibonacci-function">The Fibonacci Function</a>
+      <ul>
+        <li><a href="#mathematical-specification-of-the-fibonacci-number">Mathematical Specification of the Fibonacci Number</a></li>
+        <li><a href="#exercise-3">Exercise 3</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+            
+
+            <div class="post-content">
+                <h3 id="repetition">Repetition</h3>
+<h4 id="the-natural-numbers-a-refresher-on-induction">The Natural Numbers (A Refresher on Induction)</h4>
+<p>Counting is a repetitive task. We count:
+<code>0, 1, 2, 3, 4, 5, ...</code>
+It is not possible enumerate all numbers (because there are infinitely many of them).
+Instead, we use rules to describe the entirety of natural numbers.
+Finitely many rules are sufficient to describe infinitely many objects.
+Define,</p>
+<ol type="a">
+    <li id="ind1"> <code>0</code> is a natural number</li>
+    <li id="ind2"> If <code>n</code> is a natural number, then the successor <code>n'</code> is a natural number</li>
+    <li id="ind3"> For any predicate Φ, if</li>
+</ol>
+<ul>
+<li>Φ is true, and</li>
+<li>Φ is true implies Φ(<code>n'</code>) is true, for any natural number <code>n</code>, then Φ(<code>n</code>) is true for all natural numbers <code>n</code>.</li>
+</ul>
+<p>The natural numbers are defined by <strong>induction</strong>,
+starting from <code>0</code>, specifying successors (<a href="#ind1">a</a>, <a href="#ind2">b</a>).
+To <strong>prove</strong> properties Φ about natural numbers we use <strong>complete induction</strong> (<a href="#ind3">c</a>)</p>
+<h4 id="addition-of-natural-numbers-a-refresher-on-recursion">Addition of Natural Numbers (A Refresher on Recursion)</h4>
+<p>Knowing the rule how to enumerate natural numbers, we could enumerate their sums
+<code>0 + 0 = 0, 1 + 0 = 1, 2 + 0 = 2, ......</code>
+A better way to describe addition is to exploit the inductive definition of natural numbers.
+We define &ldquo;+&rdquo; <strong>recursively</strong> <code>0 + x = x</code> <code>n' + x = (n + x)'</code>
+where <code>n'</code> is the successor of <code>n</code>.
+Using the recursive definition, we can calculate
+<code>3 + 1 = (2 + 1)' = (1 + 1)'' = (0 + 1)''' = 1''' = 4</code>
+To prove properties about &ldquo;+&rdquo; we use complete induction.
+Claim: <code>m + n ≥ m</code>
+Proof by induction on <code>m</code>.</p>
+<p><em>Base case</em> (<code>x = 0</code>): <code>0 + n = n ≥ 0</code>
+because all natural numbers are at least <code>0</code>.
+<em>Inductive step</em>:
+Assume <strong>induction hypothesis</strong> <code>m + n ≥ m</code>,
+hence <code>m' + n = (m + n)' ≥ m'</code>
+because <code>x ≥ y</code> implies <code>x' ≥ y'</code> and induction hypothesis.
+End of proof</p>
+<h4 id="addition-of-natural-numbers-a-refresher-on-iteration">Addition of Natural Numbers (A Refresher on Iteration)</h4>
+<p>Instead of recursion we can use <strong>iteration</strong> to add two natural numbers <code>m</code> and <code>n</code>.
+<code>k = n</code>
+<code>i = m</code>
+<strong>while</strong> <code>i &gt; 0</code>
+<code>k = k + 1</code>
+<code>i = i - 1</code>
+where <code>k</code> contains the sum of <code>m</code> and <code>n</code> when the program terminates.
+Calculation of a sum is <strong>not</strong> as straightforward as in the recursive case.
+It&rsquo;s <strong>not</strong> immediately clear how we could prove <code>m + n = k ≥ m</code>
+In general, iteration is more intricate.</p>
+<p>The reasoning about iteration is complicated by the use of mutable variables.
+However, without mutable variables iteration is not useful!</p>
+<p>We prefer <strong>recursion</strong> for <strong>specification</strong> &ndash; it is easy to <strong>comprehend</strong>.
+Often <strong>iteration</strong> (and mutable variables) are more <strong>efficient</strong>.
+So, we prefer to use it for <strong>implementation</strong>.</p>
+<h4 id="addition-of-natural-numbers-a-refresher-on-tail-recursion">Addition of Natural Numbers (A Refresher on Tail Recursion)</h4>
+<p>Any iteration, such as,
+<code>k = n</code>
+<code>i = m</code>
+<strong>while</strong> <code>i &gt; 0</code>
+<code>k = k + 1</code>
+<code>i = i - 1</code>
+can be written as a <strong>tail-recursive</strong> program (where the recursive call always comes last)
+<code>(k, i) = *add*(k, i)</code> <strong>where</strong>
+<code>*add*(k, i)</code> =
+<strong>if</strong> <code>i &gt; 0</code>
+<code>*add*(k + 1, i - 1)</code>
+<strong>else</strong>
+<code>(k, i)</code>
+Note that, the call to <em>add</em> comes after <code>k + 1</code> and <code>i - 1</code>.
+Therefore, <em>add</em> is tail recursive.
+Tail-recursive functions and the corresponding iterative programs are essentially the same.
+As a consequence, we can use induction to reason about iteration as well.
+But we do not need to take a detour via a tail-recursive function.
+We can do it directly using <strong>(inductive) invariants</strong>.</p>
+<h3 id="counting-down-by-iteration">Counting Down by Iteration</h3>
+<h4 id="example-iteratively-counting-down-to-zero">Example: Iteratively Counting Down to Zero</h4>
+<p>The following program counts down to zero.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s see what we know to be true at different locations in the program.
+By reasoning about the program we want to establish that the assertion <code>n == 0</code>  holds at the end of the program.</p>
+<h4 id="tracing-facts-by-looking-forward">Tracing Facts by Looking Forward</h4>
+<p>At the beginning of the loop body the loop condition must be true.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This fact must be true because the loop condition has just been evaluated to true when the loop body is entered.</p>
+<p>After the loop the negation of the loop condition must be true.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &lt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This fact must be true because the loop condition has just been evaluated to false when the loop is exited.</p>
+<p>From the assumption we can also determine that <code>n &gt;= 0</code> must be true before the loop.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &lt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We know this because of the assumption we make.
+That&rsquo;s all we can deduce forward.
+Let&rsquo;s consider what we can find out &ldquo;looking back&rdquo; from the assertion.</p>
+<h4 id="tracing-facts-by-looking-backward">Tracing Facts by Looking Backward</h4>
+<p>We need to show that <code>n == 0</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &lt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We already know that <code>n &lt;= 0</code> after the loop.
+If we knew also that <code>n &gt;= 0</code> we could deduce <code>n == 0</code>
+Let&rsquo;s add a conjecture <code>n &gt;= 0</code></p>
+<p>We only conjecture that <code>n &gt;= 0!</code> should be true, but we don&rsquo;t know this yet.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &lt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0 ?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If the loop was never entered, then it would be true because <code>n &gt;= 0</code> is true before the loop (by assumption).
+If the loop was entered, <code>n &gt;= 0</code> would have to be true at the end of the body just before the loop could be exited.</p>
+<p>We only conjecture that <code>n &gt;= 0</code> should be true, but we don&rsquo;t know this yet.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &lt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0 ?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If the loop was never entered, then it would be true because <code>n &gt;= 0</code> is true before the loop (by assumption).
+If the loop was entered, <code>n &gt;= 0</code> would have to be true at the end of the body just before the loop could be exited.</p>
+<p>We conjecture that <code>n &gt;= 0</code> should be true at the end of the body.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt;= 0 ?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &lt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0 ?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Continuing backwards, let&rsquo;s have a look at the assignment <code>n = n - 1</code>.
+If <code>n &gt;= 0</code> was true after the assignment, then <code>n - 1 &gt;= 0</code> would have to have been true before the assignment.
+Where <code>n - 1 &gt;= 0</code> is <code>n &gt;= 0</code> with <code>n</code> replaced by <code>n - 1</code>.</p>
+<p>Where <code>n - 1 &gt;= 0</code> is <code>n &gt;= 0</code> with <code>n</code> replaced by <code>n - 1</code>.
+The fact <code>n - 1 &gt;= 0</code> obtains <code>n &gt;= 0</code> pretending the assignment never took place.
+Now, <code>n - 1 &gt;= 0</code> is equivalent to <code>n &gt; 0</code> by algebra.
+Hence, it&rsquo;s true and all conjectures are proved.</p>
+<h4 id="tracing-facts-by-looking-forward-again">Tracing Facts by Looking Forward (Again)</h4>
+<p>We now have the following program with all currently known facts.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &lt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>These facts are sufficient to show that the assertion is true.
+Having all these facts, there is one more fact that we can deduce forward now.
+We know that <code>n &gt; 0</code> is true before the loop and at the end of the loop body.
+Thus, it must be true at the beginning of the loop body.</p>
+<h4 id="tracing-facts-summary">Tracing Facts Summary</h4>
+<p>Now we have:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &lt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In fact, we are allowed to <strong>assume</strong> that the fact <code>n &gt;= 0</code> at the beginning of the loop.
+Together with the loop condition <code>n &gt; 0</code> it forms the <strong>inductive hypothesis</strong> for the loop.
+The fact <code>n &gt;= 0</code> is central for the proof.
+It is called an <strong>(inductive) invariant</strong> for the loop.</p>
+<p>We mention it explicitly.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// invariant n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &lt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We also document which variables change in the loop body by way of a frame.
+This describes which variables <strong>may be modified</strong>, supporting understanding.
+And it describes which variables are renamed in the loop.</p>
+<p>Finally, we have all information needed for reasoning about the loop.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// invariant n &gt;= 0, modifies n
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce n &gt; 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce n &lt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce n &gt;= 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Recall how we have used a combination of forward and backward reasoning to <strong>reduce the gap</strong> between <strong>what we know</strong> and <strong>what we have to prove</strong>.
+Now we can describe a rule for proving while-loops correct.</p>
+<h4 id="invariant-rule-for-proving-loops-correct">Invariant Rule for Proving Loops Correct</h4>
+<p>The following program counts down to zero.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// ... deduce I
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">C</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// invariant I
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   modifies &#34;variables modified in body&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce C
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce I
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">body</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ... deduce I
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce !C
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce I
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>We have to prove that the invariant <code>I</code> is true before the loop and at the end of the loop body.
+The modifies clause must specify at least those variables modified in the body.
+It describes what is allowed to change.
+<em>Remark</em>. Candidates for invariants can often be found by reasoning backwards.</p>
+<h4 id="example-iteratively-counting-down-to-zero-in-logika">Example: Iteratively Counting Down to Zero in Logika</h4>
+<p><img src="../images/Counting_Down_Slang.png" alt="Counting_Down_Slang">
+The invariant is specified by.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Modifies</span><span class="o">(</span><span class="n">n</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="termination">Termination</h3>
+<h4 id="termination-1">Termination</h4>
+<p>In this course we mostly focus on reasoning about facts we can deduce <em><strong>should</strong></em> <strong>a program terminate</strong>
+This is called <strong>partial correctness</strong>.</p>
+<p>In addition to the above, we can prove <em><strong>that</strong></em> <strong>a program terminates</strong>.
+This is called <strong>total correctness</strong></p>
+<p>Let&rsquo;s have a brief look at termination.
+We return to it later in the course.</p>
+<h4 id="termination-of-a-loop">Termination of a Loop</h4>
+<p>Let&rsquo;s encapsulate the iterative counting-down program in a function</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">while0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can prove about this function that, should the loop terminate, then it returns <code>0</code>.
+What happens if the function is called with the argument <code>-3</code>, that is, <code>while0(-3)</code> ?</p>
+<h4 id="measuring-termination-of-a-loop">Measuring Termination of a Loop</h4>
+<p>If we could show that the always terminates, we would be certain the function returns <code>0</code>.</p>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">while0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="col">
+<p>If no progress can be observed the program might not terminate</p>
+<p>To observe progress we define <strong>measure</strong></p>
+<p>The measure must decrease during each loop iteration and not cross a given minimum (just like the progress bar)</p>
+<p>This guarantees termination</p>
+<p>Let&rsquo;s introduce a measure for the loop</p>
+</div>
+</div>
+<p>We need a method for verifying progress, like observing a <em>progress bar</em>.
+Observed progress: [insert progress bar] <code>while0(10)</code> returns <code>0</code>.</p>
+<h4 id="a-measure-for-the-iterative-count-down-function">A Measure for the Iterative Count-Down Function</h4>
+<p>The loop decreases <code>m</code> in each iteration, so <code>m</code> appears a good measure.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">while0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// decreases m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We have to prove that <code>m</code> decreases, but not beyond a given minimum, say, <code>0</code>.</p>
+<p>Let&rsquo;s introduce auxiliary variable for the observation.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">while0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// decreases m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">val</span> <span class="n">measure_m_pre</span> <span class="k">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_m_post</span> <span class="k">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Variable <code>measure_m_pre</code> observes the measure at the <strong>beginning</strong> of the loop body.
+Variable <code>measure_m_post</code> observes the measure at the <strong>end</strong> of the loop body.</p>
+<p>We can deduce that the measure decreases.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">while0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// decreases m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">val</span> <span class="n">measure_m_pre</span> <span class="k">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_m_post</span> <span class="k">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_m_post</span> <span class="o">&lt;</span> <span class="n">measure_m_pre</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The fact <code>measure_m_post &lt; measure_m_pre</code> is true at the end of the loop body.</p>
+<p>We cannot deduce that the measure does not cross the minimum <code>0</code>.</p>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">while0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// decreases m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">val</span> <span class="n">measure_m_pre</span> <span class="k">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_m_pre</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_m_post</span> <span class="k">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_m_post</span> <span class="o">&lt;</span> <span class="n">measure_m_pre</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="col">
+<p><img src="../images/Logika_Termination_Loop.png" alt="Logika_Termination_Loop"></p>
+</div>
+</div>
+<p>Having instrumented the program with the measure, we can use Logika for proof support.
+In fact, we do not know whether <code>m &gt;= 0</code> when the loop is first entered.</p>
+<p>A pre-condition can constrain <code>k</code> such that <code>m</code> is at least <code>0</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">while0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// decreases m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">val</span> <span class="n">measure_m_pre</span> <span class="k">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_m_pre</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_m_post</span> <span class="k">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_m_post</span> <span class="o">&lt;</span> <span class="n">measure_m_pre</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="../images/Logika_proved.png" alt="Logika_proved"></p>
+<h4 id="a-recursive-count-down-function">A Recursive Count-Down Function</h4>
+<p>Similarly, to iteratively counting down, we can count down recursively.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We need a measure on a function parameters that is bounded below when the function is entered and decreased at each recursive call.</p>
+<h4 id="a-measure-for-the-recursive-count-down-function">A Measure for the Recursive Count-Down Function</h4>
+<p>Parameter <code>k</code> seems like a good candidate for a measure (It&rsquo;s the only candidate, of course).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// decreases k
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s introduce two auxiliary variables <code>measure_k_entry</code> and `measure_k_call to observe progress.</p>
+<p>The function instrumented for observation of the measure:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// decreases k
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="n">measure_k_entry</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>       <span class="c1">// value of the measure on entry
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_k_call</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1">// value of the measure in the recursive call
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Variable <code>measure_k_entry</code> observes the measure when the function is entered.
+Variable <code>measure_k_call</code> observes the measure in the recursive call.</p>
+<p>We can deduce that the measure is deceased at the recursive call.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// decreases k
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="n">measure_k_entry</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_k_call</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_k_call</span> <span class="o">&lt;</span> <span class="n">measure_k_entry</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Indeed, we have <code>measure_k_call &lt; measure_k_entry</code>.</p>
+<p>We cannot deduce that the measure is bounded below by <code>0</code>.</p>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// decreases k
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="n">measure_k_entry</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_k_call</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_k_call</span> <span class="o">&lt;</span> <span class="n">measure_k_entry</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="col">
+<p><img src="../images/Logika_Termination_Recursion.png" alt="Logika_Termination_Recursion"></p>
+</div>
+</div>
+<p>When the function is entered, there is no guarantee that <code>k</code> would be at least<code>0</code>.
+As in the case of the iterative version, this can be achieve by means of a pre-condition.</p>
+<p>With the precondition added, the termination proof succeeds.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// decreases k
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="n">measure_k_entry</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_k_call</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_k_call</span> <span class="o">&lt;</span> <span class="n">measure_k_entry</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="../images/Logika_proved.png" alt="Logika_proved"></p>
+<h3 id="the-factorial-function">The Factorial Function</h3>
+<h4 id="the-factorial-function-1">The Factorial Function</h4>
+<p>Next we consider a more complete example.</p>
+<p>We begin with a <strong>(mathematical) specification</strong> of the factorial function.
+Subsequently, we provide a <strong>recursive implementation</strong> (that is easy to understand).
+Finally, we implement an <strong>iterative version</strong> of the factorial function and prove that it is correct with respect to the recursive implementation and thus with respect to the (mathematical) specification.</p>
+<p>This approach permits us to move from a description of a program that is <strong>easy to understand</strong> to one that is <strong>efficient</strong> to execute.
+Often, the first <strong>recursive implementation</strong> is composed of a number of mathematical specifications and <strong>because of it&rsquo;s simplicity</strong> we consider the recursive implementation a specification itself.</p>
+<p>What we consider a specification is a <strong>matter of perspective</strong>.</p>
+<h4 id="mathematical-specification-of-the-factorial">Mathematical Specification of the Factorial</h4>
+<p>The factorial of a natural number <code>n</code> is usually specified based on their inductive definition.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span> <span class="k">match</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">m</span> <span class="k">=&gt;</span> <span class="n">m</span> <span class="o">*</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The definition is recursive matching the inductive definition of the natural numbers.
+The base case (<code>n == 0</code>) returns an expression.
+The inductive case (<code>n &gt; 0</code>) contains the recursive call (with <code>n - 1</code>).
+<em>Remark</em>. We use the type of integer numbers for simplicity.</p>
+<p><em>Aside</em>.
+The attribute <code>@strictpure</code> limits the constructs that can be used in a function.
+We use it to obtain &ldquo;mathematical&rdquo; definitions.
+The Scala expression.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">e</span> <span class="k">match</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">p1</span> <span class="k">=&gt;</span> <span class="n">r1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">pn</span> <span class="k">=&gt;</span> <span class="n">r1</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>matches expression <code>e</code> with the first possible <code>pi</code> and returns the corresponding <code>ri</code>.</p>
+<h4 id="induction-rules-the-factorial">Induction Rules the Factorial</h4>
+<p>We formulate inductive rules for proving properties about the factorial.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// Base case
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fac_rec_spec_0</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">fac_rec_spec</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Inductive case
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fac_rec_spec_step</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Using the recursive definition of <code>fac_rec_spec</code> and the inductive numbers these are straightforward to derive.
+Logika &ldquo;knows&rdquo; these rules.</p>
+<h4 id="recursive-implementation-of-the-factorial">Recursive Implementation of the Factorial</h4>
+<p>Following the mathematical definition very closely, we implement the factorial recursively.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because the implementation is so close to the mathematical definition, Logika can prove it without further information.
+Specifications should be as &ldquo;obvious&rdquo; as possible.
+Let&rsquo;s implement <code>fac_rec</code> iteratively.</p>
+<h4 id="iterative-implementation-of-the-factorial">Iterative Implementation of the Factorial</h4>
+<p>The iterative implementation <code>fac_rec</code>(see post-condition).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fac_it</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">m</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)),</span>                        <span class="c1">// invariant maintained until m == n,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="o">(</span><span class="n">m</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">),</span>                                 <span class="c1">// yielding post-condition x == fac_rec(n).
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>                                  <span class="c1">// m &gt;= 0 needed for pre-condition of fac_rec
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">))</span>                          <span class="c1">// new fact from condition (forward)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="o">(</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)))</span>  <span class="c1">// proved fact (backward conjecture)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">m</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)))</span>            <span class="c1">// proved fact (backward conjecture)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)))</span>                <span class="c1">// proved fact (backward conjecture)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="o">))</span>                           <span class="c1">// new fact from negation of condition (forward).
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">))</span>                           <span class="c1">// replace n by loop index variable m to obtain
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="n">x</span>                                      <span class="c1">// invariant x == fac_rec(m) from post-condition
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="recursive-implementation-of-the-factorial-1">Recursive Implementation of the Factorial</h4>
+<p>We have proved:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">facimp</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">fac_it</span><span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>that is, given <code>n &gt;= 0</code>, the recursive specification and the iterative implementation are inter-replaceable.</p>
+<p>We have implemented the factorial function correctly.</p>
+<h4 id="exercise-1">Exercise 1</h4>
+<p>Prove that <code>fac_rec</code> terminates.
+Prove that <code>fac_it</code> terminates.</p>
+<h3 id="the-fibonacci-function">The Fibonacci Function</h3>
+<h4 id="mathematical-specification-of-the-fibonacci-number">Mathematical Specification of the Fibonacci Number</h4>
+<p>The fibonacci number for <code>n</code> is specified as follows.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span> <span class="k">match</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mi">1</span> <span class="k">=&gt;</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">m</span> <span class="k">=&gt;</span> <span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Exercise 2</p>
+<ol type="a">
+      <li>State the inductive rules for <code>fib_rec_spec</code> (There are three of them!)</li>
+      <li>Implement the recursive function <code>fib_rec</code> computing the fibonacci number</li>
+      <li>Prove that <code>fib_rec</code> terminates using Logika</li>
+</ol>
+<h4 id="exercise-3">Exercise 3</h4>
+<div style="display: grid; grid-template-columns: 50% 50%">
+<div class="col">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fib_it</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">m</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">m</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div
+<div class="col">
+<ol type="a">
+      <li>Complete the implementation of the iterative version <code>fib_it</code></li>
+      <ul>
+            <li>Do not introduce any additional variable</li>
+            <li>Hint: Look at the previous example of in-place number swapping</li>
+      </ul>
+      <li>Prove your implementation correct using Logika</li>
+      <li>Prove that your implementation terminates using Logika</li>
+</ol>
+</div>
+</div>
+<h3 id="summary">Summary</h3>
+<ul>
+<li>We have reviewed induction, recursion and iteration</li>
+<li>We have inductively reasoned about while-loops</li>
+<li>We have inductively reasoned about recursive functions</li>
+<li>We have considered termination verification for loops and recursive functions</li>
+<li>We have learned about a method to develop programs from specifications</li>
+</ul>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Course Materials</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Course: Software Correctness</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Lecture Summaries</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-07-loops/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Loops</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-07-loops/lecture-05-loops/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Lecture Summary: Loops
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>
