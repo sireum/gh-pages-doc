@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Prelude A (very) brief history lesson LISP
+A family of programming languages Very, very old Pioneered many features of modern languages Scheme
+One of the main dialects of LISP Invented in 1975 (Still very old) Minimalist design Reference is R5RS standard from 1998 (Still old &amp;ndash; like Java) Scheme: An Example 1 2 3 4 5 6 7 ; This procedure computes the factorial ; of its parameter. (define factorial (lambda (x) (if (= x 1) x (* (factorial (- x 1)) x)))) Note the (plenty) parentheses Very different notation (What we want to say is &amp;hellip;) Experiment: http://www." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-11-sequences/lecture-11-sequences/" />
+
+
+    <title>
+        
+            Lecture Summary: Sequences :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Lecture Summary: Sequences">
+<meta itemprop="description" content="Prelude A (very) brief history lesson LISP
+A family of programming languages Very, very old Pioneered many features of modern languages Scheme
+One of the main dialects of LISP Invented in 1975 (Still very old) Minimalist design Reference is R5RS standard from 1998 (Still old &ndash; like Java) Scheme: An Example 1 2 3 4 5 6 7 ; This procedure computes the factorial ; of its parameter. (define factorial (lambda (x) (if (= x 1) x (* (factorial (- x 1)) x)))) Note the (plenty) parentheses Very different notation (What we want to say is &hellip;) Experiment: http://www."><meta itemprop="datePublished" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="dateModified" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="wordCount" content="2305"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Lecture Summary: Sequences"/>
+<meta name="twitter:description" content="Prelude A (very) brief history lesson LISP
+A family of programming languages Very, very old Pioneered many features of modern languages Scheme
+One of the main dialects of LISP Invented in 1975 (Still very old) Minimalist design Reference is R5RS standard from 1998 (Still old &ndash; like Java) Scheme: An Example 1 2 3 4 5 6 7 ; This procedure computes the factorial ; of its parameter. (define factorial (lambda (x) (if (= x 1) x (* (factorial (- x 1)) x)))) Note the (plenty) parentheses Very different notation (What we want to say is &hellip;) Experiment: http://www."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-11-24 17:01:09 &#43;0100 &#43;0100" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-11-sequences/lecture-11-sequences/">Lecture Summary: Sequences</a></h2>
+
+            
+            
+            
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#prelude">Prelude</a>
+      <ul>
+        <li><a href="#a-very-brief-history-lesson">A (very) brief history lesson</a></li>
+        <li><a href="#scheme-an-example">Scheme: An Example</a></li>
+      </ul>
+    </li>
+    <li><a href="#more-on-parentheses">More on Parentheses</a>
+      <ul>
+        <li><a href="#pairs">Pairs</a></li>
+        <li><a href="#lists">Lists</a></li>
+      </ul>
+    </li>
+    <li><a href="#slang-examples">Slang Examples</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+            
+
+            <div class="post-content">
+                <h3 id="prelude">Prelude</h3>
+<h4 id="a-very-brief-history-lesson">A (very) brief history lesson</h4>
+<ul>
+<li>
+<p>LISP</p>
+<ul>
+<li>A family of programming languages</li>
+<li>Very, very old</li>
+<li>Pioneered many features of modern languages</li>
+</ul>
+</li>
+<li>
+<p>Scheme</p>
+<ul>
+<li>One of the main dialects of LISP</li>
+<li>Invented in 1975 (Still very old)</li>
+<li>Minimalist design</li>
+<li>Reference is R5RS standard from 1998 (Still old &ndash; like Java)</li>
+</ul>
+</li>
+</ul>
+<h4 id="scheme-an-example">Scheme: An Example</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="o">;</span> <span class="nc">This</span> <span class="n">procedure</span> <span class="n">computes</span> <span class="n">the</span> <span class="n">factorial</span>
+</span></span><span class="line"><span class="cl"><span class="o">;</span> <span class="n">of</span> <span class="n">its</span> <span class="n">parameter</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">define</span> <span class="n">factorial</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">lambda</span> <span class="o">(</span><span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="k">if</span> <span class="o">(</span><span class="k">=</span> <span class="n">x</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(*</span> <span class="o">(</span><span class="n">factorial</span> <span class="o">(-</span> <span class="n">x</span> <span class="mi">1</span><span class="o">))</span> <span class="n">x</span><span class="o">))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Note the (plenty) parentheses</li>
+<li>Very different notation (What we want to say is &hellip;)</li>
+<li>Experiment: <a href="http://www.scheme.com/download/">http://www.scheme.com/download/</a></li>
+</ul>
+<h3 id="more-on-parentheses">More on Parentheses</h3>
+<h4 id="pairs">Pairs</h4>
+<p>Structured datatype with 2 fields</p>
+<ul>
+<li><code>car</code> and <code>cdr</code> similar to left, right, 1st, 2nd&hellip;</li>
+<li>historical names, do not worry about it</li>
+</ul>
+<pre tabindex="0"><code>(1 . 2)             Test
+</code></pre><h4 id="lists">Lists</h4>
+<ul>
+<li>A crucial datatype</li>
+<li>Defined as
+<ul>
+<li>empty list</li>
+<li>pair with a list in cdr</li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0"><code>(1 . 2)             Test
+(1 2)               Test
+(1 2 3)             Test
+</code></pre><h3 id="slang-examples">Slang Examples</h3>
+<p>Merging</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">sorted</span><span class="o">(</span><span class="n">seq</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">])</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="mi">1</span> <span class="n">until</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">res</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">k</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">res</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="mi">1</span> <span class="n">until</span> <span class="n">k</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">k</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="k">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">k</span> <span class="k">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">contained</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">],</span> <span class="n">t</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">])</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">t</span><span class="o">(</span><span class="n">j</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">res</span> <span class="k">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span> <span class="o">&amp;</span> <span class="n">res</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span> <span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="n">res</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">m</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">m</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">t</span><span class="o">(</span><span class="n">j</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">found</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">n</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">found</span> <span class="o">==</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">n</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">m</span><span class="o">)</span> <span class="o">==</span> <span class="n">t</span><span class="o">(</span><span class="n">j</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">(</span><span class="n">m</span><span class="o">)</span> <span class="o">==</span> <span class="n">t</span><span class="o">(</span><span class="n">n</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">found</span> <span class="k">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">n</span> <span class="k">=</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-(</span><span class="n">found</span> <span class="o">==</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">m</span><span class="o">)</span> <span class="o">==</span> <span class="n">t</span><span class="o">(</span><span class="n">j</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(!</span><span class="n">found</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-(!</span><span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">m</span><span class="o">)</span> <span class="o">==</span> <span class="n">t</span><span class="o">(</span><span class="n">j</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span> <span class="k">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-(</span><span class="n">res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">t</span><span class="o">(</span><span class="n">j</span><span class="o">)))))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-(</span><span class="n">res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">t</span><span class="o">(</span><span class="n">j</span><span class="o">)))))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-(</span><span class="n">res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">m</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">t</span><span class="o">(</span><span class="n">j</span><span class="o">)))))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">merge</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">],</span> <span class="n">t</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">])</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">sorted</span><span class="o">(</span><span class="n">s</span><span class="o">),</span> <span class="n">sorted</span><span class="o">(</span><span class="n">t</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">contained</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="nc">Res</span><span class="o">),</span> <span class="n">contained</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="nc">Res</span><span class="o">),</span> <span class="n">sorted</span><span class="o">(</span><span class="nc">Res</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">res</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">x</span> <span class="k">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">y</span> <span class="k">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">t</span><span class="o">(</span><span class="n">y</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span> <span class="k">=</span> <span class="n">res</span> <span class="k">:</span><span class="kt">+</span> <span class="kt">s</span><span class="o">(</span><span class="kt">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span> <span class="k">=</span> <span class="n">res</span> <span class="k">:</span><span class="kt">+</span> <span class="kt">t</span><span class="o">(</span><span class="kt">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="k">=</span> <span class="n">res</span> <span class="k">:</span><span class="kt">+</span> <span class="kt">s</span><span class="o">(</span><span class="kt">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="k">=</span> <span class="n">res</span> <span class="k">:</span><span class="kt">+</span> <span class="kt">t</span><span class="o">(</span><span class="kt">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">merge_with_proof</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">],</span> <span class="n">t</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">])</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">sorted</span><span class="o">(</span><span class="n">s</span><span class="o">),</span> <span class="n">sorted</span><span class="o">(</span><span class="n">t</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">contained</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="nc">Res</span><span class="o">),</span> <span class="n">contained</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="nc">Res</span><span class="o">),</span> <span class="n">sorted</span><span class="o">(</span><span class="nc">Res</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">res</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">x</span> <span class="k">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">y</span> <span class="k">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">z</span> <span class="k">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">res</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">z</span> <span class="o">==</span> <span class="n">res</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">x</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">))),</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">y</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">t</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">))),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">x</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">||</span> <span class="n">res</span><span class="o">(</span><span class="n">z</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">(</span><span class="n">x</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">y</span> <span class="o">==</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">||</span> <span class="n">res</span><span class="o">(</span><span class="n">z</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="o">(</span><span class="n">y</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">All</span><span class="o">(</span><span class="mi">1</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">res</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">res</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">t</span><span class="o">(</span><span class="n">y</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span> <span class="k">=</span> <span class="n">res</span> <span class="k">:</span><span class="kt">+</span> <span class="kt">s</span><span class="o">(</span><span class="kt">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">Deduce</span><span class="o">(</span><span class="kt">|-</span> <span class="o">(</span><span class="kt">s</span><span class="o">(</span><span class="kt">x</span><span class="o">)</span> <span class="o">==</span> <span class="kt">res</span><span class="o">(</span><span class="kt">z</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">z</span> <span class="k">=</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">)))))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">x</span> <span class="k">=</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span> <span class="k">=</span> <span class="n">res</span> <span class="k">:</span><span class="kt">+</span> <span class="kt">t</span><span class="o">(</span><span class="kt">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">Deduce</span><span class="o">(</span><span class="kt">|-</span> <span class="o">(</span><span class="kt">t</span><span class="o">(</span><span class="kt">y</span><span class="o">)</span> <span class="o">==</span> <span class="kt">res</span><span class="o">(</span><span class="kt">z</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">t</span><span class="o">(</span><span class="n">y</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">1</span> <span class="n">until</span> <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">res</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">res</span><span class="o">(</span><span class="n">i</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">z</span> <span class="k">=</span> <span class="n">z</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">t</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">)))))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">y</span> <span class="k">=</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">x</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">)))))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">y</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">t</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">)))))</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//Deduce(|- (z == 0 || res(z-1) &lt;= s(x)))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">res</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">z</span> <span class="o">==</span> <span class="n">res</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">x</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="k">=</span> <span class="n">res</span> <span class="k">:</span><span class="kt">+</span> <span class="kt">s</span><span class="o">(</span><span class="kt">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">Deduce</span><span class="o">(</span><span class="kt">|-</span><span class="o">(</span><span class="kt">s</span><span class="o">(</span><span class="kt">x</span><span class="o">)</span> <span class="o">==</span> <span class="kt">res</span><span class="o">(</span><span class="kt">z</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-(</span><span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">z</span> <span class="k">=</span> <span class="n">z</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">)))))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="k">=</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="n">res</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">z</span> <span class="o">==</span> <span class="n">res</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">y</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">t</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="k">=</span> <span class="n">res</span> <span class="k">:</span><span class="kt">+</span> <span class="kt">t</span><span class="o">(</span><span class="kt">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">Deduce</span><span class="o">(</span><span class="kt">|-</span><span class="o">(</span><span class="kt">t</span><span class="o">(</span><span class="kt">y</span><span class="o">)</span> <span class="o">==</span> <span class="kt">res</span><span class="o">(</span><span class="kt">z</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-(</span><span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">t</span><span class="o">(</span><span class="n">y</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">z</span> <span class="k">=</span> <span class="n">z</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">z</span><span class="o">)(</span><span class="n">j</span> <span class="k">=&gt;</span> <span class="n">t</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">res</span><span class="o">(</span><span class="n">j</span><span class="o">)))))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="k">=</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Quantification</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="mi">10</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="mi">10</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">i</span> <span class="o">==</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">allex_seq</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">B</span><span class="o">])</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(!</span><span class="n">s</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(!</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">))</span> <span class="o">|</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">(</span><span class="n">i</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Searching</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">sorted</span><span class="o">(</span><span class="n">seq</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">])</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="mi">1</span> <span class="n">until</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">res</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">k</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">res</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="mi">1</span> <span class="n">until</span> <span class="n">k</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">k</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="k">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">k</span> <span class="k">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">sorted_upper_bound</span><span class="o">(</span><span class="n">seq</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">],</span> <span class="n">i</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">sorted</span><span class="o">(</span><span class="n">seq</span><span class="o">),</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="o">,</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">,</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">b</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">i</span><span class="o">)(</span><span class="n">k</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">k</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">b</span><span class="o">)</span> <span class="o">&amp;</span> <span class="nc">Res</span> <span class="o">==</span> <span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">j</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">j</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">j</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">j</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">seq</span><span class="o">(</span><span class="n">j</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">b</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">All</span><span class="o">(</span><span class="n">j</span> <span class="n">until</span> <span class="n">i</span><span class="o">)(</span><span class="n">k</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">k</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">j</span> <span class="k">=</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">sorted_lower_bound</span><span class="o">(</span><span class="n">seq</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">],</span> <span class="n">i</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">sorted</span><span class="o">(</span><span class="n">seq</span><span class="o">),</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="o">,</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">,</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="nc">All</span><span class="o">(</span><span class="n">i</span> <span class="n">until</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">k</span> <span class="k">=&gt;</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">k</span><span class="o">))</span> <span class="o">&amp;</span> <span class="nc">Res</span> <span class="o">==</span> <span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">j</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">j</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">j</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">j</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">b</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">j</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">All</span><span class="o">(</span><span class="n">i</span> <span class="n">until</span> <span class="n">j</span><span class="o">)(</span><span class="n">k</span> <span class="k">=&gt;</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">k</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">j</span> <span class="k">=</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">linsearch</span><span class="o">(</span><span class="n">seq</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">],</span> <span class="n">v</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">sorted</span><span class="o">(</span><span class="n">seq</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="nc">None</span><span class="o">[</span><span class="kt">Z</span><span class="o">]())</span> <span class="o">|</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span> <span class="o">&amp;</span> <span class="nc">Res</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="n">i</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">res</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">k</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">res</span><span class="o">,</span> <span class="n">k</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">res</span> <span class="o">==</span> <span class="nc">None</span><span class="o">[</span><span class="kt">Z</span><span class="o">]())</span> <span class="o">|</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">k</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span> <span class="o">&amp;</span> <span class="n">res</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-((</span><span class="n">res</span> <span class="o">==</span> <span class="nc">None</span><span class="o">[</span><span class="kt">Z</span><span class="o">]())</span> <span class="o">|</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">k</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span> <span class="o">&amp;</span> <span class="n">res</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="n">i</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">(</span><span class="n">k</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="n">k</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-(</span><span class="n">res</span> <span class="o">==</span> <span class="nc">None</span><span class="o">[</span><span class="kt">Z</span><span class="o">]()</span> <span class="o">|</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span> <span class="o">&amp;</span> <span class="n">res</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="n">i</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-(</span><span class="n">res</span> <span class="o">==</span> <span class="nc">None</span><span class="o">[</span><span class="kt">Z</span><span class="o">]()</span> <span class="o">|</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">k</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span> <span class="o">&amp;</span> <span class="n">res</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="n">i</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-(</span><span class="n">res</span> <span class="o">==</span> <span class="nc">None</span><span class="o">[</span><span class="kt">Z</span><span class="o">]()</span> <span class="o">|</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span> <span class="o">&amp;</span> <span class="n">res</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="n">i</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="k">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-(</span><span class="n">res</span> <span class="o">==</span> <span class="nc">None</span><span class="o">[</span><span class="kt">Z</span><span class="o">]()</span> <span class="o">|</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">k</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span> <span class="o">&amp;</span> <span class="n">res</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="n">i</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">binsearch</span><span class="o">(</span><span class="n">seq</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">],</span> <span class="n">v</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">sorted</span><span class="o">(</span><span class="n">seq</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="nc">None</span><span class="o">[</span><span class="kt">Z</span><span class="o">]())</span> <span class="o">|</span> <span class="nc">Exists</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span> <span class="o">&amp;</span> <span class="nc">Res</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="n">i</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nc">None</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-(</span><span class="n">seq</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nc">None</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">v</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">|</span> <span class="n">seq</span><span class="o">(</span><span class="n">y</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nc">None</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">(</span><span class="n">y</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">!=</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">            <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">y</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">seq</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">v</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">y</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">x</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="nc">All</span><span class="o">(</span><span class="n">y</span> <span class="n">until</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">          <span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">x</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">          <span class="k">val</span> <span class="n">h</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">h</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">          <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">h</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">          <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">(</span><span class="n">h</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">sorted_upper_bound</span><span class="o">(</span><span class="n">seq</span><span class="o">,</span> <span class="n">h</span><span class="o">,</span> <span class="n">v</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">            <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">h</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span> <span class="k">=</span> <span class="n">h</span>
+</span></span><span class="line"><span class="cl">          <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">sorted_lower_bound</span><span class="o">(</span><span class="n">seq</span><span class="o">,</span> <span class="n">h</span><span class="o">,</span> <span class="n">v</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">            <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="n">y</span> <span class="n">until</span> <span class="n">seq</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">(</span><span class="n">i</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">y</span> <span class="k">=</span> <span class="n">h</span>
+</span></span><span class="line"><span class="cl">          <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">seq</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">==</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="nc">Some</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="nc">None</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">merge</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">],</span> <span class="n">t</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">])</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Sequences</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">empty</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">seq1</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">seq2</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">seq12</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">seq21</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">seq23</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">seq123</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">seq34</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">seq1234</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">Z</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">empty</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span> <span class="c1">// empty / non empty
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(!</span><span class="n">seq1</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span> <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">seq1</span><span class="o">.</span><span class="n">nonEmpty</span><span class="o">)</span> <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">empty</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">// size
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">seq1</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="c1">// size
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">seq12</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span> <span class="c1">// size
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">empty</span> <span class="k">:</span><span class="kt">+</span> <span class="err">1</span> <span class="o">=</span><span class="k">=</span> <span class="n">seq1</span><span class="o">)</span> <span class="c1">// append
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">seq2</span> <span class="k">:</span><span class="kt">+</span> <span class="err">1</span> <span class="o">=</span><span class="k">=</span> <span class="n">seq21</span><span class="o">)</span> <span class="c1">// append
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="mi">1</span> <span class="o">+:</span> <span class="n">seq2</span> <span class="o">==</span> <span class="n">seq12</span><span class="o">)</span> <span class="c1">// prepend
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">seq12</span> <span class="o">++</span> <span class="n">seq34</span> <span class="o">==</span> <span class="n">seq1234</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">seq12</span><span class="o">(</span><span class="mi">0</span> <span class="o">~&gt;</span> <span class="n">seq12</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="mi">1</span> <span class="o">~&gt;</span> <span class="n">seq12</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span> <span class="o">==</span> <span class="n">seq21</span><span class="o">)</span> <span class="c1">// simultaneoud update, here: &#34;swap&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">rev</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">s</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">E</span><span class="o">])</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">k</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">res</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="k">=</span> <span class="n">s</span><span class="o">(</span><span class="n">k</span><span class="o">)</span> <span class="o">+:</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="k">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Using interprocedural check:
+</span></span></span><span class="line"><span class="cl"><span class="c1">//assert(rev(seq12) == seq21)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// With quantification:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">rev_contract</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">s</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">E</span><span class="o">])</span><span class="k">:</span> <span class="kt">ISZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span> <span class="o">&amp;</span> <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nc">Res</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">k</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">res</span> <span class="k">=</span> <span class="nc">ISZ</span><span class="o">[</span><span class="kt">E</span><span class="o">]()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">res</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">res</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">k</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">k</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">res</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="k">=</span> <span class="n">s</span><span class="o">(</span><span class="n">k</span><span class="o">)</span> <span class="o">+:</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">res</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">(</span><span class="n">k</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">1</span> <span class="n">until</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">res</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">i</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">All</span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="o">)(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="n">res</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">i</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="k">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">rev_contract</span><span class="o">(</span><span class="n">seq12</span><span class="o">)</span> <span class="o">==</span> <span class="n">seq21</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="summary">Summary</h3>
+<ul>
+<li>
+<p>So Far&hellip;</p>
+<ul>
+<li>Initial Scheme concepts</li>
+<li>Crash course on syntax</li>
+</ul>
+</li>
+<li>
+<p>Optional reading</p>
+<ul>
+<li><a href="http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-10.html">SICP</a>:The Elements of Programming</li>
+<li><a href="http://www.schemers.org/Documents/Standards/R5RS/">R5RS</a></li>
+</ul>
+</li>
+<li>
+<p>Next week</p>
+<ul>
+<li>More Parentheses</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Course Materials</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Course: Software Correctness</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Lecture Summaries</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-11-sequences/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Sequences</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+  </div>
+  <div style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

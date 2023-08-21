@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Reasoning about programs we write helps to determine whether they are correct with respect to their expected behaviour. We are used to reason about programs when we write them and associated tests. This reasoning is operational often following single executions of a program in a way comparable to how we trace values. The method outlined in the preceding two sections describes also a symbolic approach where facts are traced through programs." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/basics-old/correctness-verification/" />
+
+
+    <title>
+        
+            Software Correctness and Verification :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Software Correctness and Verification">
+<meta itemprop="description" content="Reasoning about programs we write helps to determine whether they are correct with respect to their expected behaviour. We are used to reason about programs when we write them and associated tests. This reasoning is operational often following single executions of a program in a way comparable to how we trace values. The method outlined in the preceding two sections describes also a symbolic approach where facts are traced through programs."><meta itemprop="datePublished" content="2022-11-24T17:03:05+01:00" />
+<meta itemprop="dateModified" content="2022-11-24T17:03:05+01:00" />
+<meta itemprop="wordCount" content="1484"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Software Correctness and Verification"/>
+<meta name="twitter:description" content="Reasoning about programs we write helps to determine whether they are correct with respect to their expected behaviour. We are used to reason about programs when we write them and associated tests. This reasoning is operational often following single executions of a program in a way comparable to how we trace values. The method outlined in the preceding two sections describes also a symbolic approach where facts are traced through programs."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-11-24 17:03:05 &#43;0100 &#43;0100" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/basics-old/correctness-verification/">Software Correctness and Verification</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>Reasoning about programs we write helps to determine
+whether they are correct with respect to their expected behaviour.
+We are used to reason about programs when we write them and associated tests.
+This reasoning is <em>operational</em> often following single executions of a program
+in a way comparable to how we trace values.
+The method outlined in the preceding two sections describes also a <em>symbolic</em> approach
+where facts are traced through programs.
+This approach does not consider single executions but all executions of a program at once.
+We discuss software correctness from the two perspectives of the <em>operational</em> and the <em>symbolic</em> approach.
+To show that a program is correct</p>
+<ul>
+<li>from the operational perspective we use <em>testing</em>;</li>
+<li>from the symbolic perspective we use <em>proof</em>.</li>
+</ul>
+<p>The two perspectives &ndash;and with them testing and proof&ndash; are tightly related and we make ample use of this relationship.</p>
+<h2 id="testing-a-simple-fragment-version-1">Testing a Simple Fragment (Version 1)</h2>
+<p>Knowing about the relationship between values and facts we can formulate a simple testing method
+for program fragments.
+Of course, we need to refine this later on to deal with proper Slang programs,
+but the principle remains the same.
+The fragments we have looked at above have the following general shape, consisting of three parts</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">initialise</span> <span class="n">variables</span>
+</span></span><span class="line"><span class="cl"><span class="n">carry</span> <span class="n">out</span> <span class="n">computation</span>
+</span></span><span class="line"><span class="cl"><span class="n">check</span> <span class="n">condition</span>
+</span></span></code></pre></div><p>The <code>initialise variables</code> part sets up the input values for the fragment.
+Usually, the input values are chosen
+taking into account conditions concerning input values, e.g., to avoid division by zero.
+The <code>carry out computation</code> part contains the &ldquo;program&rdquo;.
+The <code>check condition</code> part specifies a condition to determine whether the program is correct.
+Correctness is discussed into the following section.</p>
+<h2 id="abstracting-from-values-and-computations">Abstracting from Values and Computations</h2>
+<p>As we have developed a concept of reasoning about program fragments, we have gradually moved away from considering concrete values and computations, that is, from what a computer does. And this is even useful for testing which is all about what a computer does!</p>
+<p>In order to complete the abstraction from values and computations we are still lacking a means to describe assumptions about values at the beginning of a fragment. The corresponding construct is called <code>assume</code>. It specifies a fact that can be <em>assumed</em> to be true at the locations where it is written. We can imagine <code>assume</code> to have the following effect during program execution: if the condition assumed is true, <code>assume</code> does nothing; if the condition is false, <code>assume</code> terminates the program &ldquo;gently&rdquo;, that is, it is not considered an error. Contrast this to the <code>assert</code> statement, that aborts with an error when its condition is false. Now, <code>assume</code> is not very useful for programming because we are interested in error conditions that may be encountered during program execution, but <code>assume</code> is very useful for reasoning about program fragments.</p>
+<p>Consider the following fragment involving a devision.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">/</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="o">)</span>
+</span></span></code></pre></div><p>As long as we know that the fact <code>x &gt;= 5</code> holds at the beginning we can be certain that at the end <code>y &lt;= 1</code> holds. The use of <code>assume</code> will turn out to be a powerful tool for drafting program fragments and also for determining test cases. In fact, in conjunction with <code>assert</code> it is so useful, that a pair consisting of an <code>assume</code> statement followed by an <code>assert</code> statement is given its own terminology. We call such a pair a <em>contract</em>. We will see contracts in different shapes. Special syntax is used for different purposes, for instance, when specifying contracts for functions. Note that if a program fragment with an assume statement was &ldquo;called&rdquo; and we would like that it does <em>not</em> terminate gently, we would have to show that the condition of the <code>assume</code> statement is met. We will come back to this point later.</p>
+<h2 id="testing-a-simple-fragment-version-2">Testing a Simple Fragment (Version 2)</h2>
+<p>Instead of giving an initialistion as in Version 1, we can also use an <code>assert</code> statement to impose an initial condition for a test. Using the concept of a contract, we can specify,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">assume</span> <span class="n">initial</span> <span class="n">condition</span> <span class="n">on</span> <span class="n">variables</span>
+</span></span><span class="line"><span class="cl"><span class="n">specify</span> <span class="n">computation</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span> <span class="k">final</span> <span class="n">condition</span> <span class="n">on</span> <span class="n">variables</span>
+</span></span></code></pre></div><p>The fragment terminates gently if the initial condition is not met and aborts with an error if the initial condition was met but the final condition is is not. This way of specifying tests turns out to be a foundation for deriving test cases according to Version 1. Reasoning about contracts we can systematically develop test cases.</p>
+<h2 id="program-correctness">Program Correctness</h2>
+<p>Following the preceding discussion we base our notion of correctness on contracts.
+We consider two variants in which contracts can be specified:</p>
+<ul>
+<li>Pairs of <code>assume</code>-<code>assert</code>-statements in program fragments and tests.
+These contracts are executable and can be evaluated at run-time.</li>
+<li>Pairs of <code>requires</code>-<code>ensures</code>-clauses used for specifying functions.
+These contracts are <strong>not</strong> executable.
+They are exclusively used for proving that functions satisfy their contracts.
+By contrast, <code>assume</code> and <code>assert</code> can be used for proving properties and for their runtime checking.
+Properties specified using <code>requires</code> and <code>ensures</code> are more expressive, permitting statements over infinite value ranges, for instance, which cannot be avaluated at run-time.
+We introduce function contracts in the next chapter.</li>
+</ul>
+<p>We call the first component of a contract, its <code>assume</code>-statement or <code>requires</code>-clause, a <em>pre-condition</em>.
+We call its second component, its <code>assert</code>-statement or <code>ensures</code>-clause, a <em>post-condition</em>.</p>
+<p>We say a program (or function) is <em>correct</em> if it satisfies its contract:
+Starting in a state satisfying the pre-condition, it terminates in a state satisfying its post-condition.</p>
+<h2 id="program-verification">Program Verification</h2>
+<p>To demonstrate that a program is correct we <em>verify</em> it.
+We consider two princples methods for verifying programs.</p>
+<h3 id="proof">Proof</h3>
+<p>Using logical deduction we show that any execution of a program starting in a state satisfying the pre-condition, it terminates in a state satisfying its post-condition. In other words, we show that the program is correct.</p>
+<h3 id="testing">Testing</h3>
+<p>Executing a program for specific states satisfying the pre-condition, we check whether on termination a state is reached that satisfies the post-condition. It is up to us to determine suitable pairs of states, called <em>test cases</em>. This approach does not show that a program is correct. In practice, we conjecture that programs that have been subjected to a sufficient number of tests is correct. This is kind of reasoning is called <em>induction</em>: from a collection of tests that confirm correctness for precisely those tests, we infer that this is the case for possible tests. Testing is a <em>fallibe</em> verification method: it is entirely possible that all tests that we have provided appear to confirm correctness, but later we find a test case that refutes the conjecture. Either the program contains an error or the test case is wrong.</p>
+<h3 id="methodology">Methodology</h3>
+<p>We treat proof and testing as complementary verification approaches for software development.
+There are numerous points where the two approaches interact:</p>
+<ul>
+<li>The proof approach appears powerful at first. But it can be very costly to apply.
+It requires a high effort, and it does this already before we know a program to be correct.
+However, if a program contains errors, testing might reveal them early.</li>
+<li>Testing can be used to provide <em>counterexamples</em>:
+If a proof of a program does not succeed and we have a hypothesis about the cause,
+we can formulate a test case to attempt to confirm or refute the hypothesis.</li>
+<li>Comparable to scientific study, we can use deductive reasoning to formulate a theory about a program
+(to be developed) and combine it with experimentation &ndash;in our terminology <em>testing</em>&ndash; to confirm the theory.
+In this reading, testing plays an essential role in understanding the programs we write.</li>
+<li>Some properties, when proved, can have an impact on the performance of programs
+and allow testing to focus on properties related to requirements. A typical example of this kind is type checking.
+Type checking a program consitutes a proof that a values occuring in program are only used with operators for which they are defined. So, this does not need to be tested or checked at run-time. Other examples are null-pointers or array indices: If it can be proved that no null-pointer is dereferenced or arrays are only indexed within valid ranges, this does not be tested or checked at run-time either. The difference between these two is that null-pointers can be dealt with by typing, whereas for for array indexing this is not possible. For the latter we have to use such deductive techniques as those that we explore.</li>
+<li>The development of larger software components may require a large number of test cases
+to be developed alongside. Many of those test cases are are not challenging but require effort for writing and maintaining. If contracts are avaible for corresponding functions, <em>test automation</em> is possible. Using the contracts test cases can be extracted and integrated in unit tests automatically. As a consequence, testing effort can focus on challenging properties of software, typically those more closely related to requirements, where contracts might be difficult to obtain because the requirements are more anekdotal, scenario-like and open-ended.</li>
+</ul>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Course Materials</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Course: Software Correctness</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/basics-old/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Basic Principles (old)</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/basics-old/simple-mutable/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Simple Mutable-Variable Programs
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/basics-old/motivation-logika/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Motivation Logika
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

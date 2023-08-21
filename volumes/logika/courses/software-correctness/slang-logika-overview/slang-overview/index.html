@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="The Slang Programming Language Slang is a safety-critical subset of the Scala programming language. Below are some of its key features:
+high-level language, designed for verification, comes with user-friendly integrated automated formal verification and property-based testing, integratable with widely-used Java/Scala libraries and the JVM ecosystem, as well as the Javascript ecosystem, &amp;hellip;yet, it can support development of embedded systems, via compilation to lower-level languages like C and Rust integration with C / Rust libraries We delve a bit deeper into each of these in the sections below." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/slang-logika-overview/slang-overview/" />
+
+
+    <title>
+        
+            Slang Overview :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Slang Overview">
+<meta itemprop="description" content="The Slang Programming Language Slang is a safety-critical subset of the Scala programming language. Below are some of its key features:
+high-level language, designed for verification, comes with user-friendly integrated automated formal verification and property-based testing, integratable with widely-used Java/Scala libraries and the JVM ecosystem, as well as the Javascript ecosystem, &hellip;yet, it can support development of embedded systems, via compilation to lower-level languages like C and Rust integration with C / Rust libraries We delve a bit deeper into each of these in the sections below."><meta itemprop="datePublished" content="2022-07-20T15:42:11+02:00" />
+<meta itemprop="dateModified" content="2022-07-20T15:42:11+02:00" />
+<meta itemprop="wordCount" content="1547"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Slang Overview"/>
+<meta name="twitter:description" content="The Slang Programming Language Slang is a safety-critical subset of the Scala programming language. Below are some of its key features:
+high-level language, designed for verification, comes with user-friendly integrated automated formal verification and property-based testing, integratable with widely-used Java/Scala libraries and the JVM ecosystem, as well as the Javascript ecosystem, &hellip;yet, it can support development of embedded systems, via compilation to lower-level languages like C and Rust integration with C / Rust libraries We delve a bit deeper into each of these in the sections below."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-20 15:42:11 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/slang-logika-overview/slang-overview/">Slang Overview</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h2 id="the-slang-programming-language">The Slang Programming Language</h2>
+<p>Slang is a safety-critical subset of the Scala programming language.  Below are some of its key features:</p>
+<ul>
+<li>high-level language, designed for verification,</li>
+<li>comes with user-friendly integrated automated formal verification
+and property-based testing,</li>
+<li>integratable with widely-used Java/Scala libraries and
+the JVM ecosystem, as well as the Javascript ecosystem,</li>
+<li>&hellip;yet, it can support development of embedded systems, via
+<ul>
+<li>compilation to lower-level languages like C and Rust</li>
+<li>integration with C / Rust libraries</li>
+</ul>
+</li>
+</ul>
+<p>We delve a bit deeper into each of these in the sections below.</p>
+<h3 id="overall-look-and-feel-of-development">Overall Look and Feel of Development</h3>
+<p>The typical user will experience using Slang through the Sireum Integrated Verification Environment (IVE).  The Sireum IVE is a customization of the IntelliJ IDE &ndash; the most popular IDE for Scala development.   The Sireum IVE can be automatically installed along with Sireum distribution, and it includes all of the Sireum runtime and other support libraries that are commonly used when programming Slang based applications.</p>
+<p>A key feature of the Sireum IVE is the built-in support for Logika verification, as illustrated in the screen shot below.</p>
+<p><img src="../images/sireum-ive-logika.png" alt="Sireum"></p>
+<p>The screenshot shows a simple Slang method <code>dequeue</code> along with a Logika contract for the method.
+Behind the scenes, Logika&rsquo;s server-based architecture provides a symbolic-execution engine and a suite of SMT solvers that provide &ldquo;always on&rdquo; incremental checking of code against the included contracts.  As shown in the left gutter, the IVE interface to Logika displays annotations that indicate the state of verification (successful or errors), and the developer can click on these annotations to drill down to see Logika&rsquo;s underlying deductive reasoning steps.   Great effort has been devoted to displaying these reasoning steps directly in terms of the expressions and variables of the program, instead of lower-level analysis engine internals or underlying SMT tool inputs.   However, if desired, the developer can also view the actual inputs and outputs of the SMT interactions along with other forms of analysis information.</p>
+<p>For Slang/Logika teaching and experimentation, developers can use single file light-weight <em>Slang scripts</em> (based on Scala scripts).</p>
+<p>For full development, one can use multiple build systems including the Scala Build Tool (SBT) &ndash; the most widely used Scala build framework.
+Most often, Proyek, Sireum&rsquo;s own build framework, is used.   Proyek provides highly modular build specifications in Slang itself and supports library setups that are compatible with the Maven file/library organization.   Proyek generates IntelliJ project and build information which is automatically imported into IntelliJ and hides/automates most of the aspects of the underlying build activities for simple to moderate-size Slang projects.</p>
+<p>For IDE-based testing, the Sireum distribution includes ScalaTest (a widely-used Scala unit testing framework) that is fully supported within IntelliJ.  The IntelliJ Scala debugger provides full debugging capabilities for Slang.</p>
+<p>As with Scala, projects can directly integrate Java source, and a number of large-scale Slang projects with include Slang, Scala, and Java source code.</p>
+<p>To support continous integration development practices, Sireum includes significant infrastructure for scripting Slang project builds and regression testing using widely-used frameworks like Jenkins and github automations.</p>
+<p>When interfacing with other non-JVM-based languages like C and Javascript, the Sireum infrastructure integrates build infrastructure (like CMake files) for those other languages.</p>
+<h3 id="scala-based-with-support-for-multiple-language-paradigms">Scala-Based, with Support for Multiple Language Paradigms</h3>
+<p>There are several reasons why Scala was chosen as the basis for Slang.</p>
+<p>Scala aims to blend function, object-oriented, and imperative programming paradigms.   While pure functional languages such as Haskell have had good success, even in industry, we believe that most large-scale development (especially for embedded and safety-critical systems) cannot get away from imperative language features.<br>
+Thus, Slang inherits from Scala the emphasis on blending programming paradigms.   However, Slang includes annotations that allow developers to indicate that a particular paradigm should be syntactically enforced, e.g., in includes annotations that mark different categories of functions as purely functional or limiting side effects to local variables only.</p>
+<p>Scala has a rich meta-data facility that allows Slang to easily include contracts and other information within significant parser/compiler modifications.  Such annotations are used to tag functions, e.g., as <code>@strictpure</code> &ndash; one of the paradigm categories mentioned above.</p>
+<p>Finally, one of the main reasons that Scala was chosen as the foundation for Slang is because the primary Scala compiler has an extensible architecture.
+This enables us to insert custom program transformations phases in the standard Scala compiler to implement the simplified Slang semantics.</p>
+<h3 id="high-level-language-designed-for-verification">High-level Language, Designed for Verification</h3>
+<p>Despite its many strengths, Scala is a complex language, and thus difficult to highly assure for safety/security. However, its flexible language features (e.g., powerful type inference, macros, etc.), open-source/development, and pluggable compiler pipeline architecture allow one to effectively customize the language.</p>
+<p>The Scala features selected for Slang are chosen to simplify automated program verification.   While Slang includes basic object-oriented features of Scala such as classes, traits, and objects, Slang omits some of more complicated OO features.  Aliasing (where a single object is referenced by multiple variables or object fields) is known to complicate both manual and automated reasoning about programs.  Therefore, Slang restricts where aliasing can be introduced &ndash; it allows aliasing only at the point of parameter passing in method invocations which is the typical boundary for compositional reasoning in contract-based specification and verification.</p>
+<p>To further ease verification, Slang does not use Scala data structure (e.g., <em>collections</em>) library.   Instead, it provides its only libraries that are able to strictly separate immutable for mutable structures (with mutable structures being much harder to reason about).   Slang distinguishes between mutable and immutable object structures statically.  That is, object type mutability is declared as part of type declarations. Immutability is strict in Slang, i.e., immmutable objects cannot refer to mutable ones, and violations of this rule are detected by type checking. Mutable objects, however, can refer to immutable ones. The main benefit of using immutable structures is that they simplify reasoning because aliasing becomes a non-issue. On the other hand, mutable objects are often more convenient to transform via destructive updates for many developers.</p>
+<p>As mentioned above, one of the main difficulties in program reasoning is analyzing mutable object structure in the presence of aliasing. Slang reduces this reasoning complexity by adhering to the following runtime invariant property:
+<em>At any given program point, a mutable object is observationally reachable only by (at most) one access path.</em></p>
+<p>One (intended) consequence is that cyclic object structures are disallowed.1 In general, immutable structures can form directed acyclic graphs while strictly mutable ones can only (at most) form trees.  Adherence to the invariant is facilitated by restricting aliasing on mutable objects. The typical language features that introduce aliasing are assignment (including pattern matching variable binding, for-each loop, etc.) and parameter passing. In Slang, assigning a mutable object to a variable (possibly) creates a deep mutable structure copy before updating the variable (if the object has previously been assigned to a variable).  This design choice trades off code performance and better memory utilization for ease of reasoning. In many cases, the decrease in performance/utilization is not detrimental to the coded application. When needed, the code can be re- written and optimized (justified by empirical data such as profiling and memory analyses – not simply due to the pursuit of premature optimizations). Using an ownership type system is an alternate approach to tame aliasing (e.g., Rust). However, there is increased specification effort in using ownership types, and in languages that adopt them as the default case, developers must take on the increased specification burden even when the associated payoffs are small.</p>
+<p>In short, Slang’s approach to aliasing focuses the reasoning/verification concerns to statically-defined classes of objects (i.e., mutable) at a single well-defined and easily-identifiable program construct (i.e., method invocation), which is also the main location of concern in compositional program verification and formal analyses. Hence, addressing aliasing can go hand-in-hand with other composi- tional assurance approaches such as for ensuring absence of runtime errors (e.g., buffer overflows), functional correctness, and secure information flow.</p>
+<p>To summarize the overall approach in obtaining Slang from Scala,
+we <em>specialized</em> Scala for Slang. We adopted Scala’s syntax (i.e., Slang’s syntax is a proper subset of Scala’s), narrowed down its language features significantly (but still included many powerful features), and tailored its semantics via program transformations implemented in a compiler plugin and Scala macros (thus, enabling Scala/JVM tools to be used for Slang).</p>
+<h3 id="integratable-with-well-developed-ecosystems">Integratable with Well-Developed Ecosystems</h3>
+<p>Due to Scala&rsquo;s tight relation with Java, Slang benefits from the Java and Scala ecosystems which have strong tool support such as integrated development environments.
+Moreover, Slang can be cross-compiled to Javascript via ScalaJS which is handy to develop rich web applications such as standalone and browsable interactive analysis reports and system simulations.  In addition, Slang can also be compiled ahead-of-time to native using Oracle&rsquo;s Graal VM, which avoids JVM boot up time and reduces footprint costs.</p>
+<p>Slang offers a clean and unified facility to interoperate with existing libraries and host languages on all of its supported target platforms.</p>
+<h3 id="support-for-embedded-systems-development">Support for Embedded Systems Development</h3>
+<p>Due to its careful design, Slang is also effective for programming embedded systems. The Slang embedded subset can be translated to C without garbage collection runtime, which ensures predictable run-time behavior.</p>
+<p>For achieving a higher level of assurance, the generated C code can be compiled
+using the CompCert Verified C compiler. The generated C code can also be used to generate hardware by using
+available high level synthesis hardware toolchains.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Course Materials</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Course: Software Correctness</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/slang-logika-overview/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang and Logika</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/slang-logika-overview/logika-overview/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Overview
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

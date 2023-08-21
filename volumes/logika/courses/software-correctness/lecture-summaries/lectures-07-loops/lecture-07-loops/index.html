@@ -362,6 +362,7 @@
         <li><a href="#exercise-3">Exercise 3</a></li>
       </ul>
     </li>
+    <li><a href="#slang-examples">Slang Examples</a></li>
     <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
@@ -1798,7 +1799,1038 @@ Prove that <code>fac_it</code> terminates.</p>
 </ol>
 </div>
 </div>
-<h3 id="summary">Summary</h3>
+<h3 id="slang-examples">Slang Examples</h3>
+<p>Count Int Loop Rec</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">p</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">p</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">p</span> <span class="k">=</span> <span class="n">p</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="n">assert</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">p</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>        <span class="c1">// invariant deduced at the beginning of the while-loop
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">n</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">                           <span class="c1">// The invariant is assumed to be true here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">))</span>       <span class="c1">// new fact from condition of while-loop
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>  <span class="c1">// proof by algebra
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">n</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>      <span class="c1">// invariant deduced at the end of the while-loop
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">))</span>        <span class="c1">// new fact from negated condition (and algebra)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>        <span class="c1">// invariant directly after the while-loop
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">while0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">m</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span> <span class="c1">// invariant
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">))</span> <span class="c1">// negation of loop condition
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Count Int Loop Rec Term</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// What happens if this is called with k == -1?
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Divergence
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Add measure to show that the function terminates for all parameters
+</span></span></span><span class="line"><span class="cl"><span class="c1">// that satisfy the precondition.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Measure: m (on well-founded set {x | x &gt;= 0}
+</span></span></span><span class="line"><span class="cl"><span class="c1">// m decreases in each iteration of the loop
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@pure</span> <span class="k">def</span> <span class="n">while0_div</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// decreases m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">val</span> <span class="n">measure_m_pre</span> <span class="k">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_m_pre</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_m_post</span> <span class="k">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_m_post</span> <span class="o">&lt;</span> <span class="n">measure_m_pre</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// What happens if this is called with k == -1?
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Divergence
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Add measure to show that the function terminates for all parameters
+</span></span></span><span class="line"><span class="cl"><span class="c1">// that satisfy the precondition.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Measure: k (on well-founded set {x | x &gt;= 0}
+</span></span></span><span class="line"><span class="cl"><span class="c1">// k decreases with each recursive call
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@pure</span> <span class="k">def</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// decreases k
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="n">measure_k_entry</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_k_call</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_k_call</span> <span class="o">&lt;</span> <span class="n">measure_k_entry</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">count0</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Fac Function Loop Rec</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Definition by cases, equational
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Specification of the factorial function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span> <span class="k">match</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">m</span> <span class="k">=&gt;</span> <span class="n">m</span> <span class="o">*</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Induction rules
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Base case
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fac_rec_spec_0</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">fac_rec_spec</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Inductive case
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fac_rec_spec_step</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Implementation using recursion
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Implementation using while loop
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fac_it</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">m</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">m</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="o">(</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">m</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">facimp</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">fac_it</span><span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="o">==</span> <span class="n">fac_rec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Exercise: Prove termination of both factorial function implementations
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Fac Function Loop Rec Term</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Definition by cases, equational
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Specification of the factorial function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span> <span class="k">match</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">m</span> <span class="k">=&gt;</span> <span class="n">m</span> <span class="o">*</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Exercise: Prove termination of both factorial function implementations
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fac_rec_term</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fac_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// decreases n
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="n">measure_n_entry</span> <span class="k">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_n_entry</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_n_call</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_n_call</span> <span class="o">&lt;</span> <span class="n">measure_n_entry</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fac_rec_term</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fac_it_term</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fac_rec_term</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// decreases n - m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">m</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fac_rec_term</span><span class="o">(</span><span class="n">m</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">m</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_n_m_pre</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_n_m_pre</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_n_m_post</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_n_m_post</span> <span class="o">&lt;</span> <span class="n">measure_n_m_pre</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Fib Function Loop Rec</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Definition by cases, equational
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Specification of the fibonacci function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span> <span class="k">match</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mi">1</span> <span class="k">=&gt;</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">m</span> <span class="k">=&gt;</span> <span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Exercise a: Specify induction rules, case 0, 1, and step
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Induction rules
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fib_rec_spec_0</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">fib_rec_spec</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fib_rec_spec_1</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">fib_rec_spec</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fib_rec_spec_step</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="o">==</span> <span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">n</span> <span class="o">!=</span> <span class="mi">1</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Exercise b: implement by recursion using condtional conditional
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Prove that `fib_rec` implements `fib_rec_spec`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Exercise c: implement using while loop
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Prove that `fib_it` implements `fib_rec`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fib_it</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">m</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">m</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">x</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">2</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">x</span> <span class="k">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)</span> <span class="o">+</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">==</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Exercise d: Prove that `fib_it` and `fib_rec` are identical
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">facimp</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">fib_it</span><span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fib_rec_term</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fib_rec_spec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// decreases n
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">val</span> <span class="n">measure_n_entry</span> <span class="k">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_n_entry</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_n_call_1</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_n_call_1</span> <span class="o">&lt;</span> <span class="n">measure_n_entry</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">measure_n_call_2</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_n_call_2</span> <span class="o">&lt;</span> <span class="n">measure_n_entry</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">fib_rec_term</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">fib_rec_term</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">fib_it_term</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// decreases n - m
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">m</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">fib_rec</span><span class="o">(</span><span class="n">m</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">m</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">measure_n_m_pre</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_n_m_pre</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="n">m</span> <span class="k">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      <span class="n">x</span> <span class="k">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">      <span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">      <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">      <span class="k">val</span> <span class="n">measure_n_m_post</span> <span class="k">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">measure_n_m_post</span> <span class="o">&lt;</span> <span class="n">measure_n_m_pre</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Mult Add</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Inductive definition of multiplication
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@strictpure</span> <span class="k">def</span> <span class="n">mult_spec</span><span class="o">(</span><span class="n">m</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="k">match</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="n">k</span> <span class="k">=&gt;</span> <span class="n">mult_spec</span><span class="o">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span> <span class="n">n</span><span class="o">)</span> <span class="o">+</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Induction rules
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">mult_spec_0</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">mult_spec</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">n</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">mult_spec_step</span><span class="o">(</span><span class="n">m</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">mult_spec</span><span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="n">n</span><span class="o">)</span> <span class="o">==</span> <span class="n">mult_spec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span> <span class="n">n</span><span class="o">)</span> <span class="o">+</span> <span class="n">n</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">m</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@pure</span> <span class="k">def</span> <span class="n">mult_it</span><span class="o">(</span><span class="n">m</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">m</span> <span class="o">*</span> <span class="n">n</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">i</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">k</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="o">)</span> <span class="o">*</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">i</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="o">)</span> <span class="o">*</span> <span class="n">n</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="o">)</span> <span class="o">*</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">n</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="o">)</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">n</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">*</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">n</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">))</span> <span class="o">*</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="k">=</span> <span class="n">k</span> <span class="o">+</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">))</span> <span class="o">*</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="k">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="o">)</span> <span class="o">*</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="o">)</span> <span class="o">*</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">0</span><span class="o">)</span> <span class="o">*</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="n">m</span> <span class="o">*</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">k</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// We would like to prove the following
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@pure</span> <span class="k">def</span> <span class="n">mult_rec_mult</span><span class="o">(</span><span class="n">m</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">mult_spec</span><span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="n">n</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span> <span class="o">*</span> <span class="n">n</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Use the structure of `mult_it` to do this
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nd">@pure</span> <span class="k">def</span> <span class="n">mult_mult_it</span><span class="o">(</span><span class="n">m</span><span class="k">:</span> <span class="kt">Z</span><span class="o">,</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">mult_spec</span><span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="n">n</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span> <span class="o">*</span> <span class="n">n</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">i</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">k</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Modifies</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">i</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="o">)</span> <span class="o">*</span> <span class="n">n</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="n">mult_spec</span><span class="o">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="o">,</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="k">=</span> <span class="n">k</span> <span class="o">+</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="k">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="n">m</span> <span class="o">*</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="n">mult_spec</span><span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="n">n</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="summary">Summary</h3>
 <ul>
 <li>We have reviewed induction, recursion and iteration</li>
 <li>We have inductively reasoned about while-loops</li>
@@ -1821,10 +2853,6 @@ Prove that <code>fac_it</code> terminates.</p>
     </li>
   </div>
   <div style="text-align: left;">
-    
-      <a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-07-loops/lecture-05-loops/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
-        <i class="fa-solid fa-chevron-left"></i> Lecture Summary: Loops
-      </a>
     
   </div>
   <div style="text-align: right;">

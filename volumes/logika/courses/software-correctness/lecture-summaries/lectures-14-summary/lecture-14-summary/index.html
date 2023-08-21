@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Programs and Facts Programs We have considered programs composed of the following constructs
+val var S; T if (C) {S} else {T} while (C) {S} For all of these constructs we&amp;rsquo;ve considered how facts can be traced though them
+Facts describe relationships among variables that occur in a program (and constants)
+val:
+1 2 3 4 val x: Z = 1 Deduce(|- (x == 1)) val y: Z = x &#43; 1 Deduce(|- (y == x &#43; 1)) We can deduce the value of the variable as an equation" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-14-summary/lecture-14-summary/" />
+
+
+    <title>
+        
+            Lecture Summary: Summary :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Lecture Summary: Summary">
+<meta itemprop="description" content="Programs and Facts Programs We have considered programs composed of the following constructs
+val var S; T if (C) {S} else {T} while (C) {S} For all of these constructs we&rsquo;ve considered how facts can be traced though them
+Facts describe relationships among variables that occur in a program (and constants)
+val:
+1 2 3 4 val x: Z = 1 Deduce(|- (x == 1)) val y: Z = x &#43; 1 Deduce(|- (y == x &#43; 1)) We can deduce the value of the variable as an equation"><meta itemprop="datePublished" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="dateModified" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="wordCount" content="1071"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Lecture Summary: Summary"/>
+<meta name="twitter:description" content="Programs and Facts Programs We have considered programs composed of the following constructs
+val var S; T if (C) {S} else {T} while (C) {S} For all of these constructs we&rsquo;ve considered how facts can be traced though them
+Facts describe relationships among variables that occur in a program (and constants)
+val:
+1 2 3 4 val x: Z = 1 Deduce(|- (x == 1)) val y: Z = x &#43; 1 Deduce(|- (y == x &#43; 1)) We can deduce the value of the variable as an equation"/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-11-24 17:01:09 &#43;0100 &#43;0100" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-14-summary/lecture-14-summary/">Lecture Summary: Summary</a></h2>
+
+            
+            
+            
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#programs-and-facts">Programs and Facts</a>
+      <ul>
+        <li><a href="#programs">Programs</a></li>
+      </ul>
+    </li>
+    <li><a href="#contracts">Contracts</a>
+      <ul>
+        <li><a href="#function-contracts-i">Function Contracts I</a></li>
+        <li><a href="#function-contracts-ii">Function Contracts II</a></li>
+        <li><a href="#function-contracts-iii">Function Contracts III</a></li>
+        <li><a href="#function-contracts-iv">Function Contracts IV</a></li>
+      </ul>
+    </li>
+    <li><a href="#specification">Specification</a></li>
+    <li><a href="#implementation">Implementation</a></li>
+    <li><a href="#proof">Proof</a></li>
+    <li><a href="#testing">Testing</a></li>
+    <li><a href="#proof-and-testing">Proof and Testing</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+            
+
+            <div class="post-content">
+                <h3 id="programs-and-facts">Programs and Facts</h3>
+<h4 id="programs">Programs</h4>
+<ul>
+<li>
+<p>We have considered programs composed of the following constructs</p>
+<ul>
+<li><code>val</code></li>
+<li><code>var</code></li>
+<li><code>S; T</code></li>
+<li><code>if (C) {S} else {T}</code></li>
+<li><code>while (C) {S}</code></li>
+</ul>
+</li>
+<li>
+<p>For all of these constructs we&rsquo;ve considered how facts can be traced though them</p>
+</li>
+<li>
+<p>Facts describe relationships among variables that occur in a program (and constants)</p>
+</li>
+<li>
+<p><code>val</code>:</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>We can deduce <strong>the</strong> value of the variable as an equation</p>
+</li>
+<li>
+<p>Recall, that the value cannot be modified</p>
+</li>
+<li>
+<p>Variables introduced with <code>val</code> are immutable</p>
+</li>
+<li>
+<p><code>var</code>:</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>We can deduce <strong>the</strong> value of the variable as an equation</li>
+<li>When a variable <code>v</code> is modified the old values can be accessed using the notation
+<ul>
+<li><code>At( v , i )</code></li>
+<li>Where <code>i</code> refers to the &ldquo;time&rdquo; at which the prior assignment took place</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">S</span> <span class="o">;</span> <span class="n">T</span><span class="k">:</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="kt">x:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>We can write composed programs on one line separated by semicolons</li>
+<li>Usually, we don&rsquo;t do this to improve readability</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span> <span class="n">C</span> <span class="o">)</span> <span class="o">{</span> <span class="n">S</span> <span class="o">}</span> <span class="k">else</span> <span class="o">{</span> <span class="n">T</span> <span class="o">}</span><span class="k">:</span>
+</span></span><span class="line"><span class="cl"><span class="kt">val</span> <span class="kt">a:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="o">(</span><span class="n">a</span> <span class="o">/</span> <span class="n">a</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>We can deduce the condition or it&rsquo;s negation in either branch</li>
+<li>A fact to be deduced is established by both branches</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span> <span class="n">C</span> <span class="o">)</span> <span class="o">{</span> <span class="n">S</span> <span class="o">}</span><span class="k">:</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="kt">x</span> <span class="o">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Invariant</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">12</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">2</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>The invariant traces facts from the beginning throughout the execution of the loop</li>
+<li>In the beginning of the loop body, the loop condition holds</li>
+<li>On termination, the negated loop condition holds</li>
+</ul>
+<h3 id="contracts">Contracts</h3>
+<h4 id="function-contracts-i">Function Contracts I</h4>
+<ul>
+<li>Side-effect free contract:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">square</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">res</span> <span class="k">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">k</span> <span class="k">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="k">=</span> <span class="n">res</span> <span class="o">+</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="k">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Specifies pre- and post-condition</li>
+<li>No modifies clause</li>
+</ul>
+<h4 id="function-contracts-ii">Function Contracts II</h4>
+<ul>
+<li>Contract with side-effect (parameter):</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">inc0</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">ZS</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="k">=</span> <span class="n">x</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Specifies pre- and post-condition, and modifies clause</li>
+<li>Initial values of variables are referred to using the <code>In</code> notation</li>
+</ul>
+<h4 id="function-contracts-iii">Function Contracts III</h4>
+<ul>
+<li>Contract with side-effect (variable):</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">square</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Modifies</span><span class="o">(</span><span class="n">x</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">*</span> <span class="nc">In</span><span class="o">(</span><span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">res</span> <span class="k">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">var</span> <span class="n">k</span> <span class="k">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="k">=</span> <span class="n">res</span> <span class="o">+</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="k">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">res</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Specifies pre- and post-condition, and modifies clause</li>
+<li>Initial values of variables are referred to using the <code>In</code> notation</li>
+</ul>
+<h4 id="function-contracts-iv">Function Contracts IV</h4>
+<ul>
+<li>Contract between participating entities:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">def</span> <span class="n">one</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>           <span class="c1">// Contract between caller (two) and callee (one)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nc">Requires</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">),</span>  <span class="c1">// Caller (two) is obliged to guarantee
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="c1">// Callee (one) is obliged to guarantee
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">x</span> <span class="o">/</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="n">two</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Z</span><span class="o">)</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Contract</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Requires</span><span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Ensures</span><span class="o">(</span><span class="nc">Res</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">one</span><span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">one</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>A contract fixes obligations on both sides</li>
+</ul>
+<h3 id="specification">Specification</h3>
+<ul>
+<li>A specification describes the expected behaviour of a program in simple and clear terms</li>
+<li>Usually, this is done in terms of <code>@pure</code> functions</li>
+<li>Specifications themselves rely on maths (consider, in particular, <code>@strictpure</code>)</li>
+<li>Specifications in Slang are executable but not necessarily efficient</li>
+<li>It should be easy to reason about specifications (and prove properties)</li>
+<li>Clarity and efficiency can often not be had at the same time</li>
+</ul>
+<h3 id="implementation">Implementation</h3>
+<ul>
+<li>An implementation describes the behaviour of a program in efficient terms</li>
+<li>Usually, efficiency comes at the cost of reduced clarity</li>
+<li>Implementations describe how the behaviour is computed</li>
+<li>Specifications describe what is to be computed</li>
+</ul>
+<h3 id="proof">Proof</h3>
+<ul>
+<li>
+<p>Commonly used <code>assert</code> statements are executable, aborting when their condition is false</p>
+</li>
+<li>
+<p>In Slang we have seen commands that support proving the stated facts correct</p>
+<ul>
+<li><code>Deduce</code></li>
+<li><code>Invariant</code></li>
+<li><code>Contract</code></li>
+<li><code>Requires</code></li>
+<li><code>Ensures</code></li>
+</ul>
+</li>
+<li>
+<p>A proof establishes these facts for all possible executions</p>
+<ul>
+<li>The facts stated in one of these commands are not evaluated at run-time</li>
+<li>They do not lead to program abortion</li>
+</ul>
+</li>
+<li>
+<p>We have seen how facts are traced through programs and used to prove new facts</p>
+</li>
+</ul>
+<h3 id="testing">Testing</h3>
+<ul>
+<li>
+<p>Test cases can be generated from specifications</p>
+</li>
+<li>
+<p>We can use contracts and do this directly using</p>
+<ul>
+<li>equivalence partitioning and</li>
+<li>boundary value analysis</li>
+</ul>
+</li>
+<li>
+<p>We can use specifications with their &ldquo;mathematical&rdquo; function bodies to generate test cases</p>
+</li>
+<li>
+<p>These cases can be used to test implementations</p>
+</li>
+<li>
+<p>Given, the contracts provided, test cases can also be generated from implementations</p>
+</li>
+<li>
+<p>If test cases are generated on specification level, they are available when implementation starts</p>
+</li>
+</ul>
+<h3 id="proof-and-testing">Proof and Testing</h3>
+<ul>
+<li>
+<p>Many reasoning techniques for programs can be used for proof and test case generation</p>
+</li>
+<li>
+<p>Considering programs as facts,</p>
+<ul>
+<li>we can ask for states satisfying the post-condition to create a test case</li>
+<li>we can ask whether the program implies the post-condition to prove it correct</li>
+</ul>
+</li>
+<li>
+<p>Whereas proof verifies correctness for all possible input values, testing verifies correctness for specific inputs. It is fallible.</p>
+</li>
+<li>
+<p>Testing is somewhat like scientific experimentation: We consider the correctness of a program confirmed until we encounter a failing test (experiment).</p>
+</li>
+<li>
+<p>We can generate tests from specifications that are easier to reason about, and use them for implementations that are harder to reason about</p>
+</li>
+<li>
+<p>The specifications themselves can be proved correct based on the maths by which means they are expressed</p>
+</li>
+</ul>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Course Materials</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Course: Software Correctness</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Lecture Summaries</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/lecture-summaries/lectures-14-summary/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Summary</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+  </div>
+  <div style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>

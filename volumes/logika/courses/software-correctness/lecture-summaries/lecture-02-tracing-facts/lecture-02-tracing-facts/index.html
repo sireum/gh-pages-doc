@@ -44,7 +44,7 @@
 <meta itemprop="name" content="Lecture Summary: Tracing Facts">
 <meta itemprop="description" content="Tracing Values Execution as Calculation A common way to consider a program is to trace its execution following the values that variables take at different times. We do this when debugging programs, where we predict the values of variables and observe deviations. In other words, we calculate &ldquo;in our heads&rdquo; expected values and compare them to those produced by program execution. We can follow a similar approach directly without executing a program: we can state expected values by asserting them and compare them to those produced by calculation."><meta itemprop="datePublished" content="2022-11-24T17:01:09+01:00" />
 <meta itemprop="dateModified" content="2022-11-24T17:01:09+01:00" />
-<meta itemprop="wordCount" content="4033"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="wordCount" content="4388"><meta itemprop="image" content="https://doc.sireum.org"/>
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://doc.sireum.org"/>
@@ -358,6 +358,7 @@
         <li><a href="#using-facts-as-values">Using Facts as Values</a></li>
       </ul>
     </li>
+    <li><a href="#slang-examples">Slang Examples</a></li>
     <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
@@ -1077,7 +1078,156 @@ Let&rsquo;s do this with the value swapping example.</p>
 <li>(<code>m: M, n: N, x: N, y: M</code>), (PC: <code>M &gt; 0 &amp; N &gt; 0, N == N &amp; M == M</code>)</li>
 </ul>
 <p>The expression <code>M + N</code> cannot be further simplified at this stage because <code>M</code> and <code>N</code> are uninterpreted symbolic constants.</p>
-<h3 id="summary">Summary</h3>
+<h3 id="slang-examples">Slang Examples</h3>
+<p>Swap Immutable</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Swap Mutable</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">x</span> <span class="o">-</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Swap Mutable Contract</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Swap Mutable Plain</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="summary">Summary</h3>
 <p>We have looked at various ways of reasoning about programs:</p>
 <ul>
 <li>by tracing facts through programs</li>

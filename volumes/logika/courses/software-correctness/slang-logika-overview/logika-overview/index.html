@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="The Logika Verification Framework To support developer-friendly Slang verification, Logika provides code-level IDE integrated verification of Slang&amp;rsquo;s contract and proof languages.
+Verification is highly automated by using a suite of state-of-the-art SMT solvers that work in the background to provide continuous delivery of program checking.
+This continuous, always on, verification is enabled by a significant tool engineering effort. In particular, Logika is able to provide smart incremental checking that is triggered by editor actions by maintaining behind the scenes a sophisticated map of program dependences." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/slang-logika-overview/logika-overview/" />
+
+
+    <title>
+        
+            Logika Overview :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Logika Overview">
+<meta itemprop="description" content="The Logika Verification Framework To support developer-friendly Slang verification, Logika provides code-level IDE integrated verification of Slang&rsquo;s contract and proof languages.
+Verification is highly automated by using a suite of state-of-the-art SMT solvers that work in the background to provide continuous delivery of program checking.
+This continuous, always on, verification is enabled by a significant tool engineering effort. In particular, Logika is able to provide smart incremental checking that is triggered by editor actions by maintaining behind the scenes a sophisticated map of program dependences."><meta itemprop="datePublished" content="2022-07-20T15:42:11+02:00" />
+<meta itemprop="dateModified" content="2022-07-20T15:42:11+02:00" />
+<meta itemprop="wordCount" content="2569"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Logika Overview"/>
+<meta name="twitter:description" content="The Logika Verification Framework To support developer-friendly Slang verification, Logika provides code-level IDE integrated verification of Slang&rsquo;s contract and proof languages.
+Verification is highly automated by using a suite of state-of-the-art SMT solvers that work in the background to provide continuous delivery of program checking.
+This continuous, always on, verification is enabled by a significant tool engineering effort. In particular, Logika is able to provide smart incremental checking that is triggered by editor actions by maintaining behind the scenes a sophisticated map of program dependences."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-20 15:42:11 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/slang-logika-overview/logika-overview/">Logika Overview</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h2 id="the-logika-verification-framework">The Logika Verification Framework</h2>
+<!-- Logika 1 -->
+<p>To support developer-friendly Slang verification,
+Logika provides code-level IDE integrated verification of Slang&rsquo;s contract and proof languages.</p>
+<!-- Logika 2 -->
+<p>Verification is highly automated by using a suite of state-of-the-art SMT solvers
+that work in the background to provide continuous delivery of program checking.</p>
+<!-- Logika 3 -->
+<p>This continuous, always on, verification is enabled by a significant tool engineering effort.
+In particular, Logika is able to provide smart incremental checking that is triggered by editor
+actions by maintaining behind the scenes a sophisticated map of program dependences.</p>
+<!-- Logika 4 -->
+<p>This incremental checking is key to scalability.
+When updates are made in the editor, it enables Logika to re-check only the code changed as well as other
+code that depends on the changes.</p>
+<p>Scalability is also enabled by a powerful server-based architecture that provides massive
+parallelization of the formal verification.
+This provides a foundation for scalable cloud-based delivery of verification resources for on-demand
+servicing of verification needs.</p>
+<!-- Logika 5 -->
+<p>Finally, since we realize that not all verification can be automated,
+Logika provides what we call deep-dive gateways in both the verification
+tool and in the proof notations to allow expert-level engineers to
+drill down into verification details and to introduce
+manual proof engineering when needed.</p>
+<p>Intellij provides extension points for customizing its Scala type checker, so we can adapt it to work nicely with Slang.</p>
+<p>Slang analysis engines, such as Logika, runs as a Sireum micro service in the background.</p>
+<p>Here, we have some example code with data structures inspired from an unmanned aerial vehicle mission control system.</p>
+<p>The example declares an immutable Waypoint datatype that holds coordinate information.</p>
+<p>A mission typically consists of a sequence of waypoints such as what is stored in S one, which is of mutable sequence type.</p>
+<p>As Logika works, it decorates program editors to communicate its analysis feedback.</p>
+<!-- Demo Logika 01 -->
+<p>It decorates each statement with its precondition state claims that it computes,
+which aids program reasoning while also serving as auditable evidence.</p>
+<!-- Demo Logika 02 -->
+<p>The state claims are naturally represented at the Slang source level,
+and as you can observe, the claims are intuitive as there is no heap object representation, pointers, or references.</p>
+<p>This is the direct result of Slang language simplification, which both reduces our reasoning mental model burden
+and helps scale Slang analyses</p>
+<!-- Demo Logika 03 -->
+<p>Logika also decorates the editors with verification condition checking results, in this case, by using SMT query solving.</p>
+<p>Each query is annotated with solving result, as well as its solving parameters, which can be configured by users.</p>
+<!-- Demo Logika 04 -->
+<p>Each sequence or array access is implicitly bound-checked to ensure that it does not produce runtime error or buffer overflow.</p>
+<!-- Demo Logika 05 -->
+<p>Suppose that we seed an out of bound access. Logika analysis in the background continuously give direct verification feedback upon code change.</p>
+<p>We believe such seamless integration into typical development workflow is key to formal method success.</p>
+<!-- Demo Logika 06 -->
+<p>As issues are fixed, Logika re-verifies the code and can confirm that such issues have been properly addressed.</p>
+<p>We like this line editor decoration feedback mechanism because it gives a sense of analysis coverage,
+which feels familiar to the line coverage information in testing.</p>
+<!-- Demo Logika 07 -->
+<p>Let us now start adding some explicit assertions to confirm our understanding of the program behaviors.
+For example, we can assert that the first element of S two is a waypoint holding the coordinate one, two, and three, as assigned at line fourteen.
+Obviously, such assertion should hold and it is confirmed by Logika as the feedback decoration does not indicate that there is an issue.</p>
+<!-- Demo Logika 08 -->
+<p>Suppose that we assert the same for the first element of S one.
+This is where Slang differs from Scala or Java where a deep copy of S one was made at line eleven before assigning to S two.
+Thus, the assertion is invalid</p>
+<!-- Demo Logika 09 -->
+<p>We can confirm such behavior by running the program,
+by clicking the green play icon at the top of the program editor,
+and it will trigger code compilation.
+Once it finishes, the resulting code is then run, which in this case, triggers an assertion error, as Logika has warned us.
+This illustrates how one can test and prove their code in the same Sireum verification environment.</p>
+<!-- Demo Logika 10 -->
+<p>Due to the deep copy, the value of S one should not be affected, and it is the same as what assigned at line ten.</p>
+<p>We can ask Logika to confirm it for us by asserting it.</p>
+<p>One might think that such deep copying might produce less than ideal performant code,
+however, in many cases, the performance differences do not matter as much as what we might have thought.</p>
+<p>On cases where they do matter, there are effective programming patterns and principles that can be applied,
+which are discussed in the Slang Isola paper appeared last year.</p>
+<!-- Demo Logika 11 -->
+<p>Let us now look at more interesting properties.</p>
+<!-- Demo Logika 12 -->
+<p>I am going to copy and paste some prepared code to save time.</p>
+<p>You can observe that the added methods have some contract annotations.</p>
+<p>Both inZone and W P diff are strictly pure methods, which do not make side effects.
+Such methods can be directly used in contract specifications, as shown in move waypoint X,
+which has the typical pre and post conditions.</p>
+<p>Move waypoint X itself is a pure method, which means that
+there is no observable side-effect from the outside of the method.</p>
+<p>As can be observed, we leverage Scala syntax to express specification.
+The Contract specification at line 28 is implemented by using a Scala macro
+which is erased before code generation, thus,
+the specification does not affect the code runtime behaviors.</p>
+<p>In the future, it is possible to introduce a runtime assertion checker tool
+that weaves in contracts as assertions for testing purposes, or dynamic enforcement</p>
+<!-- Logika Theme 3 -->
+<p>Now let&rsquo;s consider the theme of incremental checking by discussing some of the details of the Sireum code base.</p>
+<!-- Sireum Code Base 1 + 2 -->
+<p>Up to this point, we’ve been demoing Slang and Logika on some small script files.
+So you may be wondering, does all of this work “at scale”?
+The answer is Yes!
+In addition to applying Slang and Logika with our industrial partners on various DOD projects,
+we also validate the design and scalability of Slang and Logika by applying them when developing the Sireum code base itself,
+which is around 210,000 lines of code.</p>
+<p>One interesting thing to note is about 85 percent of the code base, around 180,000 lines of code, is written in Slang.</p>
+<p>So not only does that validate the effectiveness of Slang for coding large applications,
+it means that we can also apply Logika to verify portions of the Sireum code base,
+including our HAMR code generation pipelines for SEL4 as well as the Logika implementation itself.</p>
+<!-- Sireum Code Base 3 -->
+<p>This provides a pathway for eventually mechanizing the proofs of correctness
+of our own verification analysis and code generation tools.
+We&rsquo;re currently applying these idea to HAMR infrastructure code generated for SEL4.</p>
+<p>We believe that this may eventually be helpful with tool qualification.</p>
+<!-- Sireum Code Base 4 -->
+<p>We&rsquo;re now going to demonstrate that the same continuous integrated verification that worked for small programs
+also works when Logika is applied to this large code base.
+This is possible due to our carefully engineered approach for incremental checking.</p>
+<!-- Demo Logika 22 -->
+<p>Let&rsquo;s jump into the middle of the Slang code base, and look at the implementation of the option type.
+Option is part of the Slang runtime library that is part of the large Sireum codebase.</p>
+<!-- Demo Logika 23 -->
+<p>Here you can see that the Slang implementations include some very basic contracts.</p>
+<p>For this example, the size of the contract and associated code is not important.
+Slang does not have null value to avoid the billion dollar issues associated with it, thus, option should be used instead.</p>
+<p>To reduce memory overhead at runtime, the Slang compiler plug-in for Scala optimizes away options inside object internal representations.</p>
+<p>Option is part of the Slang runtime library that is part of the large Sireum codebase.</p>
+<!-- Demo Logika 24 -->
+<p>The main point is that Logika verification will be triggered by edits in the file to start the checking process.
+Then, the Logika incremental analysis framework will scan the dependence information for
+the entire code base and figure out that the effects of the edit that we are making are confined to the body of this method.</p>
+<p>You just saw a moment ago that Logika was able to quickly conclude its checking to find a contract violation in less than a second.</p>
+<!-- Demo Logika 25 -->
+<p>Then, when we correct the error, Logika can conclude almost immediately that method satisfies its contract.
+Moreover, due to the dependence analysis, Logika has already confirmed that the rest of the codebase has been unaffected by the edits
+and thus all of the specifications throughout the rest of the code remain satisfied.</p>
+<!-- Module Graph -->
+<p>Logika incremental checking leverages project codebase modularity for scaling its analysis
+and optimizing user interactions.</p>
+<p>Just like a compiler, it understands the dependence relationships between modules
+as captured in the system&rsquo;s build specification.  For example, the modules and
+dependences reflected in the Sireum code base build specification are diagrammed below.</p>
+<p>Beyond this, Logika adds additional finer-grain dependence analysis based on
+call graph constructions.</p>
+<p>Using this information, when a file is edited or a current point in the program
+is selected for verification, Logika can avoid examing code not needed for the
+verification of the current section of code.</p>
+<p>Let me describe how it works, intuitively.</p>
+<!-- Code Base Incremental 1 + 2, Incremental 0 -->
+<p>When a particular file such as Option is analyzed
+Logika starts at the root modules and works downward in the project module dependency graph.
+until it finds the module where the file resides.</p>
+<!-- Incremental 1 -->
+<p>Along the way, Logika only lightly analyzes the relevant modules.</p>
+<p>That is, Logika employs the Slang frontend to parse and outline class, field, and method type signatures for all
+files in the modules, without fully type checking method bodies.</p>
+<!-- Incremental 2 -->
+<p>Only the Option file is fully type checked, which then verified.</p>
+<p>In the context where user is editing a particular method, the process is further optimized by focusing full type
+checking and verification to that method.</p>
+<!-- Incremental 3 -->
+<p>Furthermore, Logika aggressively caches intermediate
+analysis results to speed up subsequent analyses.
+For example, module-level file type information is soundly
+cached by file fingerprinting.</p>
+<p>SMT queries are also cached to speed up re-verification.
+We found these to be very effective, especially so for
+providing continuous verification in an IDE.</p>
+<p>For less capable machines, Logika offers ways to tone
+down its caching strategies.</p>
+<!-- Parallel 0 -->
+<p>Let&rsquo;s now consider the Parallelization and Server-based Deployment theme.</p>
+<!-- Parallel 1 -->
+<p>One key observation is that, as Logika works over the project module dependency graph, modules that are at the same
+depth level can be verified independently in parallel.</p>
+<!-- Parallel 2 -->
+<p>Moreover, Logika&rsquo;s reasoning is compositional, thus, each program unit such as a method, or even each contract case of a method, can be verified in parallel.</p>
+<!-- Parallel 3 -->
+<p>In the future, it is also possible to verify all project modules
+using different computing nodes, for example,
+in a cloud infrastructure to provide continuous verification
+with on-demand scaling of resources.</p>
+<p>In such setup, each computing node can also provide parallel verification.</p>
+<p>We believe parallelization and distributed analyses hold a great promise to help tackle scalability issues in applying formal methods.</p>
+<!-- Parallel 4 -->
+<p>It is especially so when considering the trend towards remote development using a thin client, or even a browser that only requires a minimal setup.</p>
+<p>This strategy is often used to ensure the integrity of the development tool chain or to avoid leakage of intellectual property that might occur when
+code bases and tool chains are installed on individual machines in possession of employees.</p>
+<!-- Parallel 5 -->
+<p>Now, allow me to demonstrate with an i-pad as a thin client connected to a server with 80 cores.</p>
+<!-- Demo Legion 0 -->
+<p>Here is an i-pad with the Safari browser on the left-hand side.</p>
+<!-- Demo Legion 1 -->
+<p>The browser is connected to a headless instance of the Intellij based Sireum integrated verification environment, running on one of our research
+group&rsquo;s Linux servers at K-State, called legion.</p>
+<p>That is, the headless Sireum server in legion projects its graphical user interface through the usual web protocol, thus, any authenticated machine
+with a browser can be used to interact with it.</p>
+<!-- Demo Legion 2 -->
+<p>This particular demo uses the building temperature control example generated by hammer, with gumbo contracts presented earlier already translated as Slang
+contracts.</p>
+<p>On the right-hand side is a terminal connected to legion, which is used to display legion&rsquo;s C P U and memory loads using H top.</p>
+<!-- Demo Legion 3 -->
+<p>As can be observed, legion has eighty cores with two terra-bytes ram.</p>
+<p>Next, I will open the temperature controller component implementation, which will trigger Logika verification, and you can observer how Logika put legion&rsquo;s
+many cores to work.</p>
+<!-- Demo Legion 5 -->
+<p>As can be observed, Logika parallel verification engine used as many cores as
+needed for analyzing large codebases.</p>
+<p>In closing.</p>
+<!-- Proof Engineering 1 -->
+<p>Finally, for the proof-engineering theme we are not claiming to do anything significant from a theoretical point of view.</p>
+<!-- Proof Engineering 2 -->
+<p>However, in practice, we believe our approach for supporting proof scripts and manual proving steps directly in Slang has some advantages.</p>
+<!-- Demo Logika 13 -->
+<p>Here we see how we exploit Scala&rsquo;s syntax flexibility to also express proofs directly in the program.
+Some of the proof steps illustrate how we use Slang pure methods to represent lemmas and theorems.</p>
+<!-- Demo Logika 14 -->
+<p>Because all the proof elements are first-class citizens in the programming language, Intellij refactoring works for Slang proofs as well.</p>
+<p>After the refactoring, Logika ree checks the proof to make sure that it is still admittable.</p>
+<!-- Demo Logika 15 // Omit?? -->
+<p>The numbering does not have to be in order, which is sometimes handy.
+We do offer an automatic tool renumbering to tidy up Slang proof.</p>
+<!-- Demo Logika 16 -->
+<p>Each proof step in Slang has to be justified, and the justification implementation
+should produce an understandable explanation on why it accepts the proof step&rsquo;s claim.</p>
+<p>Logika provides an extensible facility to add and define justifications.</p>
+<p>For example, for the premise justification, the implementation informs the user that either the proof step&rsquo;s claim is derived from the previous
+context or where it has been previously proven.</p>
+<!-- Demo Logika 17 -->
+<p>The premise justification is actually a method signature
+declaration, whose implementation is provided via a Logika plug-in written in Slang.</p>
+<p>Custom justifications that implement complex proof tactics can be defined using this extension mechanism.
+Thus, to keep with our deep-dive gateway theme, while we advocate interactive theorem proving to be done directly in Slang so
+that we have continuity of user experience,
+custom justifications can be introduced to export Logika&rsquo;s verification conditions for expert users
+to other theorem prover&rsquo;s input language.</p>
+<p>Note: &ldquo;continuity of user experience&rdquo; - Kathleen Fischer used this phrase, so I suggest we use it verbatim, such as for Isabelle, Coq, or A C L two.</p>
+<!-- Demo Logika 18 // Omit?? -->
+<p>Justifications can also be provided by applying lemmas or theorems, such as the and elimination one theorem that is automatically proven using SMT solving.</p>
+<!-- Demo Logika 19 // Omit?? -->
+<p>Note that these lemmas and theorems are Slang pure methods, thus, they are allowed to make local side effects that are non-observable from outside the methods.
+This means that one can use loops or recursion to crawl complex structures as part of the proving process.
+Such iterative and recursive structure crawling approaches correspond to inductive proofs, but expressed in more developer-friendly notation.
+Unfortunately, time does not permit a more detailed exposition on this interesting topic.</p>
+<!-- Demo Logika 20 // Omit?? -->
+<p>Logika uses a general tactic that we termed inception, to lift pure methods that may make local side effects, as logical lemmas and theorems and apply them.</p>
+<p>Inception generates an understandable explanation that details the steps it takes for the lemma or theorem application.</p>
+<!-- Demo Logika 21 // Omit?? -->
+<p>It can also automatically infers lemma or theorem application arguments, and indicate such inference as part of the explanation that it generates.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Course Materials</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Logika Course: Software Correctness</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/logika/courses/software-correctness/slang-logika-overview/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang and Logika</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/logika/courses/software-correctness/slang-logika-overview/slang-overview/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Slang Overview
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>
