@@ -46,7 +46,7 @@ checking the test expression: when Logika encounters an if statement, it will us
 <meta itemprop="description" content="Logika Automated Reasoning for Conditionals There are three key points to understand about how Logika automated deduction deals with if statements:
 checking the test expression: when Logika encounters an if statement, it will using a summoning of the SMT solvers to see, based on the known facts at that point, if it can determine if the if test expression is true or false. If the summoning identicates that the test expression is true or false, Logika will process the corresponding branch."><meta itemprop="datePublished" content="2022-07-20T15:42:11+02:00" />
 <meta itemprop="dateModified" content="2022-07-20T15:42:11+02:00" />
-<meta itemprop="wordCount" content="551"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="wordCount" content="5604"><meta itemprop="image" content="https://doc.sireum.org"/>
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://doc.sireum.org"/>
@@ -331,6 +331,1429 @@ checking the test expression: when Logika encounters an if statement, it will us
 <p>After the conclusion of the <code>if</code> statement, the known facts at <strong>Line 14</strong> show Logika has merged the knowledge from both branches:  the facts originating in each branch of the <code>if</code> are now conditioned (using implication <code>-&gt;:</code>) on the value of the test expression within the respective branch.</p>
 <p><img src="../images/conditionals-01-assert.png" alt="Logika - Conditionals Reasoning Before If"></p>
 <p>The aggregated known facts at this point are sufficient for the SMT solvers to prove that assertion at <strong>Line 14</strong> hold, which captures the correctness property of the &ldquo;find max&rdquo; calculation.</p>
+<h3 id="overview-of-conditional-statements">Overview of Conditional Statements</h3>
+<p>In this chapter,  we begin by considering how the meaning of conditional statements with the structure below can be captured in terms of facts.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="o">{</span>  <span class="c1">// B is a boolean expression
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">S</span>       <span class="c1">// S is a (possibly composite) Slang command
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">T</span>       <span class="c1">// T is a (possibly composite) Slang command
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The intuition of conditional executed is easily stated:</p>
+<ul>
+<li>The <em>test expression</em> <code>B</code> is evaluated to obtain some boolean value <code>b</code>,</li>
+<li>If <code>b</code> is true, then <em>true branch</em> <code>S</code> is executed and the <em>false branch</em> <code>T</code> is bypassed,</li>
+<li>If the condition <code>b</code> is false, then the <em>false branch</em> <code>T</code> is executed and the <em>true branch</em> <code>S</code> is bypassed.</li>
+</ul>
+<p>This is our first example of a <em>control</em> command: a command whose execution will select a path of future commands
+to execute from among several possible paths.   In this case, the outcome of evaluating the test expression
+<code>B</code> will determine whether or not the path through <code>S</code> or the path through <code>T</code> is executed.
+We also refer to <code>S</code> and <code>T</code> as the <em>branches</em> of the conditional.</p>
+<p>Control statements are interesting when considering the task of discovering the meaning of a program because
+we need to discover the meaning along all possible paths associated with the control statement.  In a conditional statement,
+we only have two paths, but in a <strong>while</strong> statement, for instance, we can have a possibly infinite number of paths.</p>
+<p>This impacts logic-based reasoning because we often need to form facts that summarize the meaning of the control statement across all of its possible paths.   It impacts testing because we typically need to design our tests to cover as many paths through the control statement as is reasonable with respect to our testing objectives.</p>
+<p>Further complicating matters is that control statements may appear to have paths in their static structure that will never be reached during execution.   Consider the very simple conditional statement below.  Because <code>x</code> has the value <code>10</code>, the test expression <code>x &lt; 4</code> will always evaluate to false and so the true branch <code>y = y + 1</code> is <em>infeasible</em> &ndash; there is no execution scenario in which it will be executed.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span> <span class="k">=</span> <span class="mi">100</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span> <span class="k">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span>    <span class="c1">// an infeasible branch (dead code)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Code that will never be executed on any trace through the program is sometimes called &ldquo;dead code&rdquo;.<br>
+Although dead code is not necessarily &ldquo;faulty&rdquo;, in many verification regimes, it is considered problematic because it is often an indication that the developer has made some sort of logic mistake: why should you write a block of code that will never be executed?
+Thus, verification regimes for safety-critical software often have a requirement that software should contain no dead code.
+This is an example of a software requirement that cannot be translated directly into a logical specification (e.g., an assertion),
+but we still need to find some way to apply our verification techniques (whether logic-based formal methods or testing) to produce evidence that the requirement is satisfied.</p>
+<h3 id="example">Example</h3>
+<p>To motivate how we can systematically reason about conditional statements, consider the following example that finds the maximum value of two variables <code>x</code> and <code>y</code>.  Our explanation does not rely on the declarations of <code>x</code> and <code>y</code> and so we omit them for now.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce max == 0      (statement fact: assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">max</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">max</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We start off by deducing a fact about the value of <code>max</code> based on the principles introduced in the previous chapter.
+We know that the test expression <code>x &lt; y</code> is evaluated next.   However, for this program, it is impossible to predict the value of the test expression during static verification, because we have no facts about <code>x</code> and <code>y</code>.  Therefore, it is impossible for us to predict whether the true branch or the false branch will be executed.  Consequently, we must analyze <em>both branches</em> to ensure that we discover the complete meaning of the code.</p>
+<p><strong>Previously deduced facts can be carried down into branches:</strong> Since the test of the conditional is an expression, we know its evaluation will not update any variables.  Therefore, any facts that are true immediately before the conditional such as <code>z == 0</code> can be carried down into both branches.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce max == 0      (statement fact: assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce max == 0    (previously deduced fact) 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">max</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce max == 0    (previously deduced fact)  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">max</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As an aside, languages like C allow expressions to have side-effects (e.g., <code>x++</code>).  However, using those features generally complicate reasoning.   Using such expressions in conditional tests prevents one from applying universally the &ldquo;facts carry over into the braches&rdquo; reasoning above since an expression like <code>x++</code> could possibly invalidate facts containing <code>x</code>.</p>
+<p><strong>Picking up knowledge from test evaluation:</strong>  Although we cannot predict the exact value for the test expression <code>x &lt; y</code>, we do know that if execution ends up in the true branch, it must be the case that <code>x &lt; y</code> holds.   Conversely, if execution ends up in the false branch, we know that <code>!(x &lt; y)</code> holds.  These facts follow immediately from the structure of a conditional, so we label them as statement facts.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce max == 0      (statement fact: assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce max == 0    (previously deduced fact) 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce (x &lt; y)     (statement fact: conditional-true)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">max</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce max == 0    (previously deduced fact)  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce !(x &lt; y)    (statement fact: conditional-false)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">max</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Reasoning about individual branches:</strong>  In each branch, we simply apply our existing reasoning principles.   We&rsquo;ll see later than if we aim for certain facts, reasoning can be simplified a bit.  For now, let&rsquo;s just capture the consequences of the assignment to <code>max</code> in both branches.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce max == 0      (statement fact: assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce max == 0    (previously deduced fact) 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce (x &lt; y)     (statement fact: conditional-true)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">max</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce At(max,0) == 0  (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce max == y        (statement fact: assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce max == 0    (previously deduced fact)  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce !(x &lt; y)    (statement fact: conditional-false)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">max</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce At(max,0) == 0  (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce max == x        (statement fact: assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can carry over the fact related to the initial value of <code>max</code> (taking care to understand that we are now referencing a previous version).  Then, in both branches we can deduce a new value for <code>max</code>.</p>
+<p><strong>Merging facts at the end of a conditional:</strong>  The end of a conditional is a situation where multiple paths through the code (two in this case &ndash; for the true and false branches) join to execute a common set of commands (the code immediately after a conditional).   Similar (and even more complicated) situations exist at the conclusion of a loop.  It is possible to continue on with two distinct reasoning activities at the end of a conditional: one carrying along the facts from the true branch and another carrying along facts from the false branch.   While some automated analysis tools work this way (e.g., some tools typically classified as model checkers),
+this strategy has the disadvantage that there can be a combinatorial explosion of paths to consider (e.g., when the code has multiple conditional statements in a row).   It&rsquo;s more common for deductive tools designed for contract verification to try to derive facts at the point of path merging that summarize and combine the earlier facts from the individual paths.   One natural approach is to combine facts from merged branches with disjunction, as illustrated below.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce max == 0      (statement fact: assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce max == 0    (previously deduced fact) 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce (x &lt; y)     (statement fact: conditional-true)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">max</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce At(max,0) == 0  (previously deduced fact) 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce (x &lt; y)         (previously deduced fact) 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce max == y        (statement fact: assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce max == 0    (previously deduced fact)  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce !(x &lt; y)    (statement fact: conditional-false)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">max</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce At(max,0) == 0  (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce !(x &lt; y)        (previously deduced fact) 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce max == x        (statement fact: assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//  deduce   (At(max,0) == 0 &amp; (x &lt; y) &amp; max == y) 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>           <span class="o">|</span> <span class="o">(</span><span class="nc">At</span><span class="o">(</span><span class="n">max</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="o">!(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">&amp;</span> <span class="n">max</span> <span class="o">==</span> <span class="n">x</span><span class="o">)</span>   <span class="o">(</span><span class="n">conditional</span> <span class="n">fact</span> <span class="n">merge</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The intuition here is that at the bottom of the conditional, we cannot statically predict which branch was taken, but we can say that either the facts from the end of the true branch hold or the facts from the end of the false branch hold.  The presence of conditional expression facts <code>(x &lt; y)</code> and <code>!(x &lt; y)</code> in each side of the disjunction allow is to associate each disjunct with either the true branch or false branch.</p>
+<p>There are additional strategies possible for reasoning about the merging. First, note that when one has a fact that appears at the end of both branches (i.e., it is &ldquo;common&rdquo; to both branches), then the fact is guaranteed to hold at the end of the conditional regardless of which branch is executed. Abstractly, the following reasoning principle holds for fact <code>f</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">S</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce f
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">T</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce f
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce f      (conditional fact merge: common)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Note that applying the first merging principle would give <code>f | f</code>, which simplifies to <code>f</code>, to give what
+we have written immediately above.</p>
+<p>Applying this principle to the constraint <code>At(max,0) == 0</code> which appears in both branches of the conditional,
+we can rearrange the deduce annotations at the conclusion of the conditional to be</p>
+<pre tabindex="0"><code>//  deduce   At(max,0) == 0 
+//  deduce   (x &lt; y) &amp; max == y | !(x &lt; y) &amp; max == x
+</code></pre><p>Intuitively, last fact above is indicating that <code>max == y</code> is associated with the true branch and
+<code>max == x</code> is associated with the false branch.  Because we know that <code>(x &lt; y) | !(x &lt; y)</code> always
+holds (law of the excluded middle), it is sound to restate the concluding deduces as</p>
+<pre tabindex="0"><code>//  deduce   At(max,0) == 0 
+//  deduce   (x &lt; y) -&gt;: max == y &amp; !(x &lt; y) -&gt;: max == x
+</code></pre><p>where <code>-&gt;:</code> is Slang&rsquo;s syntax for implication.  We can also break conjuncts out into separate the deduce annotations.</p>
+<pre tabindex="0"><code>//  deduce   At(max,0) == 0          (conditional fact merge: common)
+//  deduce   (x &lt; y) -&gt;: max == y    (conditional fact merge: true branch)
+//  deduce   !(x &lt; y) -&gt;: max == x   (conditional fact merge: false branch)
+</code></pre><p>Logika uses this last strategy for merging.</p>
+<h3 id="reasoning-schema">Reasoning Schema</h3>
+<p>Consider the outline of a conditional statement below</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// deduce f        // some fact that is deducible immediately before the conditional 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce B      (statement fact: conditional true)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce f      (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">S</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce f-t
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce !B     (statement fact: conditional false)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// deduce f      (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">T</span> 
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce f-f
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="execution-of-conditionals">Execution of Conditionals</h4>
+<p>Of course, we understand the meaning of a conditional</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">S</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">T</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Understanding the execution of a conditional precisely, we can also reason about it.
+We want to reason about the effect of the conditional without executing it.</p>
+<h4 id="reasoning-about-conditionals">Reasoning about Conditionals</h4>
+<p>We know that <code>S</code> or <code>T</code> is executed depending on the value of <code>B</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">S</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">T</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This means,</p>
+<ul>
+<li>When <strong>first</strong> branch is entered, <code>B</code> becomes <em>initially</em> a fact in that branch</li>
+<li>When <strong>second</strong> branch is entered, <code>!B</code> becomes <em>initially</em> a fact in that branch</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// deduce B
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">S</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">T</span> <span class="c1">// deduce !B
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="example-computing-the-maximum-of-two-integers">Example: Computing the Maximum of two Integers</h3>
+<h4 id="example-a-computing-the-maximum">Example A: Computing the Maximum</h4>
+<p>As an example of a program with a conditional, we use the program for computing the maximum of two integers below.</p>
+<p>We focus on the highlighted fragment on the following slides assuming variables <code>x</code> and <code>y</code> and ignoring the final assertions for now.</p>
+<div class="highlight" hl_color="red"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="hl"><span class="lnt"> 6
+</span></span><span class="hl"><span class="lnt"> 7
+</span></span><span class="hl"><span class="lnt"> 8
+</span></span><span class="hl"><span class="lnt"> 9
+</span></span><span class="hl"><span class="lnt">10
+</span></span><span class="hl"><span class="lnt">11
+</span></span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">z</span> <span class="o">=</span> <span class="n">random</span> <span class="nc">Int</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line hl"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line hl"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line hl"><span class="cl">    <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line hl"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line hl"><span class="cl">    <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line hl"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">z</span> <span class="o">&amp;</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">z</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The assignment <code>var z: Z = 0</code> yields the fact <code>z == 0</code></p>
+<h4 id="reason-about-conditionals-completed">Reason about Conditionals (Completed)</h4>
+<p>We can complete our method for reasoning about conditionals now:</p>
+<ul>
+<li>When <strong>first</strong> branch is entered, <code>B</code> becomes <em>initially</em> a fact in that branch</li>
+<li>When <strong>second</strong> branch is entered, <code>!B</code> becomes <em>initially</em> a fact in that branch</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// deduce B
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">S</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ... deduce C
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// deduce !B
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">T</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ... deduce D
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce C | D
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>If we can deduce some fact <code>C</code> at the end of the <strong>first</strong> and a fact <code>D</code> at the end of the <strong>second</strong> branch, then we deduce <code>C | D</code> after the conditional.</li>
+</ul>
+<h4 id="reason-about-conditionals-completed-special-case">Reason about Conditionals (Completed Special Case)</h4>
+<p>We can complete our method for reasoning about conditionals now:</p>
+<ul>
+<li>When <strong>first</strong> branch is entered, <code>B</code> becomes <em>initially</em> a fact in that branch</li>
+<li>When <strong>second</strong> branch is entered, <code>!B</code> becomes <em>initially</em> a fact in that branch</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// deduce B
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">S</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ... deduce C
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// deduce !B
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">T</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ... deduce D
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce C
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>If we can deduce some fact <code>C</code> at the end of the <strong>first</strong> and the <strong>second</strong> branch, then we deduce <code>C</code> after the conditional (because <code>C | C</code> is identical to <code>C</code>)</li>
+</ul>
+<h4 id="exercise">Exercise</h4>
+<p>Implement and verify a program computing the absolute value of an integer using Slang deductions according to the contract below.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomtInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="nc">__________________</span>
+</span></span><span class="line"><span class="cl"><span class="nc">__________________</span>
+</span></span><span class="line"><span class="cl"><span class="nc">__________________</span>
+</span></span><span class="line"><span class="cl"><span class="nc">__________________</span>
+</span></span><span class="line"><span class="cl"><span class="nc">__________________</span>
+</span></span><span class="line"><span class="cl"><span class="nc">__________________</span>
+</span></span><span class="line"><span class="cl"><span class="nc">__________________</span>
+</span></span><span class="line"><span class="cl"><span class="nc">__________________</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span><span class="o">/</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">|</span> <span class="n">x</span><span class="o">/</span><span class="n">y</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="example-b-biased-difference">Example B: Biased Difference</h4>
+<p>Let&rsquo;s consider a small variation of the maximum program</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">z</span> <span class="k">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">z</span> <span class="k">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It has an additional assignment at the end.
+We can reuse the deductions from the maximum problem, only dealing with the added assignment.
+We already know the deductions we can make at the end of the conditional.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce z == x | z == y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">z</span> <span class="k">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">z</span> <span class="k">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Of course, the assignment <code>z = z - x</code> changes this fact.</p>
+<p>We can deduce <code>At(z, 1) == z + x</code> and replace <code>At(z, 1)</code> in the disjunction.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce z == x | z == y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">z</span> <span class="k">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce At(z, 1) == x | At(z, 1) == y
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce z == At(z, 1) - x
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This gives the new fact <code>z + x == x | z + x == y</code>.</p>
+<p>We already know the deductions we can make at the end of the conditional.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce z == x | z == y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">z</span> <span class="k">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// deduce At(z, 1) == x | At(z, 1) == y
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce z == At(z, 1) - x
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce z + x == x | z + x == y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The assertion now holds by simple algebra.</p>
+<h4 id="example-b-biased-difference-program-in-logika">Example B: Biased Difference Program in Logika</h4>
+<p><img src="../images/Biased_Diff_1.png" alt="Biased_Diff_1">
+The deductions and final assertions are verified by Logika.</p>
+<h4 id="programs-are-facts">Programs are Facts</h4>
+<p>Programs with conditionals correspond to facts of the shape <strong>(B -&gt; S<sub>fact</sub>) &amp; (!B -&gt; T<sub>fact</sub>)</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">S</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">T</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>A little complication will appear later with respect to replacing &ldquo;old variables&rdquo; in S<sub>fact</sub> and T<sub>fact</sub>.
+<em>Aside.</em> We can also write the conjunction <strong>(B -&gt; S<sub>fact</sub>) &amp; (!B -&gt; T<sub>fact</sub>)</strong> as the equivalent disjunction <strong>(B &amp; S<sub>fact</sub>) | (!B &amp; T<sub>fact</sub>)</strong>.
+In Logika the first form is used. It permits writing larger formulas in tabular e.g., when dealing with nested conditionals.</p>
+<h4 id="verifying-the-maximum-program-in-logika">Verifying the Maximum Program in Logika</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nc">\begin</span><span class="o">{</span><span class="n">lstlisting</span><span class="o">}[</span><span class="kt">escapechar=~</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">z</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(!(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">z</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">z</span> <span class="o">&amp;</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">z</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We have added some <code>Deduce</code> commands to the program to document why it works.
+If all <code>Deduce</code> commands are removed, Logika verifies the program fully automatic.
+In the future, we will only state facts relevant for the understanding, leaving to Logika some of the work and relying on the reader to fill in the gaps.</p>
+<h4 id="the-maximum-program-in-logika">The Maximum Program in Logika</h4>
+<p><img src="../images/Maximum_1.png" alt="Maximum_1">
+Facts known after the first assignment to <code>z</code>.
+<img src="../images/Maximum_2.png" alt="Maximum_2">
+Facts known when entering the first branch.
+<img src="../images/Maximum_3.png" alt="Maximum_3">
+Facts known after the assignment to <code>z</code> in the first branch.
+<img src="../images/Maximum_4.png" alt="Maximum_4">
+Facts known when entering the second branch.
+<img src="../images/Maximum_5.png" alt="Maximum_5">
+Facts known after the assignment to <code>z</code> in the second branch.
+<img src="../images/Maximum_6.png" alt="Maximum_6">
+Facts known after the conditional.</p>
+<h3 id="nested-conditionals">Nested Conditionals</h3>
+<h4 id="the-maximum-of-three-integers">The Maximum of Three Integers</h4>
+<p>The following program computes the maximum of three integers.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">z</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">z</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">m</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="n">m</span> <span class="o">==</span> <span class="n">y</span> <span class="o">|</span> <span class="n">m</span> <span class="o">==</span> <span class="n">z</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">m</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">m</span> <span class="o">&amp;</span> <span class="n">z</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Exercise A:</strong> Add the facts that are initially true in each branch.
+<strong>Exercise B:</strong> Implement a program that chooses the maximum of four numbers.</p>
+<h4 id="the-program-as-a-fact">The Program as a Fact</h4>
+<p>Programs with conditionals correspond to facts of the shape <strong>(B -&gt; S<sub>fact</sub>) &amp; (!B -&gt; T<sub>fact</sub>).</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">S</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">T</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We have the following law relating conjunction and implication: <code>A -&gt; (B -&gt; C)</code> is identical to <code>(A &amp; B) -&gt; C</code>.
+Thus, we have two equivalent ways to stack conditions as we move through nested conditionals.
+Let&rsquo;s look directly at the way this is represented in Logika.</p>
+<h4 id="the-program-in-logika">The Program in Logika</h4>
+<p><img src="../images/Nested-1.png" alt="Nested-1">
+Facts following nested conditionals.
+The conditions are stacked horizontally reaching the inner blocks and vertically enumerating all blocks of the conditional.</p>
+<h4 id="the-maximum-of-three-integers-1">The Maximum of Three Integers</h4>
+<p>Facts corresponding to the program with nested conditionals.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">z</span>        <span class="c1">// deduce   x &lt; y  &amp;   y &lt; z  -&gt; m == z
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">y</span>        <span class="c1">// deduce   x &lt; y  &amp; !(y &lt; z) -&gt; m == y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">z</span>        <span class="c1">// deduce !(x &lt; y) &amp;   x &lt; z  -&gt; m == z
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">x</span>        <span class="c1">// deduce !(x &lt; y) &amp; !(x &lt; z) -&gt; m == x
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// The facts are as seen from here
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Each deduction is an implication <strong>C-&gt; B<sub>fact</sub></strong> where <code>C</code> contains the conditions leading to block <code>B</code> and <strong>B<sub>fact</sub></strong> is the fact corresponding to that block.</p>
+<p>The conjunction of these deductions is the fact corresponding to the program.
+Thus, we can easily relate the components of a Slang conditional <code>P</code> to the components of the corresponding fact <strong>P<sub>fact</sub></strong></p>
+<h3 id="example-swapping-two-integers">Example: Swapping two Integers</h3>
+<h4 id="blocks-with-several-assignments">Blocks with Several Assignments</h4>
+<p>We have considered nested conditionals and seen that there is a close correspondence between programs and the deduced facts at all program locations.
+We look at a program with larger blocks next.
+Once we&rsquo;ve observed these two variations it is not difficult to analyse more complex programs containing conditionals.</p>
+<h4 id="example-swapping-two-integers-1">Example: Swapping two Integers</h4>
+<p>The following program chooses to use a local variable if <code>x &gt;= y</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">t</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">t</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="the-example-in-logika">The Example in Logika</h4>
+<p><img src="../images/Swap_choice_1.png" alt="Swap_choice_1">
+Note that the local variable <code>t</code> is only used in the &ldquo;past form&rdquo;&quot; <code>At(t, 0)</code>.
+This variable is not available in the &ldquo;present form&rdquo; after the block.
+<img src="../images/Swap_Block_1.png" alt="Swap_Block_1">
+This is a property of local variables in block.</p>
+<h4 id="exercise-1">Exercise</h4>
+<p>Is the following program correct? Why?
+Add Slang deductions to document your argument</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">a</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">b</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(!</span><span class="n">a</span> <span class="o">||</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">a</span> <span class="k">=</span> <span class="o">!</span><span class="n">a</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">a</span> <span class="k">=</span> <span class="o">!</span><span class="n">b</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">a</span> <span class="o">|</span> <span class="n">b</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="symbolic-execution">Symbolic Execution</h3>
+<h4 id="facts-as-values-in-conditionals">Facts as Values in Conditionals</h4>
+<p>Recall the maximum program:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Symbolic execution of conditionals collects the conditions and their negations in different paths described by the corresponding path conditions.
+This corresponds closely to the way conditions are stacked when considering conditionals as facts.</p>
+<h4 id="using-facts-as-values">Using Facts as Values</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="hl"><span class="lnt">1
+</span></span><span class="hl"><span class="lnt">2
+</span></span><span class="hl"><span class="lnt">3
+</span></span><span class="hl"><span class="lnt">4
+</span></span><span class="hl"><span class="lnt">5
+</span></span><span class="hl"><span class="lnt">6
+</span></span><span class="hl"><span class="lnt">7
+</span></span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line hl"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line hl"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line hl"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line hl"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line hl"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line hl"><span class="cl"><span class="o">}</span>
+</span></span><span class="line hl"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Executing <code>var z: Z = 0</code> yields (<code>x: X, y: Y, z: 0</code>), (PC: <code>true</code>)</li>
+<li>Executing <code>if (x &lt; y)</code> yields (<code>x: X, x: X, z = 0</code>), (PC: <code>X &lt; Y</code>)</li>
+<li>Executing <code>z = y</code> yields (<code>x: X, y: Y, z: Y</code>), (PC: <code>X &lt; Y</code>)</li>
+<li>Executing <code>assert(...)</code> yields (<code>x: X, y: Y, z: Y</code>), (PC: <code>X &lt; Y, Y == X | Y == Y</code>)</li>
+<li>Executing <code>else</code> yields (<code>x: X, x: X, z: 0</code>), (PC: <code>!(X &lt; Y)</code>)</li>
+<li>Executing <code>z = x</code> yields (<code>x: X, y: Y, z: X</code>), (PC: <code>!(X &lt; Y)</code>)</li>
+<li>Executing <code>assert(...)</code> yields (<code>x: X, x: X, z: X</code>), (PC: <code>!(X &lt; Y), X == X | X == Y</code>)</li>
+</ul>
+<h4 id="execution-tree">Execution Tree</h4>
+<p>The two possible outcomes of a condition like <code>x &lt; y</code> give rise to a tree structure of a symbolic execution.</p>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">flowchart TB
+    A[(.., z: 0), (PC: true)]
+    A --&gt; B[(...,z: 0), (PC: X &lt; Y)]
+    A -- C[(...,z: 0), (PC:!( X &lt; Y))]
+    B -- D[(...,z: Y), (PC: X &lt; Y)]
+    C -- E[(...,z: X), (PC:!( X &lt; Y))]
+</code></pre>
+
+
+<div class="goat svg-container ">
+  
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      font-family="Menlo,Lucida Console,monospace"
+      
+        viewBox="0 0 1576 201"
+      >
+      <g transform='translate(8,16)'>
+<path d='M 120,128 L 120,144' fill='none' stroke='currentColor'></path>
+<path d='M 376,128 L 376,144' fill='none' stroke='currentColor'></path>
+<path d='M 184,96 L 216,32' fill='none' stroke='currentColor'></path>
+<path d='M 272,32 L 304,96' fill='none' stroke='currentColor'></path>
+<text text-anchor='middle' x='56' y='116' fill='currentColor' style='font-size:1em'>.</text>
+<text text-anchor='middle' x='56' y='164' fill='currentColor' style='font-size:1em'>.</text>
+<text text-anchor='middle' x='64' y='116' fill='currentColor' style='font-size:1em'>,</text>
+<text text-anchor='middle' x='64' y='164' fill='currentColor' style='font-size:1em'>,</text>
+<text text-anchor='middle' x='72' y='116' fill='currentColor' style='font-size:1em'>z</text>
+<text text-anchor='middle' x='72' y='164' fill='currentColor' style='font-size:1em'>z</text>
+<text text-anchor='middle' x='80' y='116' fill='currentColor' style='font-size:1em'>:</text>
+<text text-anchor='middle' x='80' y='164' fill='currentColor' style='font-size:1em'>:</text>
+<text text-anchor='middle' x='96' y='116' fill='currentColor' style='font-size:1em'>0</text>
+<text text-anchor='middle' x='96' y='164' fill='currentColor' style='font-size:1em'>Y</text>
+<text text-anchor='middle' x='104' y='116' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='104' y='164' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='112' y='116' fill='currentColor' style='font-size:1em'>,</text>
+<text text-anchor='middle' x='112' y='164' fill='currentColor' style='font-size:1em'>,</text>
+<text text-anchor='middle' x='128' y='116' fill='currentColor' style='font-size:1em'>(</text>
+<text text-anchor='middle' x='128' y='164' fill='currentColor' style='font-size:1em'>(</text>
+<text text-anchor='middle' x='136' y='116' fill='currentColor' style='font-size:1em'>P</text>
+<text text-anchor='middle' x='136' y='164' fill='currentColor' style='font-size:1em'>P</text>
+<text text-anchor='middle' x='144' y='116' fill='currentColor' style='font-size:1em'>C</text>
+<text text-anchor='middle' x='144' y='164' fill='currentColor' style='font-size:1em'>C</text>
+<text text-anchor='middle' x='152' y='116' fill='currentColor' style='font-size:1em'>:</text>
+<text text-anchor='middle' x='152' y='164' fill='currentColor' style='font-size:1em'>:</text>
+<text text-anchor='middle' x='168' y='116' fill='currentColor' style='font-size:1em'>X</text>
+<text text-anchor='middle' x='168' y='164' fill='currentColor' style='font-size:1em'>X</text>
+<text text-anchor='middle' x='176' y='20' fill='currentColor' style='font-size:1em'>.</text>
+<text text-anchor='middle' x='184' y='20' fill='currentColor' style='font-size:1em'>,</text>
+<text text-anchor='middle' x='184' y='116' fill='currentColor' style='font-size:1em'>&lt;</text>
+<text text-anchor='middle' x='184' y='164' fill='currentColor' style='font-size:1em'>&lt;</text>
+<text text-anchor='middle' x='200' y='20' fill='currentColor' style='font-size:1em'>z</text>
+<text text-anchor='middle' x='200' y='116' fill='currentColor' style='font-size:1em'>Y</text>
+<text text-anchor='middle' x='200' y='164' fill='currentColor' style='font-size:1em'>Y</text>
+<text text-anchor='middle' x='208' y='20' fill='currentColor' style='font-size:1em'>:</text>
+<text text-anchor='middle' x='208' y='116' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='208' y='164' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='224' y='20' fill='currentColor' style='font-size:1em'>0</text>
+<text text-anchor='middle' x='232' y='20' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='240' y='20' fill='currentColor' style='font-size:1em'>,</text>
+<text text-anchor='middle' x='256' y='20' fill='currentColor' style='font-size:1em'>(</text>
+<text text-anchor='middle' x='264' y='20' fill='currentColor' style='font-size:1em'>P</text>
+<text text-anchor='middle' x='272' y='20' fill='currentColor' style='font-size:1em'>C</text>
+<text text-anchor='middle' x='280' y='20' fill='currentColor' style='font-size:1em'>:</text>
+<text text-anchor='middle' x='296' y='20' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='304' y='20' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='312' y='20' fill='currentColor' style='font-size:1em'>u</text>
+<text text-anchor='middle' x='312' y='116' fill='currentColor' style='font-size:1em'>.</text>
+<text text-anchor='middle' x='312' y='164' fill='currentColor' style='font-size:1em'>.</text>
+<text text-anchor='middle' x='320' y='20' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='320' y='116' fill='currentColor' style='font-size:1em'>,</text>
+<text text-anchor='middle' x='320' y='164' fill='currentColor' style='font-size:1em'>,</text>
+<text text-anchor='middle' x='328' y='20' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='328' y='116' fill='currentColor' style='font-size:1em'>z</text>
+<text text-anchor='middle' x='328' y='164' fill='currentColor' style='font-size:1em'>z</text>
+<text text-anchor='middle' x='336' y='116' fill='currentColor' style='font-size:1em'>:</text>
+<text text-anchor='middle' x='336' y='164' fill='currentColor' style='font-size:1em'>:</text>
+<text text-anchor='middle' x='352' y='116' fill='currentColor' style='font-size:1em'>0</text>
+<text text-anchor='middle' x='352' y='164' fill='currentColor' style='font-size:1em'>X</text>
+<text text-anchor='middle' x='360' y='116' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='360' y='164' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='368' y='116' fill='currentColor' style='font-size:1em'>,</text>
+<text text-anchor='middle' x='368' y='164' fill='currentColor' style='font-size:1em'>,</text>
+<text text-anchor='middle' x='384' y='116' fill='currentColor' style='font-size:1em'>(</text>
+<text text-anchor='middle' x='384' y='164' fill='currentColor' style='font-size:1em'>(</text>
+<text text-anchor='middle' x='392' y='116' fill='currentColor' style='font-size:1em'>P</text>
+<text text-anchor='middle' x='392' y='164' fill='currentColor' style='font-size:1em'>P</text>
+<text text-anchor='middle' x='400' y='116' fill='currentColor' style='font-size:1em'>C</text>
+<text text-anchor='middle' x='400' y='164' fill='currentColor' style='font-size:1em'>C</text>
+<text text-anchor='middle' x='408' y='116' fill='currentColor' style='font-size:1em'>:</text>
+<text text-anchor='middle' x='408' y='164' fill='currentColor' style='font-size:1em'>:</text>
+<text text-anchor='middle' x='416' y='116' fill='currentColor' style='font-size:1em'>!</text>
+<text text-anchor='middle' x='416' y='164' fill='currentColor' style='font-size:1em'>!</text>
+<text text-anchor='middle' x='424' y='116' fill='currentColor' style='font-size:1em'>(</text>
+<text text-anchor='middle' x='424' y='164' fill='currentColor' style='font-size:1em'>(</text>
+<text text-anchor='middle' x='440' y='116' fill='currentColor' style='font-size:1em'>X</text>
+<text text-anchor='middle' x='440' y='164' fill='currentColor' style='font-size:1em'>X</text>
+<text text-anchor='middle' x='456' y='116' fill='currentColor' style='font-size:1em'>&lt;</text>
+<text text-anchor='middle' x='456' y='164' fill='currentColor' style='font-size:1em'>&lt;</text>
+<text text-anchor='middle' x='472' y='116' fill='currentColor' style='font-size:1em'>Y</text>
+<text text-anchor='middle' x='472' y='164' fill='currentColor' style='font-size:1em'>Y</text>
+<text text-anchor='middle' x='480' y='116' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='480' y='164' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='488' y='116' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='488' y='164' fill='currentColor' style='font-size:1em'>)</text>
+</g>
+
+    </svg>
+  
+</div>
+<p>(Some information has been omitted from the tree to keep it readable)</p>
+<h3 id="slang-examples">Slang Examples</h3>
+<p>Absvalue nn</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="o">-</span><span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span><span class="o">/</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">|</span> <span class="n">x</span><span class="o">/</span><span class="n">y</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Boolor</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">a</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">b</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(!</span><span class="n">a</span> <span class="o">||</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">a</span> <span class="k">=</span> <span class="o">!</span><span class="n">a</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">a</span> <span class="k">=</span> <span class="o">!</span><span class="n">b</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">a</span> <span class="o">|</span> <span class="n">b</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Maximum Diff</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">z</span> <span class="k">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Maximum Diff Ded</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">z</span> <span class="k">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="nc">At</span><span class="o">(</span><span class="n">z</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="nc">At</span><span class="o">(</span><span class="n">z</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">z</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="n">z</span> <span class="o">+</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Maximum Simple</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">z</span> <span class="o">&amp;</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">z</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Maximum Simple Ded</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">z</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">y</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(!(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">z</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">z</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Deduce</span><span class="o">(|-</span> <span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="n">z</span> <span class="o">==</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">z</span> <span class="o">&amp;</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">z</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nested Max</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">();</span> <span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">();</span> <span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">z</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">z</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">z</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">m</span> <span class="o">==</span> <span class="n">x</span> <span class="o">|</span> <span class="n">m</span> <span class="o">==</span> <span class="n">y</span> <span class="o">|</span> <span class="n">m</span> <span class="o">==</span> <span class="n">z</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">m</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">m</span> <span class="o">&amp;</span> <span class="n">z</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Swap Block</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">t</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">t</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Swap Choice</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// #Sireum #Logika
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">import</span> <span class="nn">org.sireum._</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">val</span> <span class="n">t</span> <span class="k">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="k">=</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="k">=</span> <span class="n">t</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="summary">Summary</h3>
+<p>We have looked at conditionals:</p>
+<ul>
+<li>by tracing facts through programs</li>
+<li>by considering programs as facts</li>
+<li>by symbolic execution</li>
+</ul>
+<p>(Just as we did last week for assignments and compositions of assignments)
+We have reasoned about conditionals observing, in particular, the role of the conditions.</p>
 
             </div>
         </article>

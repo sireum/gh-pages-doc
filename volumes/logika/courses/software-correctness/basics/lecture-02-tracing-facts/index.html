@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="Tracing Values Execution as Calculation A common way to reason about a program is to trace its execution and try to determine the values of variables at different in the execution. The simplest approach that students follow when learning to program is to add some &amp;ldquo;print&amp;rdquo; statements to code to print out the values of variables at certain points. Later, one learns how to use a debugger &amp;ndash; which can show the current values of variables without having to add explicit &amp;ldquo;print&amp;rdquo; statements in the code." />
+<meta name="description" content="Tracing Values Execution as Value Calculation A common way to reason about a program is to trace its execution and try to determine the values of variables at different in the execution. The simplest approach that students follow when learning to program is to add some &amp;ldquo;print&amp;rdquo; statements in their code to print out the values of variables at certain points. Later, one learns how to use a debugger, which can show the current values of variables without having to add explicit &amp;ldquo;print&amp;rdquo; statements." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -42,15 +42,15 @@
 
 
 <meta itemprop="name" content="Lecture Summary: Tracing Facts">
-<meta itemprop="description" content="Tracing Values Execution as Calculation A common way to reason about a program is to trace its execution and try to determine the values of variables at different in the execution. The simplest approach that students follow when learning to program is to add some &ldquo;print&rdquo; statements to code to print out the values of variables at certain points. Later, one learns how to use a debugger &ndash; which can show the current values of variables without having to add explicit &ldquo;print&rdquo; statements in the code."><meta itemprop="datePublished" content="2022-11-24T17:01:09+01:00" />
+<meta itemprop="description" content="Tracing Values Execution as Value Calculation A common way to reason about a program is to trace its execution and try to determine the values of variables at different in the execution. The simplest approach that students follow when learning to program is to add some &ldquo;print&rdquo; statements in their code to print out the values of variables at certain points. Later, one learns how to use a debugger, which can show the current values of variables without having to add explicit &ldquo;print&rdquo; statements."><meta itemprop="datePublished" content="2022-11-24T17:01:09+01:00" />
 <meta itemprop="dateModified" content="2022-11-24T17:01:09+01:00" />
-<meta itemprop="wordCount" content="4941"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="wordCount" content="5496"><meta itemprop="image" content="https://doc.sireum.org"/>
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://doc.sireum.org"/>
 
 <meta name="twitter:title" content="Lecture Summary: Tracing Facts"/>
-<meta name="twitter:description" content="Tracing Values Execution as Calculation A common way to reason about a program is to trace its execution and try to determine the values of variables at different in the execution. The simplest approach that students follow when learning to program is to add some &ldquo;print&rdquo; statements to code to print out the values of variables at certain points. Later, one learns how to use a debugger &ndash; which can show the current values of variables without having to add explicit &ldquo;print&rdquo; statements in the code."/>
+<meta name="twitter:description" content="Tracing Values Execution as Value Calculation A common way to reason about a program is to trace its execution and try to determine the values of variables at different in the execution. The simplest approach that students follow when learning to program is to add some &ldquo;print&rdquo; statements in their code to print out the values of variables at certain points. Later, one learns how to use a debugger, which can show the current values of variables without having to add explicit &ldquo;print&rdquo; statements."/>
 
 
 
@@ -315,8 +315,7 @@
   <ul>
     <li><a href="#tracing-values">Tracing Values</a>
       <ul>
-        <li><a href="#execution-as-calculation">Execution as Calculation</a></li>
-        <li><a href="#example-execution-as-calculation">Example: Execution as Calculation</a></li>
+        <li><a href="#execution-as-value-calculation">Execution as Value Calculation</a></li>
         <li><a href="#example-experimenting-with-the-program-via-testing">Example: Experimenting with the Program via Testing</a></li>
         <li><a href="#limitations-of-tracing-values-only">Limitations of Tracing Values Only</a></li>
       </ul>
@@ -329,20 +328,17 @@
     <li><a href="#tracing-facts-with-logika">Tracing Facts with Logika</a>
       <ul>
         <li><a href="#logika">Logika</a></li>
-        <li><a href="#example-deducing-facts-for-mutable-variables">Example: Deducing Facts for Mutable Variables</a></li>
-        <li><a href="#analysing-programs">Analysing Programs</a></li>
       </ul>
     </li>
-    <li><a href="#test-case-derivation">Test Case Derivation</a>
+    <li><a href="#tracing-facts-for-mutable-variables">Tracing Facts for Mutable Variables</a>
       <ul>
-        <li><a href="#example-mutable-swapping">Example: Mutable Swapping</a></li>
+        <li><a href="#reasoning-about-mutable-variables-using-logical-variable-versions">Reasoning about Mutable Variables using Logical Variable &ldquo;Versions&rdquo;</a></li>
+        <li><a href="#a-notational-simplification-for-the-most-recent-version-of-a-variable">A Notational Simplification for the &ldquo;Most Recent&rdquo; Version of a Variable&quot;</a></li>
       </ul>
     </li>
-    <li><a href="#symbolic-execution">Symbolic Execution</a>
-      <ul>
-        <li><a href="#using-facts-as-values">Using Facts as Values</a></li>
-      </ul>
-    </li>
+    <li><a href="#analysing-programs">Analysing Programs</a></li>
+    <li><a href="#test-case-derivation">Test Case Derivation</a></li>
+    <li><a href="#a-deeper-dive-symbolic-execution">A Deeper Dive: Symbolic Execution</a></li>
     <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
@@ -352,18 +348,19 @@
 
             <div class="post-content">
                 <h3 id="tracing-values">Tracing Values</h3>
-<h4 id="execution-as-calculation">Execution as Calculation</h4>
-<p>A common way to reason about a program is to trace its execution and try to determine the values of variables at different in the execution.  The simplest approach that students follow when learning to program is to add some &ldquo;print&rdquo; statements to code to print out the values of variables at certain points.  Later, one learns how to use a debugger &ndash; which can show the current values of variables without having to add explicit &ldquo;print&rdquo; statements in the code.  Once we become experienced programmers, we may often use a debugger, but it is second-nature for us to look at code and predict the possible values of variables at specific points.   When looking for potential errors, we often imagine the &ldquo;correct&rdquo; or &ldquo;desired&rdquo; or &ldquo;expected&rdquo; values of variables and then look for possible deviations (e.g., with &ldquo;print&rdquo; statements or with the debugger).
-In other words, we calculate &ldquo;in our heads&rdquo; expected values and compare them to those produced by program execution.   We can follow a similar approach directly without executing a program: we can state expected values by asserting them and compare them to those produced by calculation.   Looking at a series of examples will help us tie together some basic relationships between our natural intuitions, automated program verification, and testing.</p>
-<h4 id="example-execution-as-calculation">Example: Execution as Calculation</h4>
+<h4 id="execution-as-value-calculation">Execution as Value Calculation</h4>
+<p>A common way to reason about a program is to trace its execution and try to determine the values of variables at different in the execution.  The simplest approach that students follow when learning to program is to add some &ldquo;print&rdquo; statements in their code to print out the values of variables at certain points.  Later, one learns how to use a debugger, which can show the current values of variables without having to add explicit &ldquo;print&rdquo; statements.  Once we become experienced programmers, we often use a debugger, but it is second-nature for us to look at code and predict the possible values of variables at specific points.   When looking for program errors, we often imagine the &ldquo;correct&rdquo; or &ldquo;desired&rdquo; or &ldquo;expected&rdquo; values of variables and then look for possible deviations (e.g., with &ldquo;print&rdquo; statements or with the debugger).  In other words, we calculate &ldquo;in our heads&rdquo; expected values and compare them to those produced by program execution.   We can follow a similar approach directly without executing a program: we can state expected values by asserting them and compare them to those produced by mental calculations.</p>
+<p>Looking at a series of examples will help us tie together some basic relationships between our natural intuitions, automated program verification, and testing.  Consider the simple straightline code below.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">3</span>
 </span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">5</span>
 </span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
 </span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">n</span>
 </span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
 </span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">5</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span>
-</span></span></code></pre></div><p>The code fragment above initialises variable <code>m</code> to <code>3</code> and variable <code>n</code> to <code>5</code>.  At the end, it asserts that variable <code>x</code> equals <code>5</code> and variable <code>y</code> equals <code>3</code>.</p>
-<p>We now construct a &ldquo;mental trace&rdquo; of the program.  We state in interspersed comments the variable values that we  <strong>deduce</strong> (calculate &ldquo;in our heads&rdquo;), e.g., using comments like the following..</p>
+</span></span></code></pre></div><p>This code fragment initialises variable <code>m</code> to <code>3</code> and variable <code>n</code> to <code>5</code>.  We use an assertion at the end of the program
+to claim that variable <code>x</code> equals <code>5</code> and variable <code>y</code> equals <code>3</code>.</p>
+<p>We now construct a &ldquo;mental trace&rdquo; of the program to see if our claim holds.<br>
+We state in interspersed comments the variable values that we  <strong>deduce</strong> (calculate &ldquo;in our heads&rdquo;), e.g., using comments like the following..</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="c1">// deduce v == e &amp; w == f &amp; ...
 </span></span></span></code></pre></div><p>&hellip;which indicate that we deduced variable <code>v</code> has value <code>e</code>, and so on.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">3</span>
@@ -382,9 +379,7 @@ In other words, we calculate &ldquo;in our heads&rdquo; expected values and comp
 </span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">5</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span>
 </span></span></code></pre></div><p>In this example, since all variables are assigned only once,
 we can focus our attention on the value of each &ldquo;new&rdquo; variable because each previously assigned variable retains its same value.</p>
-<p>The calculation yields <code>y == 3 &amp; x == 5</code>, i.e., the calculation confirms the expected values stated in the final assertion.</p>
-<p>**ToDo: Do I really want the assertion in this example yet?
-I think it might be best to first connect to the idea of testing to expected values. **</p>
+<p>The calculation right before the assertion yields <code>y == 3 &amp; x == 5</code>, i.e., the calculation confirms the expected values stated in the assertion.</p>
 <h4 id="example-experimenting-with-the-program-via-testing">Example: Experimenting with the Program via Testing</h4>
 <p>Instead of tracing variable values in our head, we design an <em>experiment</em> on the code with a testing framework, and then use a debugger to launch the experiment and observe the variable values as the execution proceeds (see Appendices XXX and YYY for suggestions for setting up your code, tests, and running the debugger).</p>
 <p><img src="../images/basics-ex1-debugger.png" alt="ex1-debugger"></p>
@@ -416,15 +411,16 @@ I think it might be best to first connect to the idea of testing to expected val
 <li>What should you record in comments for the values of <code>z</code> and <code>y</code>?</li>
 <li>When you consider the specific values that might get assigned to <code>m</code> and <code>n</code>, how many executions traces are possible for this code?</li>
 </ul>
-<p>Trying to answer the questions above leads to the following conclusions</p>
+<p>Trying to answer the questions above leads to the following conclusions:</p>
 <ul>
-<li>For all practical purposes, there are an unlimited number of possible values for the program variables in the code above, so trying to determine the complete meaning of the code by reasoning only in terms of concrete values is infeasible.</li>
-<li>For all practical purposes, there are an unlimited number of traces for the code.</li>
+<li>for all practical purposes, there are an unlimited number of possible values for the program variables in the code above, so trying to determine the complete meaning of the code by reasoning only in terms of concrete values is infeasible.</li>
+<li>for all practical purposes, there are an unlimited number of traces for the code.</li>
 </ul>
-<p>We can often get valuable intuition by looking at examples with specific values and specific traces, but that is not enough for us to reason about the complete meaning of the program or ensure that it is free from error.</p>
+<p>While we can often get valuable intuition by looking at examples with specific values and specific traces, that is not enough for us to reason about the complete meaning of the program nor ensure that it is free from error.</p>
 <p>(ToDo: Experimenting with a program with a test and a debugger only covers one execution trace at a time.  We have a potentially infinite number of traces).</p>
 <h3 id="tracing-facts">Tracing Facts</h3>
-<p>To addressing the limitations outlined above, we need to expand the concept of tracking <strong>specific values</strong> of variables to tracking <strong>facts</strong> (i.e., constraints or properties).  We can still handle situations where we happen to know the specific value of a variable:
+<p>To addressing the limitations outlined above, we need to expand the concept of tracking <strong>specific values</strong> of variables to tracking <strong>facts</strong> (i.e., constraints or properties about all the possible values that a variable might take on during any
+possile execution).  We can still handle situations where we happen to know the specific value of a variable:
 a specific variable value is just a special kind of fact that constrains a variable to one value.</p>
 <p>Let&rsquo;s consider this example in more detail.</p>
 <h4 id="example-deducing-facts-for-immutable-variables">Example: Deducing Facts for Immutable Variables</h4>
@@ -446,35 +442,41 @@ Let&rsquo;s insert a comment introducing this fact.</p>
 </span></span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">n</span>
 </span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
 </span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
-</span></span></code></pre></div><p>We can see immediately that there is such a fact directly deducible from each assignment.
-Let&rsquo;s add those.</p>
+</span></span></code></pre></div><p>We can see immediately that there is such a fact immediately deducible from each assignment statement.
+Let&rsquo;s add those and label them as <code>statement facts: assignment</code>.  In subsequent chapters, we will see
+how each category of program statement gives rise to a specific form of statement facts.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
-</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="c1">// deduce z == m + n
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="c1">// deduce z == m + n    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">n</span>
-</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="c1">// deduce y == z - n
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="c1">// deduce y == z - n    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
-</span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="c1">// deduce x == z - y
+</span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="c1">// deduce x == z - y    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln">9</span><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
 </span></span></code></pre></div><p>Note that deduced information immediately above the asserion is not enough deduce <code>x == n</code> and <code>y == m</code>.
 There are some additional principles that we need to incorporate.</p>
-<p><strong>Propagating previously deduced facts</strong>:  In many situations in our code, facts deduced at early points in the program can be &ldquo;carried along&rdquo; and brought to the current code point that we are reasoning about.  Our example code block is designed to emphasize one particular code scenario where we can always carry previously deduced facts forward, i.e., situations where we are not updating (re-assigning to variables) but only introducing new variable names.  Because each &ldquo;variable&rdquo; is our example is assigned only once (emphasized by their <code>val</code> declarations), we can bring &ldquo;old facts&rdquo; about those variables forward.
-Observe, that the variable <code>z</code> is referred to after the assignments to <code>y</code> and <code>x</code>.
-We can bring the fact <code>z == m + n</code> to those points because the fact still hold (nothing has interferred with the values of <code>z</code>, <code>m</code>, or <code>n</code> in the mean time).</p>
+<p><strong>Propagating previously deduced facts</strong>:  In many situations in our code, facts deduced at early points in the program can be &ldquo;carried along&rdquo; and brought to the current code point that we are reasoning about.  Our example code block is designed to emphasize a particular code style where we can always carry previously deduced facts forward, i.e., situations where we are not updating (re-assigning to variables) but only introducing new variable names.  Because each &ldquo;variable&rdquo; is our example is assigned only once (emphasized by their <code>val</code> declarations), we can bring &ldquo;old facts&rdquo; about those variables forward.
+Observe that we can record facts about the variable <code>z</code> (e.g., <code>z == m + n</code>) after the assignments to <code>y</code> and <code>x</code> even though
+<code>z</code> is assigned <em>before</em> <code>y</code> and <code>x</code>.
+We can bring the fact <code>z == m + n</code> to points later in the code because the fact still holds
+(nothing has interferred with the values of <code>z</code>, <code>m</code>, or <code>n</code> in the mean time).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1">// deduce z == m + n    (consequence of assignment)
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1">// deduce z == m + n    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">n</span>
 </span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// deduce y == z - n    (consequence of assignment)
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// deduce y == z - n    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
 </span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced and still valid fact)
 </span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1">// deduce y == z - n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1">// deduce x == z - y    (consequence of assignment)
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1">// deduce x == z - y    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
-</span></span></code></pre></div><p><strong>Use computational principles (i.e., the &ldquo;theory&rdquo;) of the data types of our variables</strong>:  Even though we are not tracking concrete values, we can often predict how our program will compute common operations like addition and subtraction on numberic values, taking the head or tail of a list, etc.   In the case of integers, such reasoning often amounts to applying principles that we learned in algebra.  Then, we add additional reasoning properties for equality and &ldquo;substitution of equals for equals&rdquo;.</p>
+</span></span></code></pre></div><p>Having explained how previously deduced facts can be carried along when they remain valid, from now on we will
+abbreviate our annotations for such facts and simply say <code>(previously deduced fact)</code> with the implicit qualification
+that they still remain valid.</p>
+<p><strong>Use computational principles (i.e., the &ldquo;theory&rdquo;) of the data types of our variables</strong>:  Even though we are not tracking concrete values, we can often predict how our program will compute common operations like addition and subtraction on numberic values, taking the head or tail of a list, etc.   In the case of integers, such reasoning often amounts to applying principles that we learned in algebra.  Then we add additional reasoning properties for equality and &ldquo;substitution of equals for equals&rdquo;.</p>
 <p>For example, consider what we can do with the two facts <code>z == m + n</code> and <code>y == z - n</code> right after the assignment to <code>y</code>:</p>
 <ul>
 <li>We can deduce  <code>y == (m + n) - n</code> from the two facts about because <code>z</code> is equal to <code>m + n</code> &ndash; thus we can &ldquo;replace&rdquo; or &ldquo;substitute&rdquo; <code>m + n</code> for <code>z</code> in the fact <code>y == z - n</code></li>
@@ -488,16 +490,16 @@ the following.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1">// deduce z == m + n    (consequence of assignment)
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1">// deduce z == m + n    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">n</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// deduce y == z - n    (consequence of assignment)
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced fact)
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// deduce y == z - n    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1">// deduce y == m        (proof via algebra)
 </span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1">// deduce y == z - n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1">// deduce y == m        (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="c1">// deduce x == z - y    (consequence of assignment)
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced fact)
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1">// deduce y == z - n    (previously deduced fact)
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1">// deduce y == m        (previously deduced fact)
+</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="c1">// deduce x == z - y    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
 </span></span></code></pre></div><p>Now, we can apply the same strategy after the assignment to <code>x</code> to gain some additional facts.
 From <code>z == m + n</code> and <code>y == m</code> and <code>x == z - y</code>, we deduce <code>x == (m + n) - y</code>, further <code>x == (m + n) - m</code>,
@@ -505,42 +507,44 @@ and further <code>x == (m - m) + n</code>, and <code>x == 0 + n</code>, thus <co
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1">// deduce z == m + n    (consequence of assignment)
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1">// deduce z == m + n    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">n</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// deduce y == z - n    (consequence of assignment)
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced fact)
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// deduce y == z - n    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1">// deduce y == m        (proof via algebra)
 </span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1">// deduce y == z - n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1">// deduce y == m        (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="c1">// deduce x == z - y    (consequence of assignment)
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced fact)
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1">// deduce y == z - n    (previously deduced fact)
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1">// deduce y == m        (previously deduced fact)
+</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="c1">// deduce x == z - y    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1">// deduce x == n        (proof via algebra)
 </span></span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
-</span></span></code></pre></div><p>Now we can see that we have facts enough to establish that the assertion <em>never</em> failes, regardless of the
+</span></span></code></pre></div><p>Now we can see that we have facts enough to establish that the assertion <em>never</em> fails, regardless of the
 random values assigned to <code>m</code> and <code>n</code>.</p>
-<p>Facts that we use to demonstrate program correctness come from different sources and principles as indicated above.
+<p>In summary, facts that we use to demonstrate program correctness come from different sources and principles as indicated above.
 Knowledge about the program is gathered and increased by inferring new facts.</p>
 <p>We have generalised the approach of tracing values in programs to tracing facts.
 This has permitted us to demonstrate program correctness <strong>independently</strong> of variables&rsquo; initial values.
 Without much difficulty we have attained a much more powerful method to verify programs.</p>
-<p>We expect that the steps that we have applied could also be carried out <strong>automatically</strong>.  For reasoning about the example above, the automation could possibly record our knowledge about the program in alterate ways, or proceed with the reasoning in a different order.  For example, we could just obtain new facts that are immediate consequences of the current assignment, carry over previously deduced facts,
-and then only perform the reasoning based on algebra, substitution, etc. when there is some need for it in the program, for example, when we need to establish that an assertion is correct.</p>
+<p>We expect that the steps that we have applied could also be carried out <strong>automatically</strong>.  For reasoning about the example above, the automation could record our knowledge about the program in several different ways, and it could
+proceed with the reasoning in a different order.<br>
+For example, at each assignment, the automation could alternatively just obtain new facts that are immediate consequences of the current assignment and carry over previously deduced facts (i.e., it could omit deducing fact using algebra).
+Then, it could lazily only perform the reasoning based on algebra, substitution, etc. when there is some need for it in the program, for example, when we need to establish that an assertion is correct.   The code below expresses that strategy using our comment notation.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">val</span> <span class="n">z</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="n">n</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1">// deduce z == m + n    (consequence of assignment)
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1">// deduce z == m + n    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">n</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// deduce y == z - n    (consequence of assignment)
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced fact)
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// deduce y == z - n    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1"></span><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">y</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1">// deduce y == z - n    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1">// deduce x == z - y    (consequence of assignment)
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1">// deduce z == m + n    (previously deduced fact)
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1">// deduce y == z - n    (previously deduced fact)
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1">// deduce x == z - y    (statement fact: assignment)
 </span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1">// deduce y == m        (proof via algebra)
 </span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="c1">// deduce x == n        (proof via algebra)
 </span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
-</span></span></code></pre></div><p>This later approach, which can be summarized as &ldquo;accumulate syntactically obvious facts, but perform more complicated deductions only when needed&rdquo; is the strategy that Logika and other automated verifiers use.</p>
+</span></span></code></pre></div><p>This later approach, which can be summarized as &ldquo;accumulate syntactically obvious facts, but perform more complicated deductions only when needed&rdquo; is the strategy that Logika and many other automated verifiers use.</p>
 <h3 id="tracing-facts-with-logika">Tracing Facts with Logika</h3>
 <h4 id="logika">Logika</h4>
 <p><img src="../images/Logika-immutable-1.png" alt="Logika-Immutable-1"></p>
@@ -550,7 +554,7 @@ and then only perform the reasoning based on algebra, substitution, etc. when th
 <p><img src="../images/Logika-immutable-5.png" alt="Logika-Immutable-5"></p>
 <p><img src="../images/Logika-immutable-6.png" alt="Logika-Immutable-6"></p>
 <p><img src="../images/Logika-immutable-7-check-assertion.png" alt="Logika-Immutable-7"></p>
-<h4 id="example-deducing-facts-for-mutable-variables">Example: Deducing Facts for Mutable Variables</h4>
+<h3 id="tracing-facts-for-mutable-variables">Tracing Facts for Mutable Variables</h3>
 <p>So far, we have reasoned about programs with <strong>immutable</strong> variables that are only assigned a value once.
 This was helpful</p>
 <ul>
@@ -594,8 +598,15 @@ Let&rsquo;s try our reasoning method from the last section that we applied for i
 <li>The second assignment refers to the old value of <code>x</code> on the right-hand side, relating to the fact <code>x == m</code></li>
 <li>The left-hand side of that assignment refers to the new value</li>
 </ul>
-<p>Here is one way of understanding what is happening: there are now multiple &ldquo;versions&rdquo; of variables &ndash; whenever we (re)assign a to a variable, we are creating a new version.</p>
-<p>To emphasize the &ldquo;multiple versions&rdquo; view, let&rsquo;s label the mutable variables according to the order in which they are assigned looking backwards from the final assertion <code>x == n &amp; y == m</code>.</p>
+<h4 id="reasoning-about-mutable-variables-using-logical-variable-versions">Reasoning about Mutable Variables using Logical Variable &ldquo;Versions&rdquo;</h4>
+<p>Over the years, the formal methods community has used several general notational strategies for tackling the variable
+&ldquo;old value vs new value&rdquo; issue.
+To understand Logika&rsquo;s approach, note that when a program has mutable variables,
+from a logical view there are multiple &ldquo;versions&rdquo; of a mutable variables &ndash;
+whenever we (re)assign a to a mutable variable, we are logically creating a new version.</p>
+<p>To emphasize the &ldquo;multiple versions&rdquo; view and the specific way that Logika notates variable versions,
+let&rsquo;s label the mutable variable versions according to the order in which they are assigned looking backwards
+from the final assertion <code>x == n &amp; y == m</code>.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -610,18 +621,16 @@ Let&rsquo;s try our reasoning method from the last section that we applied for i
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>   <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>   <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>      <span class="c1">// 1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>      <span class="c1">// 1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>      <span class="c1">// 2
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>   <span class="c1">// 0 - 0th version of x
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>   <span class="c1">// 0 - 0th version of y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>      <span class="c1">// 1 - 1st version of x
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>      <span class="c1">// 1 - 1st version of y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>      <span class="c1">// 2 - 2nd version of y
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Let&rsquo;s label the mutable variables according to the order in which they are assigned.
-We can refer to variables $v$ labelled by <em>n</em> by means of the expression <code>At(v, n)</code>.
-For the last assignment (with the largest label) we let <code>At(v, n) == v</code>.
-Now, we can write in the comment behind each assignment the fact we deduce from it.</p>
+</div><p>We can refer to the <em>n</em>&rsquo;th version of a variable $v$ by means of the expression <code>At(v, n)</code>.
+Now we apply our previous reasoning and commenting approach, and incorporate this notation for variable versions.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -654,35 +663,40 @@ Now, we can write in the comment behind each assignment the fact we deduce from 
 <pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>  <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m     (consequence of assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m     (statement fact: assignment)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>  <span class="c1">// 0 
 </span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m     (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n     (consequence of assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n     (statement fact: assignment)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>     <span class="c1">// 1   
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n                    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 1) == At(x, 0) + At(y, 0)  (consequence of assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                    (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n                    (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 1) == At(x, 0) + At(y, 0)  (statement fact: assignment)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>     <span class="c1">// 1  
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n                    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 1) == At(x, 0) + At(y, 0)  (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 1) == At(x, 1) - At(y, 0)  (consequence of assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                    (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n                    (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 1) == At(x, 0) + At(y, 0)  (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 1) == At(x, 1) - At(y, 0)  (statement fact: assignment)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>     <span class="c1">// 2
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n                    (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 1) == At(x, 0) + At(y, 0)  (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 1) == At(x, 1) - At(y, 0)  (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 2) == At(x, 1) - At(y, 1)  (consequence of assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                    (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n                    (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 1) == At(x, 0) + At(y, 0)  (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 1) == At(x, 1) - At(y, 0)  (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 2) == At(x, 1) - At(y, 1)  (statement fact: assignment)
 </span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 1) == m                    (proof via algebra)
 </span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 2) == n                    (proof via algebra)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>The problem of &ldquo;new value&rdquo; vs &ldquo;old value&rdquo; has disappeared and we can reason about the program as before.
-We can apply this method to any location in a program, replacing variables with references to versions up to that point.</p>
-<p>At the assertion statement, or more generally, we will refer to the &ldquo;most recent versions&rdquo; of variables, and
-we denote &ldquo;the most recent version&rdquo; by simply listing the variable without any further annotations.
-Using this simplified notation, the reasoning above becomes&hellip;</p>
+</div><p>The problem of &ldquo;new value&rdquo; vs &ldquo;old value&rdquo; has disappeared.
+In essence, the notation for variable versions gives a unique name for every logical value that a variable might have.
+Since this is analogous to the way that <code>val</code> variables give us a unique name for each assignment to a variable (i.e.,
+there is only one assignment),  we can reason about the program as before.
+We just apply the &ldquo;variable version&rdquo; notation to any point in a program,
+replacing variables with references to versions up to that point.</p>
+<h4 id="a-notational-simplification-for-the-most-recent-version-of-a-variable">A Notational Simplification for the &ldquo;Most Recent&rdquo; Version of a Variable&quot;</h4>
+<p>To make the contraints at a program point easier to read, Logika
+refers to the &ldquo;most recent version&rdquo; of a variable by simply listing the variable without a specific version notation.
+Using this simplified notation, the comments reflecting our reasoning are listed below.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -715,45 +729,60 @@ Using this simplified notation, the reasoning above becomes&hellip;</p>
 <pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="cl"><span class="k">val</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">randomInt</span><span class="o">()</span>
 </span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>  <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == m                          (consequence of assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == m                          (statement fact: assignment)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>  <span class="c1">// 0 
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == m                          (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == n                          (consequence of assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == m                          (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == n                          (statement fact: assignment)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>     <span class="c1">// 1   
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                   (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == n                          (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == At(x, 0) + y               (consequence of assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                   (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == n                          (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == At(x, 0) + y               (statement fact: assignment)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>     <span class="c1">// 1  
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                   (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n                   (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == At(x, 0) + At(y, 0)        (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == x - At(y, 0)               (consequence of assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                   (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n                   (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == At(x, 0) + At(y, 0)        (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == x - At(y, 0)               (statement fact: assignment)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>     <span class="c1">// 2
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                   (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n                   (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 1) == At(x, 0) + At(y, 0) (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == At(x, 1) - At(y, 0)        (previously deduced and still valid fact)
-</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == At(x, 1) - y               (consequence of assignment)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 0) == m                   (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(y, 0) == n                   (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce At(x, 1) == At(x, 0) + At(y, 0) (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == At(x, 1) - At(y, 0)        (previously deduced fact)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// deduce x == At(x, 1) - y               (statement fact: assignment)
 </span></span></span><span class="line"><span class="cl"><span class="c1">// deduce y == m                          (proof via algebra)
 </span></span></span><span class="line"><span class="cl"><span class="c1">// deduce n == n                          (proof via algebra)
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="analysing-programs">Analysing Programs</h4>
-<p>Each line of the program <code>P</code> corresponds to a fact and the program itself is the conjunction <strong>P<sub>fact</sub></strong> of those facts.
-The assertion <code>assert(x == n &amp; y == m)</code> corresponds to a fact <code>a</code>, namely, <code>x == n &amp; y == m</code>.
-We can use it to ask different questions about the program.</p>
-<p>We have three ways in which we can use <strong>P<sub>fact</sub></strong> to analyse program <code>P</code>.</p>
-<p>Using <strong>P<sub>fact</sub></strong> <code>|- a</code>, we can <strong>prove</strong> that assertion <code>a</code> is true for all executions of <code>P</code>.
-This is what we have done in Logika.</p>
+</div><h3 id="analysing-programs">Analysing Programs</h3>
+<p>In the presentation above, we have seen that a program&rsquo;s (or block of code&rsquo;s) meaning can be described logically as a collection of facts.  Each line of a program <code>P</code> gives rise to one or more facts, and the meaning of the entire program can be given as the conjunction <strong>P<sub>fact</sub></strong> of those facts.</p>
+<p>We now take a look ahead and give some intuition about how viewing a program&rsquo;s meaning as a collection of facts can provide a basis for multiple types of automated analyses and exploration of a program&rsquo;s behavior.</p>
+<p>Later on, we will introduce a number of different forms of contracts and specifications that enable the developer to express correctness objectives about a program.   For now, we can just build on the idea of an assertion as expressing developer correctness goals.
+Each assertion, e.g., <code>assert(x == n &amp; y == m)</code> corresponds to a fact <code>a</code>, namely, <code>x == n &amp; y == m</code>.
+We can combine the assertion fact <code>a</code> with the program facts <strong>P<sub>fact</sub></strong> in different logical structures to analyze a program in different ways.</p>
+<p>Here are three ways in which we can use <strong>P<sub>fact</sub></strong> to analyse program <code>P</code>.</p>
+<ul>
+<li>
+<p>Using <strong>P<sub>fact</sub></strong> <code>|- a</code> (i.e., assume <strong>P<sub>fact</sub></strong> holds and try to show that <code>a</code> holds), we can <strong>prove</strong> that assertion <code>a</code> is true for all executions of <code>P</code>.  This is essentially how Logika verifies assertions.</p>
+</li>
+<li>
 <p>Using <strong>P<sub>fact</sub></strong> <code>&amp; a</code>, we can search for values for which <code>a</code> is true.
-This is the basis for generating <strong>tests</strong> (We have to remove assignments from <code>randomInt()</code> first).</p>
+This is the basis for generating <strong>tests</strong> that confirm that <code>a</code> holds (note that in our little example program,
+we have to remove assignments from <code>randomInt()</code> first).</p>
+</li>
+<li>
 <p>Using <strong>P<sub>fact</sub></strong> <code>&amp; !a</code>, we can search for values for which <code>a</code> is false.
 This yields <strong>counterexamples</strong>, i.e., specific values for the variables of <code>P</code> that violate <code>a</code>.
 If no such value can be found among all possible values of all variables, then <strong>P<sub>fact</sub></strong> <code>|- a</code> must be true.
-This technique is referred to as (bounded) <strong>model checking</strong>.</p>
+This technique is the basis of (bounded) <strong>model checking</strong>.</p>
+</li>
+</ul>
 <h3 id="test-case-derivation">Test Case Derivation</h3>
-<h4 id="example-mutable-swapping">Example: Mutable Swapping</h4>
+<p>We will study test generation principles in detail later, but for now we can gain some intution about the relationship between
+systematic test design and program facts with the following examples.</p>
+<p>First, let&rsquo;s recall the code for swapping two integers with a concluding assertion specifying the goal of the code.
+We add an <code>assume</code> statement at the beginning of the code block to control the scope of the analysis by limiting the ranges
+of the variables <code>m</code> and <code>n</code>.   Logically, this has the following interpretation:<br>
+Assuming the condition <code>m &gt; 0 &amp; y &gt; 0</code> is true initially, the condition <code>x == n &amp; y == m</code> must be true finally.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -774,53 +803,9 @@ This technique is referred to as (bounded) <strong>model checking</strong>.</p>
 </span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><!-- These two should be next to eachother -->
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="nc">\begin</span><span class="o">{</span><span class="n">lstlisting</span><span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span>                   <span class="o">&amp;</span>
-</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span>                   <span class="o">&amp;</span>
-</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span>                   <span class="o">&amp;</span>
-</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span>
-</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>        <span class="o">&amp;</span>
-</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span>               <span class="o">&amp;</span>
-</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>We bracket the program in an <code>assume-assert</code> contract.
-Assuming the condition <code>m &gt; 0 &amp; y &gt; 0</code> is true initially, the condition <code>x == n &amp; y == m</code> must be true finally.
-We search for values of <code>m</code>, <code>n</code>, <code>x</code> and <code>y</code> that achieve this.</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
-</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
-</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
-</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
-</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><!-- These two should be next to eachother -->
+</div><p>Applying the  <strong>P<sub>fact</sub></strong> <code>&amp; a</code> structure from above for deriving a confirming test, we get the following
+conjunction of facts.</p>
+<!-- These two should be next to eachother -->
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -841,9 +826,9 @@ We search for values of <code>m</code>, <code>n</code>, <code>x</code> and <code
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>We bracket the program in an <code>assume-assert</code> contract.
-Assuming the condition <code>m &gt; 0 &amp; y &gt; 0</code> is true initially, the condition <code>x == n &amp; y == m</code> must be true finally.
-We search for values of <code>m</code>, <code>n</code>, <code>x</code> and <code>y</code> that achieve this.</p>
+</div><p>To find a confirming test case, we search for values of input parameters <code>m</code> and <code>n</code> that make the conjunction above true.
+<code>m == 1</code> and <code>n == 2</code> is one scenario that makes the conjunction true, as shown by substituting <code>1</code> for <code>m</code> and <code>2</code> for <code>n</code>
+then simplifying below.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -855,43 +840,82 @@ We search for values of <code>m</code>, <code>n</code>, <code>x</code> and <code
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">assume</span><span class="o">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">m</span>
-</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">n</span>
-</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
-</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="k">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
-</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span><span class="o">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><!-- These two should be next to eachother -->
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span>                   <span class="o">&amp;</span>
-</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">m</span>                   <span class="o">&amp;</span>
-</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">n</span>                   <span class="o">&amp;</span>
-</span></span><span class="line"><span class="cl"><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span>
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">0</span>                   <span class="o">&amp;</span>    <span class="c1">// (substituting for m and n)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="mi">1</span>                   <span class="o">&amp;</span>    <span class="c1">// (substituting for m)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">==</span> <span class="mi">2</span>                   <span class="o">&amp;</span>    <span class="c1">// (substituting for n)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;</span>
 </span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="nc">At</span><span class="o">(</span><span class="n">y</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>        <span class="o">&amp;</span>
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span>               <span class="o">&amp;</span>
-</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span>                      <span class="c1">// (substituting for n and m)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>In this scenario, we can see that <code>At(x, 0) == 1</code> and <code>At(y, 0) == 2</code> so we can substitue <code>1</code> for <code>At(x, 0)</code> and <code>2</code> for <code>At(y, 0)</code>
+to obtain</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">0</span>                   <span class="o">&amp;</span>    
+</span></span><span class="line"><span class="cl"><span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span>                          <span class="o">&amp;</span>    <span class="c1">// (substituting for At(x,0))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="mi">2</span> <span class="o">==</span> <span class="mi">2</span>                          <span class="o">&amp;</span>    <span class="c1">// (substituting for At(y,0))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>               <span class="o">&amp;</span>    <span class="c1">// (substituting for At(x,0) and At(y,0))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="mi">2</span>               <span class="o">&amp;</span>    <span class="c1">// (substituting for At(y,0))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="o">==</span> <span class="nc">At</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="n">y</span>               <span class="o">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span>                      
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>We search for values of <code>m</code>, <code>n</code>, <code>x</code> and <code>y</code> that can be used for testing.
-E.g.,
-input: <code>m == 1</code>, <code>n == 2</code>
-output: <code>m == 1</code>, <code>n == 2</code>, <code>x == 2</code> and <code>y == 1</code>
-We will see more interesting uses of this during the course.</p>
-<h3 id="symbolic-execution">Symbolic Execution</h3>
-<h4 id="using-facts-as-values">Using Facts as Values</h4>
+</div><p>Now see that <code>At(x, 1) == 1 + 2 == 3</code> so we can substitue <code>3</code> for <code>At(x, 1)</code>
+to obtain</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">0</span>                   <span class="o">&amp;</span>    
+</span></span><span class="line"><span class="cl"><span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span>                          <span class="o">&amp;</span>    
+</span></span><span class="line"><span class="cl"><span class="mi">2</span> <span class="o">==</span> <span class="mi">2</span>                          <span class="o">&amp;</span>    
+</span></span><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>                      <span class="o">&amp;</span>    <span class="c1">// (substituting for At(x,1))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span> <span class="o">==</span> <span class="mi">3</span> <span class="o">-</span> <span class="mi">2</span>                      <span class="o">&amp;</span>    <span class="c1">// (substituting for At(x,1))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="o">==</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">y</span>                      <span class="o">&amp;</span>    <span class="c1">// (substituting for At(x,1))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span>                      
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, we see that <code>y == 3 - 2 == 1</code> which then gives us <code>x == 3 - y == 2</code> so we can substitute &lsquo;1&rsquo; for &lsquo;y&rsquo; and &lsquo;2&rsquo; for &lsquo;x&rsquo; to obtain</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">0</span>                   <span class="o">&amp;</span>    
+</span></span><span class="line"><span class="cl"><span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span>                          <span class="o">&amp;</span>    
+</span></span><span class="line"><span class="cl"><span class="mi">2</span> <span class="o">==</span> <span class="mi">2</span>                          <span class="o">&amp;</span>    
+</span></span><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>                      <span class="o">&amp;</span>    
+</span></span><span class="line"><span class="cl"><span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span> <span class="o">-</span> <span class="mi">2</span>                      <span class="o">&amp;</span>    <span class="c1">// (substituting for y)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="mi">2</span> <span class="o">==</span> <span class="mi">3</span> <span class="o">-</span> <span class="mi">1</span>                      <span class="o">&amp;</span>    <span class="c1">// (substituting for x, y)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="mi">2</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span>                      <span class="c1">// (substituting for x, y)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Which confirms that the constraints are satisfied for the scenario where <code>m == 1</code> and <code>n == 2</code></p>
+<h3 id="a-deeper-dive-symbolic-execution">A Deeper Dive: Symbolic Execution</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -952,11 +976,12 @@ Let&rsquo;s do this with the value swapping example.</p>
 <h3 id="summary">Summary</h3>
 <p>We have looked at various ways of reasoning about programs:</p>
 <ul>
-<li>by tracing facts through programs</li>
-<li>by considering programs as facts</li>
+<li>by tracing variable values through programs &ndash; giving us specific traces that correspond to a test, which can be seen as a single &ldquo;experiment&rdquo; on the program&rsquo;s behavior,</li>
+<li>by tracing facts through a program &ndash; allowing us to reason about all possible traces through a program with a single analysis,</li>
+<li>by considering a program as a conjunction of facts that can be manipulated in several ways</li>
 <li>by symbolic execution</li>
 </ul>
-<p>We have seen how this can be used to reason in different ways about programs:</p>
+<p>We have seen how these approaches can be used to reason in different ways about programs:</p>
 <ul>
 <li>to prove assertions</li>
 <li>to find counterexamples</li>

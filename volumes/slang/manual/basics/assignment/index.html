@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Variable Declarations with var and val Slang uses Scala&amp;rsquo;s var and val constructs for variable declarations.
+val x - declares x, bound to a given value, and x cannot be reassigned. var y - declares y, bound to a given value, and x can be reassigned (giving x a new value). var i: Z = 0; // var x: Z; // error: every val/var must be given an initial value var j: Z = i &#43; 1; // initializers can be expressions var k = 1; // variable types can be inferred, but not recommended style i = i &#43; k; // variables declared with var can be reassigned val b: B = true; // b = (i == 0) // error: cannot assign to read-only variable b (declared with &amp;#39;val&amp;#39;) Each Slang variable must explicitly be given an initial value." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://doc.sireum.org/volumes/slang/manual/basics/assignment/" />
+
+
+    <title>
+        
+            Variable Declaration, Assignment, and Sequencing :: Sireum Doc 
+        
+    </title>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/themes/default-dark/style.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://doc.sireum.org/_pagefind/pagefind-ui.css">
+
+
+
+
+<link rel="stylesheet" href="https://doc.sireum.org/main.9b7fec326fab4b320f3a6ebff5b2cd1a56f40af9971ff15a0213c97eff1ce5d0.css" integrity="sha256-m3/sMm&#43;rSzIPOm6/9bLNGlb0CvmXH/FaAhPJfv8c5dA=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://doc.sireum.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://doc.sireum.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://doc.sireum.org/favicon-16x16.png">
+    <link rel="manifest" href="https://doc.sireum.org/site.webmanifest">
+    <link rel="mask-icon" href="https://doc.sireum.org/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://doc.sireum.org/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Variable Declaration, Assignment, and Sequencing">
+<meta itemprop="description" content="Variable Declarations with var and val Slang uses Scala&rsquo;s var and val constructs for variable declarations.
+val x - declares x, bound to a given value, and x cannot be reassigned. var y - declares y, bound to a given value, and x can be reassigned (giving x a new value). var i: Z = 0; // var x: Z; // error: every val/var must be given an initial value var j: Z = i &#43; 1; // initializers can be expressions var k = 1; // variable types can be inferred, but not recommended style i = i &#43; k; // variables declared with var can be reassigned val b: B = true; // b = (i == 0) // error: cannot assign to read-only variable b (declared with &#39;val&#39;) Each Slang variable must explicitly be given an initial value."><meta itemprop="datePublished" content="2022-07-09T21:56:02-05:00" />
+<meta itemprop="dateModified" content="2022-07-09T21:56:02-05:00" />
+<meta itemprop="wordCount" content="617"><meta itemprop="image" content="https://doc.sireum.org"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doc.sireum.org"/>
+
+<meta name="twitter:title" content="Variable Declaration, Assignment, and Sequencing"/>
+<meta name="twitter:description" content="Variable Declarations with var and val Slang uses Scala&rsquo;s var and val constructs for variable declarations.
+val x - declares x, bound to a given value, and x cannot be reassigned. var y - declares y, bound to a given value, and x can be reassigned (giving x a new value). var i: Z = 0; // var x: Z; // error: every val/var must be given an initial value var j: Z = i &#43; 1; // initializers can be expressions var k = 1; // variable types can be inferred, but not recommended style i = i &#43; k; // variables declared with var can be reassigned val b: B = true; // b = (i == 0) // error: cannot assign to read-only variable b (declared with &#39;val&#39;) Each Slang variable must explicitly be given an initial value."/>
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-09 21:56:02 -0500 CDT" />
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </span>
+    <span class="header__inner">
+        <a href="https://doc.sireum.org/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <img class="color-scheme" src="https://doc.sireum.org/img/santos/icon-doc.png" alt="">
+            &nbsp;<span class="logo__text">Doc</span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                
+
+<nav class="menu">
+  <ul class="menu__inner">
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Volumes&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Volumes&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Slang</span>
+            <span class="responsive-title-short">Slang</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/hamr/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">HAMR</span>
+            <span class="responsive-title-short">HAMR</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/volumes/logika" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Logika</span>
+            <span class="responsive-title-short">Logika</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div class="submenu">
+        <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+          <a class="dropbtn" href="https://doc.sireum.org/venues/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Venues&nbsp;<small>ᐁ</small></span>
+            <span class="responsive-title-short">Venues&nbsp;<small>ᐁ</small></span>
+          </a>
+          <div class="dropdown-content" align="left">
+            <ul style="margin:8px;">
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/tutorials/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Tutorials</span>
+            <span class="responsive-title-short">Tutorials</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+                
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://doc.sireum.org/venues/presentations/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Presentations</span>
+            <span class="responsive-title-short">Presentations</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+              
+            </ul>
+          </div>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/getting-started/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Download</span>
+            <span class="responsive-title-short">Download</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/papers" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Papers</span>
+            <span class="responsive-title-short">Papers</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/funding" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Funding</span>
+            <span class="responsive-title-short">Funding</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  
+  
+    
+      <div>
+        <li>
+          <a href="https://sireum.org/team" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+            <span class="responsive-title-long">Team</span>
+            <span class="responsive-title-short">Team</span>
+          </a>
+        </li>
+      </div>
+    
+  
+
+  </ul>
+</nav>
+
+            
+        </span>
+    </span>
+        <span class="theme-toggle not-selectable" style="margin-right: 10px"><img src="https://doc.sireum.org/img/toggle.png" height="20px"></span>
+      <div class="submenu">
+          <li class="dropdown" onmouseover="menuDisplay(this.children[1], true); searchFocus();" onmouseout="menuDisplay(this.children[1], false);">
+              <a class="dropbtn fa fa-search"></a>
+              <div class="dropdown-content" align="left">
+                  <div id="search" style="z-index:2147483647; position: fixed;"></div>
+              </div>
+          </li>
+      </div>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://doc.sireum.org/volumes/slang/manual/basics/assignment/">Variable Declaration, Assignment, and Sequencing</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h2 id="variable-declarations-with-var-and-val">Variable Declarations with <code>var</code> and <code>val</code></h2>
+<p>Slang uses Scala&rsquo;s <code>var</code> and <code>val</code> constructs for variable
+declarations.</p>
+<ul>
+<li><code>val x</code> - declares <code>x</code>, bound to a given value, and <code>x</code> cannot be reassigned.</li>
+<li><code>var y</code> - declares <code>y</code>, bound to a given value, and <code>x</code> can be reassigned (giving <code>x</code> a new value).</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">   <span class="k">var</span> <span class="n">i</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">// var x: Z;      // error: every val/var must be given an initial value
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="k">var</span> <span class="n">j</span><span class="k">:</span> <span class="kt">Z</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// initializers can be expressions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="k">var</span> <span class="n">k</span> <span class="k">=</span> <span class="mi">1</span><span class="o">;</span>        <span class="c1">// variable types can be inferred, but not recommended style
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="n">i</span> <span class="k">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">k</span><span class="o">;</span>        <span class="c1">// variables declared with var can be reassigned
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">   <span class="k">val</span> <span class="n">b</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">// b = (i == 0)  // error: cannot assign to read-only variable b (declared with &#39;val&#39;)
+</span></span></span></code></pre></div><p><em>Each Slang variable must explicitly be given an initial value.</em><br>
+In addition, Scala&rsquo;s mechanism
+for indicating a default value is not supported.   This follows other
+high-assurance languages such as SPARK that require explicit
+initialization before variable use to avoid errors associated with
+uninitialized variables and to ensure that the programmer/analyst always
+has the correct understanding of a variable&rsquo;s initial value.
+A variable&rsquo;s initial value can be computed from an expression that
+references previously declared variables.</p>
+<p><em>A type declaration for variable is optional.</em>
+Slang&rsquo;s type inference allows local variables to be declared without a type
+by inferring it from the initializing expression.
+However, it is best practice to declare each variable with a type to
+indicate its intended use and to enable the Slang type checker to
+detect any unintended mismatches between the intended type of the variable and
+the type of the initializing expression.
+Moreover, Slang requires explicit type declaration if the initializing expression
+is complex (e.g., branching).</p>
+<p><em>Variables declared with <code>var</code> can be re-assigned</em>, as illustrated by
+the update to <code>i</code> in <code>i = i + k</code>.  Slang uses the symbol
+<code>=</code> for assignment, while <code>==</code> is the equality operator
+(following Scala, and other languages like Java and C).</p>
+<p><em>&ldquo;Variables&rdquo; declared with <code>val</code> cannot be reassigned.</em>  <code>val</code>
+declarations are often used as &ldquo;constants&rdquo; would be in other
+languages (e.g., Java&rsquo;s <code>final</code> or C&rsquo;s <code>const</code>) and when
+supporting a functional programming style for Slang, achieving the
+conventional functional programming notion of &ldquo;identifiers bound to values&rdquo;.</p>
+<p>While it is possible to use <code>var</code> to declare a variable that is
+never updated, explicitly using <code>val</code> to state the intent that a variable never
+changes is a useful specification notion in high-assurance
+programming.  The use of <code>val</code> in Slang also has a significant
+impact on the way that the declared variable is treated in the Logika
+verification infrastructure.  For example, since Logika knows that <code>val</code>
+variables never change, there is no need for the developer
+to state an explicit frame
+condition on a non-local <code>val</code> indicating that its value is
+the same in the pre-state as well as the post-state of a method.
+Each declared <code>val</code> on an immutable type introduced above has an implicit
+associated &ldquo;invariant&rdquo; that constrains its value to always be
+its initial value (we will discuss immutable and mutable types in the subsequent
+chapters).</p>
+<h2 id="command-sequencing">Command Sequencing</h2>
+<p>Command sequencing / command separation in Slang is indicated using
+the semicolon <code>;</code> as in many other languages.   However,
+Slang also supports Scala&rsquo;s line-orientation so
+semicolons can sometimes be omitted:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl">  <span class="n">i</span> <span class="k">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">k</span>  <span class="c1">// &#39;;&#39; can be omitted in Slang due to Scala&#39;s line-orientation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">j</span> <span class="k">=</span> <span class="n">k</span> <span class="o">*</span> <span class="mi">2</span>    
+</span></span></code></pre></div><p>Stylistically, choosing to use semicolons or not is a personal
+preference, though for readability it is best to use one approach consistently.<br>
+When adopting the &ldquo;line-orientation&rdquo; style, one should be familiar with
+Scala&rsquo;s rules for semicolon inference (<strong>give the result</strong>) since
+some of its outcomes may be non-intuitive.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        
+<div style="display: grid; grid-template-columns: 2% 49% 49%; text-align: center;">
+  <div class="submenu" style="background: transparent; text-align: left; position: relative;">
+    <li class="dropdown" onmouseover="menuDisplay(this.children[1], true);" onmouseout="menuDisplay(this.children[1], false);">
+      <a class="dropbtn" href=""><i class="fa-solid fa-angles-up"></i></a>
+      <div class="dropdown-content" style="bottom: 100%;"><a class="post-item-inner" href="https://doc.sireum.org/volumes/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Volumes</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Slang</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Reference Manual</a><a class="post-item-inner" href="https://doc.sireum.org/volumes/slang/manual/basics/" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Basics</a></div>
+    </li>
+  </div>
+  <div style="text-align: left;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/basics/basic-types-values/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">
+        <i class="fa-solid fa-chevron-left"></i> Basic Types and Values
+      </a>
+    
+  </div>
+  <div style="text-align: right;">
+    
+      <a href="https://doc.sireum.org/volumes/slang/manual/basics/assertions/" style="text-decoration: none;" onmouseover="menuUnderline(this, true);" onmouseout="menuUnderline(this, false);">Assertions
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+    
+  </div>
+</div>
+
+
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="https://doc.sireum.org/bundle.min.d9847dec188cb3ba71e262769d7f64069d223c3a9713999a5da5f7aca5638686e15a900ac07cc755d19861961f24145ef2d608296933e4150cae87f4911a7dbb.js" integrity="sha512-2YR97BiMs7px4mJ2nX9kBp0iPDqXE5maXaX3rKVjhobhWpAKwHzHVdGYYZYfJBRe8tYIKWkz5BUMrof0kRp9uw=="></script>
+
+
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/thecarnie-cycle2/2.1.6c/jquery.cycle2.min.js" integrity="sha512-ydWfQuPu+srw5hhkU8O1XGn3/Kc+GyoDBvYc8E+SyuZKphQP18ZWYKywIFzPWZwQk6dlmTY69aDg/SnFz3qPeQ==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.14/jstree.min.js" integrity="sha512-OQ2by9SrJBwcXaeYmkG2t6FVZiwpyRtFar2VvULjuq5OjVpJLwsUHuNzN9PClqEJAYsWsRPSb4TTfriZzPGiow==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://doc.sireum.org/_pagefind/pagefind-ui.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({
+        element: "#search",
+        showEmptyFilters: true,
+        mergeIndex: [
+          
+            { bundlePath: "https:\/\/sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/slang.sireum.org\/_pagefind" },
+          
+            { bundlePath: "https:\/\/logika.sireum.org\/_pagefind" },
+          
+        ]
+      });
+    });
+  </script>
+<script style="text/javascript">
+  window.addEventListener('load', function () {
+    $('#page-tree').jstree({
+      "core": {
+        "themes": {
+          "name": document.documentElement.getAttribute("data-theme") == "dark" ? "default-dark" : "default",
+          "dots": true,
+          "icons": false,
+          "variant": "large"
+        }
+      },
+      plugins: [ "ui" ],
+    }).bind("select_node.jstree", function (e, data) {
+      document.location.href = data.node.a_attr.href;
+    }).bind("ready.jstree", function (event, data) {
+      $(this).jstree("open_all");
+    }).bind("open_all.jstree", function (event, data) {
+      level = 0;
+      data.instance.element.find('li').each(function() {
+        if (level > 0 && data.instance.get_path(this).length >= level){
+          data.instance.close_node(this);
+        }
+      });
+      data.instance.element.get()[0].style.display="block";
+    });
+  });
+</script>
+
+
+    </body>
+</html>
