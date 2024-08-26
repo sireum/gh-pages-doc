@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
 <meta name="description" content="Sequences (anything built from the IS Scala library classes) can be pattern-matched using the class name (constructor) (e.g., ISZ) as illustrated in the example below.
-// Patterns in declarations - sequences val seq1 = ISZ(&amp;#34;a&amp;#34;, &amp;#34;b&amp;#34;, &amp;#34;c&amp;#34;) var ISZ(str1,_,str3) = seq1 assert(str1 == &amp;#34;a&amp;#34; &amp;amp;&amp;amp; str3 == &amp;#34;c&amp;#34;) // match case - basic sequence matching @pure def matchSeq(seq: ISZ[Z]): Option[Z] = { seq match { // pattern match on sequence seq case ISZ(n1, n2, n3) =&amp;gt; return Some(n1 &#43; n2 &#43; n3) case ISZ(n1, n2) =&amp;gt; return Some(n1 &#43; n2) case ISZ(n1) =&amp;gt; return Some(n1) case ISZ() =&amp;gt; return Some(0) case _ =&amp;gt; return None() } } assert(matchSeq(ISZ(4,5,6)) == Some(15)) assert(matchSeq(ISZ()) == Some(0)) assert(matchSeq(ISZ(4,5,6,7)) == None[Z]()) // need to give element type for None to make Slang type-checker happy The following example illustrates nested matching for sequence containing tuples." />
+// Patterns in declarations - sequences val seq1 = ISZ(&#34;a&#34;, &#34;b&#34;, &#34;c&#34;) var ISZ(str1,_,str3) = seq1 assert(str1 == &#34;a&#34; &amp;&amp; str3 == &#34;c&#34;) // match case - basic sequence matching @pure def matchSeq(seq: ISZ[Z]): Option[Z] = { seq match { // pattern match on sequence seq case ISZ(n1, n2, n3) =&gt; return Some(n1 &#43; n2 &#43; n3) case ISZ(n1, n2) =&gt; return Some(n1 &#43; n2) case ISZ(n1) =&gt; return Some(n1) case ISZ() =&gt; return Some(0) case _ =&gt; return None() } } assert(matchSeq(ISZ(4,5,6)) == Some(15)) assert(matchSeq(ISZ()) == Some(0)) assert(matchSeq(ISZ(4,5,6,7)) == None[Z]()) // need to give element type for None to make Slang type-checker happy The following example illustrates nested matching for sequence containing tuples." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -42,18 +42,20 @@
     <meta name="msapplication-TileColor" content="">
 
 
-<meta itemprop="name" content="Pattern Matching for Sequences">
-<meta itemprop="description" content="Sequences (anything built from the IS Scala library classes) can be pattern-matched using the class name (constructor) (e.g., ISZ) as illustrated in the example below.
-// Patterns in declarations - sequences val seq1 = ISZ(&#34;a&#34;, &#34;b&#34;, &#34;c&#34;) var ISZ(str1,_,str3) = seq1 assert(str1 == &#34;a&#34; &amp;&amp; str3 == &#34;c&#34;) // match case - basic sequence matching @pure def matchSeq(seq: ISZ[Z]): Option[Z] = { seq match { // pattern match on sequence seq case ISZ(n1, n2, n3) =&gt; return Some(n1 &#43; n2 &#43; n3) case ISZ(n1, n2) =&gt; return Some(n1 &#43; n2) case ISZ(n1) =&gt; return Some(n1) case ISZ() =&gt; return Some(0) case _ =&gt; return None() } } assert(matchSeq(ISZ(4,5,6)) == Some(15)) assert(matchSeq(ISZ()) == Some(0)) assert(matchSeq(ISZ(4,5,6,7)) == None[Z]()) // need to give element type for None to make Slang type-checker happy The following example illustrates nested matching for sequence containing tuples."><meta itemprop="datePublished" content="2022-07-27T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-07-27T00:00:00+00:00" />
-<meta itemprop="wordCount" content="545"><meta itemprop="image" content="https://doc.sireum.org"/>
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://doc.sireum.org"/>
 
-<meta name="twitter:title" content="Pattern Matching for Sequences"/>
-<meta name="twitter:description" content="Sequences (anything built from the IS Scala library classes) can be pattern-matched using the class name (constructor) (e.g., ISZ) as illustrated in the example below.
-// Patterns in declarations - sequences val seq1 = ISZ(&#34;a&#34;, &#34;b&#34;, &#34;c&#34;) var ISZ(str1,_,str3) = seq1 assert(str1 == &#34;a&#34; &amp;&amp; str3 == &#34;c&#34;) // match case - basic sequence matching @pure def matchSeq(seq: ISZ[Z]): Option[Z] = { seq match { // pattern match on sequence seq case ISZ(n1, n2, n3) =&gt; return Some(n1 &#43; n2 &#43; n3) case ISZ(n1, n2) =&gt; return Some(n1 &#43; n2) case ISZ(n1) =&gt; return Some(n1) case ISZ() =&gt; return Some(0) case _ =&gt; return None() } } assert(matchSeq(ISZ(4,5,6)) == Some(15)) assert(matchSeq(ISZ()) == Some(0)) assert(matchSeq(ISZ(4,5,6,7)) == None[Z]()) // need to give element type for None to make Slang type-checker happy The following example illustrates nested matching for sequence containing tuples."/>
+  <meta itemprop="name" content="Pattern Matching for Sequences">
+  <meta itemprop="description" content="Sequences (anything built from the IS Scala library classes) can be pattern-matched using the class name (constructor) (e.g., ISZ) as illustrated in the example below.
+// Patterns in declarations - sequences val seq1 = ISZ(&#34;a&#34;, &#34;b&#34;, &#34;c&#34;) var ISZ(str1,_,str3) = seq1 assert(str1 == &#34;a&#34; &amp;&amp; str3 == &#34;c&#34;) // match case - basic sequence matching @pure def matchSeq(seq: ISZ[Z]): Option[Z] = { seq match { // pattern match on sequence seq case ISZ(n1, n2, n3) =&gt; return Some(n1 &#43; n2 &#43; n3) case ISZ(n1, n2) =&gt; return Some(n1 &#43; n2) case ISZ(n1) =&gt; return Some(n1) case ISZ() =&gt; return Some(0) case _ =&gt; return None() } } assert(matchSeq(ISZ(4,5,6)) == Some(15)) assert(matchSeq(ISZ()) == Some(0)) assert(matchSeq(ISZ(4,5,6,7)) == None[Z]()) // need to give element type for None to make Slang type-checker happy The following example illustrates nested matching for sequence containing tuples.">
+  <meta itemprop="datePublished" content="2022-07-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-07-27T00:00:00+00:00">
+  <meta itemprop="wordCount" content="545">
+  <meta itemprop="image" content="https://doc.sireum.org/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://doc.sireum.org/">
+  <meta name="twitter:title" content="Pattern Matching for Sequences">
+  <meta name="twitter:description" content="Sequences (anything built from the IS Scala library classes) can be pattern-matched using the class name (constructor) (e.g., ISZ) as illustrated in the example below.
+// Patterns in declarations - sequences val seq1 = ISZ(&#34;a&#34;, &#34;b&#34;, &#34;c&#34;) var ISZ(str1,_,str3) = seq1 assert(str1 == &#34;a&#34; &amp;&amp; str3 == &#34;c&#34;) // match case - basic sequence matching @pure def matchSeq(seq: ISZ[Z]): Option[Z] = { seq match { // pattern match on sequence seq case ISZ(n1, n2, n3) =&gt; return Some(n1 &#43; n2 &#43; n3) case ISZ(n1, n2) =&gt; return Some(n1 &#43; n2) case ISZ(n1) =&gt; return Some(n1) case ISZ() =&gt; return Some(0) case _ =&gt; return None() } } assert(matchSeq(ISZ(4,5,6)) == Some(15)) assert(matchSeq(ISZ()) == Some(0)) assert(matchSeq(ISZ(4,5,6,7)) == None[Z]()) // need to give element type for None to make Slang type-checker happy The following example illustrates nested matching for sequence containing tuples.">
 
 
 

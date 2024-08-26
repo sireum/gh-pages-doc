@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
 <meta name="description" content="The following example captures the most fundamental aspects of Slang Contracts::
-var x: Z = 0 def incBy(y: Z): Z = { Contract( Requires(y &amp;gt; 0), // pre-condition Modifies(x), // frame-condition Ensures(x == In(x) &#43; y &amp;amp; x &amp;gt; In(x) &amp;amp; Res == x) // post-condition ) x = x &#43; y return x } In this example (contrived for the purpose of illustration), a &amp;ldquo;global&amp;rdquo; variable x is defined, and an incBy method is defined to increment x by the value supplied via parameter y." />
+var x: Z = 0 def incBy(y: Z): Z = { Contract( Requires(y &gt; 0), // pre-condition Modifies(x), // frame-condition Ensures(x == In(x) &#43; y &amp; x &gt; In(x) &amp; Res == x) // post-condition ) x = x &#43; y return x } In this example (contrived for the purpose of illustration), a &ldquo;global&rdquo; variable x is defined, and an incBy method is defined to increment x by the value supplied via parameter y." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -42,18 +42,20 @@ var x: Z = 0 def incBy(y: Z): Z = { Contract( Requires(y &amp;gt; 0), // pre-con
     <meta name="msapplication-TileColor" content="">
 
 
-<meta itemprop="name" content="Method Contracts Basics">
-<meta itemprop="description" content="The following example captures the most fundamental aspects of Slang Contracts::
-var x: Z = 0 def incBy(y: Z): Z = { Contract( Requires(y &gt; 0), // pre-condition Modifies(x), // frame-condition Ensures(x == In(x) &#43; y &amp; x &gt; In(x) &amp; Res == x) // post-condition ) x = x &#43; y return x } In this example (contrived for the purpose of illustration), a &ldquo;global&rdquo; variable x is defined, and an incBy method is defined to increment x by the value supplied via parameter y."><meta itemprop="datePublished" content="2022-07-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-07-28T00:00:00+00:00" />
-<meta itemprop="wordCount" content="438"><meta itemprop="image" content="https://doc.sireum.org"/>
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://doc.sireum.org"/>
 
-<meta name="twitter:title" content="Method Contracts Basics"/>
-<meta name="twitter:description" content="The following example captures the most fundamental aspects of Slang Contracts::
-var x: Z = 0 def incBy(y: Z): Z = { Contract( Requires(y &gt; 0), // pre-condition Modifies(x), // frame-condition Ensures(x == In(x) &#43; y &amp; x &gt; In(x) &amp; Res == x) // post-condition ) x = x &#43; y return x } In this example (contrived for the purpose of illustration), a &ldquo;global&rdquo; variable x is defined, and an incBy method is defined to increment x by the value supplied via parameter y."/>
+  <meta itemprop="name" content="Method Contracts Basics">
+  <meta itemprop="description" content="The following example captures the most fundamental aspects of Slang Contracts::
+var x: Z = 0 def incBy(y: Z): Z = { Contract( Requires(y &gt; 0), // pre-condition Modifies(x), // frame-condition Ensures(x == In(x) &#43; y &amp; x &gt; In(x) &amp; Res == x) // post-condition ) x = x &#43; y return x } In this example (contrived for the purpose of illustration), a “global” variable x is defined, and an incBy method is defined to increment x by the value supplied via parameter y.">
+  <meta itemprop="datePublished" content="2022-07-28T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-07-28T00:00:00+00:00">
+  <meta itemprop="wordCount" content="438">
+  <meta itemprop="image" content="https://doc.sireum.org/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://doc.sireum.org/">
+  <meta name="twitter:title" content="Method Contracts Basics">
+  <meta name="twitter:description" content="The following example captures the most fundamental aspects of Slang Contracts::
+var x: Z = 0 def incBy(y: Z): Z = { Contract( Requires(y &gt; 0), // pre-condition Modifies(x), // frame-condition Ensures(x == In(x) &#43; y &amp; x &gt; In(x) &amp; Res == x) // post-condition ) x = x &#43; y return x } In this example (contrived for the purpose of illustration), a “global” variable x is defined, and an incBy method is defined to increment x by the value supplied via parameter y.">
 
 
 

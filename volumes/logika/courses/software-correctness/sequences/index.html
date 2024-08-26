@@ -7,7 +7,7 @@
 <meta name="author" content="">
 <meta name="description" content="Chapter: Sequences
 This chapter introduces Slang sequences and principles for reasoning about them.
-def swapZS(s: ZS, i: Z, j: Z): Unit = { Contract( Requires(0 &amp;lt;= i, i &amp;lt; s.size, 0 &amp;lt;= j, j &amp;lt; s.size), Modifies(s), Ensures( s.size == In(s).size, s(i) == In(s)(j), s(j) == In(s)(i), All(s.indices)(k =&amp;gt; (k != i &amp;amp; k != j) -&amp;gt;: (s(k) == In(s)(k))) ) ) val t: Z = s(i) s(i) = s(j) s(j) = t } " />
+def swapZS(s: ZS, i: Z, j: Z): Unit = { Contract( Requires(0 &lt;= i, i &lt; s.size, 0 &lt;= j, j &lt; s.size), Modifies(s), Ensures( s.size == In(s).size, s(i) == In(s)(j), s(j) == In(s)(i), All(s.indices)(k =&gt; (k != i &amp; k != j) -&gt;: (s(k) == In(s)(k))) ) ) val t: Z = s(i) s(i) = s(j) s(j) = t } " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -43,13 +43,20 @@ def swapZS(s: ZS, i: Z, j: Z): Unit = { Contract( Requires(0 &amp;lt;= i, i &amp
     <meta name="msapplication-TileColor" content="">
 
 
-<meta itemprop="name" content="Sequences">
-<meta itemprop="description" content="Sireum Doc Website">
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://doc.sireum.org"/>
 
-<meta name="twitter:title" content="Sequences"/>
-<meta name="twitter:description" content="Sireum Doc Website"/>
+  <meta itemprop="name" content="Sequences">
+  <meta itemprop="description" content="Chapter: Sequences
+This chapter introduces Slang sequences and principles for reasoning about them.
+def swapZS(s: ZS, i: Z, j: Z): Unit = { Contract( Requires(0 &lt;= i, i &lt; s.size, 0 &lt;= j, j &lt; s.size), Modifies(s), Ensures( s.size == In(s).size, s(i) == In(s)(j), s(j) == In(s)(i), All(s.indices)(k =&gt; (k != i &amp; k != j) -&gt;: (s(k) == In(s)(k))) ) ) val t: Z = s(i) s(i) = s(j) s(j) = t } ">
+  <meta itemprop="wordCount" content="74">
+  <meta itemprop="image" content="https://doc.sireum.org/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://doc.sireum.org/">
+  <meta name="twitter:title" content="Sequences">
+  <meta name="twitter:description" content="Chapter: Sequences
+This chapter introduces Slang sequences and principles for reasoning about them.
+def swapZS(s: ZS, i: Z, j: Z): Unit = { Contract( Requires(0 &lt;= i, i &lt; s.size, 0 &lt;= j, j &lt; s.size), Modifies(s), Ensures( s.size == In(s).size, s(i) == In(s)(j), s(j) == In(s)(i), All(s.indices)(k =&gt; (k != i &amp; k != j) -&gt;: (s(k) == In(s)(k))) ) ) val t: Z = s(i) s(i) = s(j) s(j) = t } ">
 
 
 

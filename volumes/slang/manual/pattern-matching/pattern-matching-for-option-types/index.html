@@ -5,8 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="Pattern matching on Slang option types is straightforward as illustrated by the examples below. Remember to put parentheses &amp;ldquo;()&amp;rdquo; after &amp;ldquo;None&amp;rdquo; (i.e., write &amp;ldquo;None()&amp;rdquo;) to distinguish Slang&amp;rsquo;s option from Scala&amp;rsquo;s.
-// match case - option @pure def matchOption(o: Option[Z]): String = { o match { // pattern match on option value case Some(n) =&amp;gt; n.toString() case None() =&amp;gt; &amp;#34;&amp;#34; // must say &amp;#34;None()&amp;#34; to distinguish from Slang from Scala &amp;#34;None&amp;#34;. // case None = &amp;#34;&amp;#34; // ERROR: this is valid Scala, but it produces a Slang error // because the Slang compiler sees it as Scala option instead // of a Slang option (Scala options and Slang options // are different types, and the Scala option is not in the Slang // subset." />
+<meta name="description" content="Pattern matching on Slang option types is straightforward as illustrated by the examples below. Remember to put parentheses &ldquo;()&rdquo; after &ldquo;None&rdquo; (i.e., write &ldquo;None()&rdquo;) to distinguish Slang&rsquo;s option from Scala&rsquo;s.
+// match case - option @pure def matchOption(o: Option[Z]): String = { o match { // pattern match on option value case Some(n) =&gt; n.toString() case None() =&gt; &#34;&#34; // must say &#34;None()&#34; to distinguish from Slang from Scala &#34;None&#34;. // case None = &#34;&#34; // ERROR: this is valid Scala, but it produces a Slang error // because the Slang compiler sees it as Scala option instead // of a Slang option (Scala options and Slang options // are different types, and the Scala option is not in the Slang // subset." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -42,18 +42,20 @@
     <meta name="msapplication-TileColor" content="">
 
 
-<meta itemprop="name" content="Pattern Matching for Option Types">
-<meta itemprop="description" content="Pattern matching on Slang option types is straightforward as illustrated by the examples below. Remember to put parentheses &ldquo;()&rdquo; after &ldquo;None&rdquo; (i.e., write &ldquo;None()&rdquo;) to distinguish Slang&rsquo;s option from Scala&rsquo;s.
-// match case - option @pure def matchOption(o: Option[Z]): String = { o match { // pattern match on option value case Some(n) =&gt; n.toString() case None() =&gt; &#34;&#34; // must say &#34;None()&#34; to distinguish from Slang from Scala &#34;None&#34;. // case None = &#34;&#34; // ERROR: this is valid Scala, but it produces a Slang error // because the Slang compiler sees it as Scala option instead // of a Slang option (Scala options and Slang options // are different types, and the Scala option is not in the Slang // subset."><meta itemprop="datePublished" content="2022-07-27T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-07-27T00:00:00+00:00" />
-<meta itemprop="wordCount" content="182"><meta itemprop="image" content="https://doc.sireum.org"/>
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://doc.sireum.org"/>
 
-<meta name="twitter:title" content="Pattern Matching for Option Types"/>
-<meta name="twitter:description" content="Pattern matching on Slang option types is straightforward as illustrated by the examples below. Remember to put parentheses &ldquo;()&rdquo; after &ldquo;None&rdquo; (i.e., write &ldquo;None()&rdquo;) to distinguish Slang&rsquo;s option from Scala&rsquo;s.
-// match case - option @pure def matchOption(o: Option[Z]): String = { o match { // pattern match on option value case Some(n) =&gt; n.toString() case None() =&gt; &#34;&#34; // must say &#34;None()&#34; to distinguish from Slang from Scala &#34;None&#34;. // case None = &#34;&#34; // ERROR: this is valid Scala, but it produces a Slang error // because the Slang compiler sees it as Scala option instead // of a Slang option (Scala options and Slang options // are different types, and the Scala option is not in the Slang // subset."/>
+  <meta itemprop="name" content="Pattern Matching for Option Types">
+  <meta itemprop="description" content="Pattern matching on Slang option types is straightforward as illustrated by the examples below. Remember to put parentheses “()” after “None” (i.e., write “None()”) to distinguish Slang’s option from Scala’s.
+// match case - option @pure def matchOption(o: Option[Z]): String = { o match { // pattern match on option value case Some(n) =&gt; n.toString() case None() =&gt; &#34;&#34; // must say &#34;None()&#34; to distinguish from Slang from Scala &#34;None&#34;. // case None = &#34;&#34; // ERROR: this is valid Scala, but it produces a Slang error // because the Slang compiler sees it as Scala option instead // of a Slang option (Scala options and Slang options // are different types, and the Scala option is not in the Slang // subset.">
+  <meta itemprop="datePublished" content="2022-07-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-07-27T00:00:00+00:00">
+  <meta itemprop="wordCount" content="182">
+  <meta itemprop="image" content="https://doc.sireum.org/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://doc.sireum.org/">
+  <meta name="twitter:title" content="Pattern Matching for Option Types">
+  <meta name="twitter:description" content="Pattern matching on Slang option types is straightforward as illustrated by the examples below. Remember to put parentheses “()” after “None” (i.e., write “None()”) to distinguish Slang’s option from Scala’s.
+// match case - option @pure def matchOption(o: Option[Z]): String = { o match { // pattern match on option value case Some(n) =&gt; n.toString() case None() =&gt; &#34;&#34; // must say &#34;None()&#34; to distinguish from Slang from Scala &#34;None&#34;. // case None = &#34;&#34; // ERROR: this is valid Scala, but it produces a Slang error // because the Slang compiler sees it as Scala option instead // of a Slang option (Scala options and Slang options // are different types, and the Scala option is not in the Slang // subset.">
 
 
 

@@ -5,9 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="Sometimes contracts can be specified (and even verified) more easily when they are organized according to different cases of input &amp;ndash; and Slang Contracts provides a special notation to support that. Reference intuition for breaking proofs into cases from the math world.
-The following example illustrates a variant of the absValue method/contract above that uses Slang&amp;rsquo;s contract cases::
-def absValueCases(y: Z): Z = { Contract( Modifies(), // case for negative input Case(&amp;#34;Negative&amp;#34;, // optional string label Requires(y &amp;lt; 0), // condition on input for this case to apply Ensures(Res == -y) // post-condition for this case ), // case for non-negative input Case(&amp;#34;Non-negative&amp;#34;, // optional string label Requires(y &amp;gt;= 0), // condition on input for this case to apply Ensures(Res == y)) // post-condition for this case ) var ans: Z = 0 if (x &amp;lt; 0) { ans = -y } else { ans = y } return ans } There must be a single Modifies clause for contract cases (or the clause can be omitted when no non-local is modified) because Logika does not support a notion of conditional modification (this makes the rest of the verification framework more challenging)." />
+<meta name="description" content="Sometimes contracts can be specified (and even verified) more easily when they are organized according to different cases of input &ndash; and Slang Contracts provides a special notation to support that. Reference intuition for breaking proofs into cases from the math world.
+The following example illustrates a variant of the absValue method/contract above that uses Slang&rsquo;s contract cases::
+def absValueCases(y: Z): Z = { Contract( Modifies(), // case for negative input Case(&#34;Negative&#34;, // optional string label Requires(y &lt; 0), // condition on input for this case to apply Ensures(Res == -y) // post-condition for this case ), // case for non-negative input Case(&#34;Non-negative&#34;, // optional string label Requires(y &gt;= 0), // condition on input for this case to apply Ensures(Res == y)) // post-condition for this case ) var ans: Z = 0 if (x &lt; 0) { ans = -y } else { ans = y } return ans } There must be a single Modifies clause for contract cases (or the clause can be omitted when no non-local is modified) because Logika does not support a notion of conditional modification (this makes the rest of the verification framework more challenging)." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -43,20 +43,22 @@ def absValueCases(y: Z): Z = { Contract( Modifies(), // case for negative input 
     <meta name="msapplication-TileColor" content="">
 
 
-<meta itemprop="name" content="Contract Cases">
-<meta itemprop="description" content="Sometimes contracts can be specified (and even verified) more easily when they are organized according to different cases of input &ndash; and Slang Contracts provides a special notation to support that. Reference intuition for breaking proofs into cases from the math world.
-The following example illustrates a variant of the absValue method/contract above that uses Slang&rsquo;s contract cases::
-def absValueCases(y: Z): Z = { Contract( Modifies(), // case for negative input Case(&#34;Negative&#34;, // optional string label Requires(y &lt; 0), // condition on input for this case to apply Ensures(Res == -y) // post-condition for this case ), // case for non-negative input Case(&#34;Non-negative&#34;, // optional string label Requires(y &gt;= 0), // condition on input for this case to apply Ensures(Res == y)) // post-condition for this case ) var ans: Z = 0 if (x &lt; 0) { ans = -y } else { ans = y } return ans } There must be a single Modifies clause for contract cases (or the clause can be omitted when no non-local is modified) because Logika does not support a notion of conditional modification (this makes the rest of the verification framework more challenging)."><meta itemprop="datePublished" content="2022-07-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-07-28T00:00:00+00:00" />
-<meta itemprop="wordCount" content="263"><meta itemprop="image" content="https://doc.sireum.org"/>
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://doc.sireum.org"/>
 
-<meta name="twitter:title" content="Contract Cases"/>
-<meta name="twitter:description" content="Sometimes contracts can be specified (and even verified) more easily when they are organized according to different cases of input &ndash; and Slang Contracts provides a special notation to support that. Reference intuition for breaking proofs into cases from the math world.
-The following example illustrates a variant of the absValue method/contract above that uses Slang&rsquo;s contract cases::
-def absValueCases(y: Z): Z = { Contract( Modifies(), // case for negative input Case(&#34;Negative&#34;, // optional string label Requires(y &lt; 0), // condition on input for this case to apply Ensures(Res == -y) // post-condition for this case ), // case for non-negative input Case(&#34;Non-negative&#34;, // optional string label Requires(y &gt;= 0), // condition on input for this case to apply Ensures(Res == y)) // post-condition for this case ) var ans: Z = 0 if (x &lt; 0) { ans = -y } else { ans = y } return ans } There must be a single Modifies clause for contract cases (or the clause can be omitted when no non-local is modified) because Logika does not support a notion of conditional modification (this makes the rest of the verification framework more challenging)."/>
+  <meta itemprop="name" content="Contract Cases">
+  <meta itemprop="description" content="Sometimes contracts can be specified (and even verified) more easily when they are organized according to different cases of input – and Slang Contracts provides a special notation to support that. Reference intuition for breaking proofs into cases from the math world.
+The following example illustrates a variant of the absValue method/contract above that uses Slang’s contract cases::
+def absValueCases(y: Z): Z = { Contract( Modifies(), // case for negative input Case(&#34;Negative&#34;, // optional string label Requires(y &lt; 0), // condition on input for this case to apply Ensures(Res == -y) // post-condition for this case ), // case for non-negative input Case(&#34;Non-negative&#34;, // optional string label Requires(y &gt;= 0), // condition on input for this case to apply Ensures(Res == y)) // post-condition for this case ) var ans: Z = 0 if (x &lt; 0) { ans = -y } else { ans = y } return ans } There must be a single Modifies clause for contract cases (or the clause can be omitted when no non-local is modified) because Logika does not support a notion of conditional modification (this makes the rest of the verification framework more challenging).">
+  <meta itemprop="datePublished" content="2022-07-28T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-07-28T00:00:00+00:00">
+  <meta itemprop="wordCount" content="263">
+  <meta itemprop="image" content="https://doc.sireum.org/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://doc.sireum.org/">
+  <meta name="twitter:title" content="Contract Cases">
+  <meta name="twitter:description" content="Sometimes contracts can be specified (and even verified) more easily when they are organized according to different cases of input – and Slang Contracts provides a special notation to support that. Reference intuition for breaking proofs into cases from the math world.
+The following example illustrates a variant of the absValue method/contract above that uses Slang’s contract cases::
+def absValueCases(y: Z): Z = { Contract( Modifies(), // case for negative input Case(&#34;Negative&#34;, // optional string label Requires(y &lt; 0), // condition on input for this case to apply Ensures(Res == -y) // post-condition for this case ), // case for non-negative input Case(&#34;Non-negative&#34;, // optional string label Requires(y &gt;= 0), // condition on input for this case to apply Ensures(Res == y)) // post-condition for this case ) var ans: Z = 0 if (x &lt; 0) { ans = -y } else { ans = y } return ans } There must be a single Modifies clause for contract cases (or the clause can be omitted when no non-local is modified) because Logika does not support a notion of conditional modification (this makes the rest of the verification framework more challenging).">
 
 
 
